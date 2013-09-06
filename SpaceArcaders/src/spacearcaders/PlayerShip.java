@@ -52,23 +52,19 @@ public class PlayerShip implements Actor {
                 (int) (shipLocationY - playerShipIcon.getHeight() / 2));
     }
 
-    @Override
-    public void update(float delta) {
-    }
-
-    public void moveUp(int delta) {
+    private void moveUp(int delta) {
         shipLocationY -= shipSpeed * delta;
     }
 
-    public void moveDown(int delta) {
+    private void moveDown(int delta) {
         shipLocationY += shipSpeed * delta;
     }
 
-    public void moveLeft(int delta) {
+    private void moveLeft(int delta) {
         shipLocationX -= shipSpeed * delta;
     }
 
-    public void moveRight(int delta) {
+    private void moveRight(int delta) {
         shipLocationX += shipSpeed * delta;
 
     }
@@ -80,7 +76,8 @@ public class PlayerShip implements Actor {
         moveKeyRight = KEY_RIGHT;
     }
 
-    public void takeInput(Input input, int delta) {
+    @Override
+    public void update(Input input, int delta) {
         if (input.isKeyDown(moveKeyUp)) {
             moveUp(delta);
         }

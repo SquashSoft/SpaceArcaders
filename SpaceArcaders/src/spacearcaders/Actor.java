@@ -1,6 +1,5 @@
 package spacearcaders;
 
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 
 /**
@@ -9,8 +8,7 @@ import org.newdawn.slick.Input;
  */
 public interface Actor {
     public void draw();
-    public void update(float delta);
-    public void takeInput(Input input, int delta);
-}
+    public void update(Input input, int delta);
+    }
 
 

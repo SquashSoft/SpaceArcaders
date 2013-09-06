@@ -20,20 +20,24 @@ public class SpaceArcaders extends BasicGame {
     private static final boolean FULLSCREEN_FLAG = false;
     
     private PlayerShip player1, player2;
+    private StarMap starMap;
     
     private List<Actor> actorList;
     
     @Override
     public void init(GameContainer gc) throws SlickException {
         
-        player1 = new PlayerShip(SCREEN_X/2,SCREEN_Y/2,"data/proto-ship.PNG");
-        player1.setKeys(Input.KEY_UP, Input.KEY_DOWN, Input.KEY_LEFT, Input.KEY_RIGHT);
+        player1 = new PlayerShip(SCREEN_X/4,3*SCREEN_Y/4,"data/proto-ship.PNG");
+        player1.setKeys(Input.KEY_W, Input.KEY_S, Input.KEY_A, Input.KEY_D);
         
-        player2 = new PlayerShip(SCREEN_X/2 + 100,SCREEN_Y/2,"data/proto-ship.PNG");
-        player2.setKeys(Input.KEY_W, Input.KEY_S, Input.KEY_A, Input.KEY_D);
+        player2 = new PlayerShip(3*SCREEN_X/4,3*SCREEN_Y/4,"data/proto-ship.PNG");
+        player2.setKeys(Input.KEY_UP, Input.KEY_DOWN, Input.KEY_LEFT, Input.KEY_RIGHT);
+        
+        starMap = new StarMap(SCREEN_X, SCREEN_Y);
         
         actorList = new LinkedList<>();
         
+        actorList.add(starMap);
         actorList.add(player1);
         actorList.add(player2);
     }
@@ -43,7 +47,7 @@ public class SpaceArcaders extends BasicGame {
         Input input = gc.getInput();
         
         for(Actor curActor : actorList) {
-            curActor.takeInput(input, delta);
+            curActor.update(input, delta);
         }
                 
         if(input.isKeyDown(Input.KEY_ESCAPE)) gc.exit();
