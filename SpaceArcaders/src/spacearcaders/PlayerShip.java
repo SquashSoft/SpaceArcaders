@@ -21,7 +21,7 @@ public class PlayerShip implements Actor {
     private int moveKeyRight;
 
     private void setDefaults() {
-        shipSpeed = 0.5f;
+        shipSpeed = 400;
     }
 
     PlayerShip() throws SlickException {
@@ -52,19 +52,19 @@ public class PlayerShip implements Actor {
                 (int) (shipLocationY - playerShipIcon.getHeight() / 2));
     }
 
-    private void moveUp(int delta) {
+    private void moveUp(float delta) {
         shipLocationY -= shipSpeed * delta;
     }
 
-    private void moveDown(int delta) {
+    private void moveDown(float delta) {
         shipLocationY += shipSpeed * delta;
     }
 
-    private void moveLeft(int delta) {
+    private void moveLeft(float delta) {
         shipLocationX -= shipSpeed * delta;
     }
 
-    private void moveRight(int delta) {
+    private void moveRight(float delta) {
         shipLocationX += shipSpeed * delta;
 
     }
@@ -77,7 +77,10 @@ public class PlayerShip implements Actor {
     }
 
     @Override
-    public void update(Input input, int delta) {
+    public void update(GameState gs) {
+        float delta = (1f/60f);
+        Input input = gs.getInput();
+        
         if (input.isKeyDown(moveKeyUp)) {
             moveUp(delta);
         }

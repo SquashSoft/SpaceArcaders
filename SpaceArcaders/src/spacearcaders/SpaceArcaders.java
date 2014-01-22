@@ -18,36 +18,32 @@ public class SpaceArcaders extends BasicGame {
     
     private static final int SCREEN_X = 1024, SCREEN_Y = 768;
     private static final boolean FULLSCREEN_FLAG = false;
-    
-    private PlayerShip player1, player2;
-    private StarMap starMap;
-    
-    private List<Actor> actorList;
+    private static final int TARGET_FPS = 60;
+
+    GameState gs = new GameState();
     
     @Override
     public void init(GameContainer gc) throws SlickException {
         
-        player1 = new PlayerShip(SCREEN_X/4,3*SCREEN_Y/4,"data/proto-ship.PNG");
+        gs.createStarMap(SCREEN_X, SCREEN_Y);
+        
+        PlayerShip player1 = new PlayerShip(SCREEN_X/4,3*SCREEN_Y/4,"data/proto-ship.PNG");
         player1.setKeys(Input.KEY_W, Input.KEY_S, Input.KEY_A, Input.KEY_D);
+        gs.addPlayer(player1);
         
-        player2 = new PlayerShip(3*SCREEN_X/4,3*SCREEN_Y/4,"data/proto-ship.PNG");
+        PlayerShip player2 = new PlayerShip(3*SCREEN_X/4,3*SCREEN_Y/4,"data/proto-ship.PNG");
         player2.setKeys(Input.KEY_UP, Input.KEY_DOWN, Input.KEY_LEFT, Input.KEY_RIGHT);
-        
-        starMap = new StarMap(SCREEN_X, SCREEN_Y);
-        
-        actorList = new LinkedList<>();
-        
-        actorList.add(starMap);
-        actorList.add(player1);
-        actorList.add(player2);
+        gs.addPlayer(player2);
     }
 
     @Override
     public void update(GameContainer gc, int delta) throws SlickException {
         Input input = gc.getInput();
+        gs.setInput(input);
         
+        List<Actor> actorList = gs.getActorList();
         for(Actor curActor : actorList) {
-            curActor.update(input, delta);
+            curActor.update(gs);
         }
                 
         if(input.isKeyDown(Input.KEY_ESCAPE)) gc.exit();
@@ -55,6 +51,7 @@ public class SpaceArcaders extends BasicGame {
 
     @Override
     public void render(GameContainer gc, Graphics grphcs) throws SlickException {
+        List<Actor> actorList = gs.getActorList();
         for (Actor curActor : actorList) {
             curActor.draw();
         }
@@ -64,6 +61,7 @@ public class SpaceArcaders extends BasicGame {
         try {
             AppGameContainer app = new AppGameContainer(new SpaceArcaders());
             app.setDisplayMode(SCREEN_X, SCREEN_Y, FULLSCREEN_FLAG);
+            app.setTargetFrameRate(TARGET_FPS);
             app.start();
         } catch (SlickException e) {
             e.printStackTrace();

@@ -23,10 +23,10 @@ public class StarMap implements Actor{
     private Graphics starMapGraphics;
     private Color backColor, starColor;
     private int mapWidth, mapHeight;
-    private int scrollSpeed, curDelta;
+    private float scrollSpeed, curDelta;
     
     StarMap(int screenWidth, int screenHeight) throws SlickException {
-        scrollSpeed = 30;
+        scrollSpeed = (1f/20f);
         curDelta = 0;
         
         mapWidth = screenWidth;
@@ -58,7 +58,8 @@ public class StarMap implements Actor{
     }
 
     @Override
-    public void update(Input input, int delta) {
+    public void update(GameState gs) {
+        float delta = (1f/60f);
         curDelta += delta;
         while (curDelta > scrollSpeed) {
             curDelta -= scrollSpeed;
