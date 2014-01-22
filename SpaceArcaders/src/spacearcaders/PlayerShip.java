@@ -1,5 +1,7 @@
 package spacearcaders;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
@@ -19,7 +21,8 @@ public class PlayerShip implements Actor {
     private int moveKeyDown;
     private int moveKeyLeft;
     private int moveKeyRight;
-
+    private int laserShootKey;
+    
     private void setDefaults() {
         shipSpeed = 400;
     }
@@ -68,19 +71,30 @@ public class PlayerShip implements Actor {
         shipLocationX += shipSpeed * delta;
 
     }
+    
+    private void shootLaser(GameState gs) {
+        Laser aLaser = new Laser(shipLocationX, shipLocationY, gs.getLaserImage());
+        gs.addLaser(aLaser);
+    }
 
-    public void setKeys(int KEY_UP, int KEY_DOWN, int KEY_LEFT, int KEY_RIGHT) {
+    public void setKeys(int KEY_UP, int KEY_DOWN, int KEY_LEFT, int KEY_RIGHT, int KEY_SHOOT) {
         moveKeyUp = KEY_UP;
         moveKeyDown = KEY_DOWN;
         moveKeyLeft = KEY_LEFT;
         moveKeyRight = KEY_RIGHT;
+        laserShootKey = KEY_SHOOT;
+        
     }
-
+    
+    
     @Override
     public void update(GameState gs) {
         float delta = (1f/60f);
         Input input = gs.getInput();
-        
+    
+        if (input.isKeyDown(laserShootKey)){
+            shootLaser(gs);
+        }
         if (input.isKeyDown(moveKeyUp)) {
             moveUp(delta);
         }
