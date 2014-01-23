@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package spacearcaders;
+package net.awhipple.spacearcaders.gameobjects;
 
+import net.awhipple.spacearcaders.utils.GameState;
 import org.newdawn.slick.Image;
 
 /**

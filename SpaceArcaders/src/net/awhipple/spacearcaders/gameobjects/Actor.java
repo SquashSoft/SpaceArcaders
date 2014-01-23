@@ -1,4 +1,6 @@
-package spacearcaders;
+package net.awhipple.spacearcaders.gameobjects;
+
+import net.awhipple.spacearcaders.utils.GameState;
 
 /**
  *

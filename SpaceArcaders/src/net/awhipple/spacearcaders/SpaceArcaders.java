@@ -1,5 +1,8 @@
-package spacearcaders;
+package net.awhipple.spacearcaders;
 
+import net.awhipple.spacearcaders.utils.GameState;
+import net.awhipple.spacearcaders.gameobjects.Actor;
+import net.awhipple.spacearcaders.gameobjects.PlayerShip;
 import java.util.LinkedList;
 import java.util.List;
 import org.newdawn.slick.AppGameContainer;

@@ -2,14 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package spacearcaders;
+package net.awhipple.spacearcaders.gameobjects;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import net.awhipple.spacearcaders.utils.GameState;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
 /**
@@ -25,7 +25,7 @@ public class StarMap implements Actor{
     private int mapWidth, mapHeight;
     private float scrollSpeed, curDelta;
     
-    StarMap(int screenWidth, int screenHeight) throws SlickException {
+    public StarMap(int screenWidth, int screenHeight) throws SlickException {
         scrollSpeed = (1f/20f);
         curDelta = 0;
         

@@ -1,5 +1,6 @@
-package spacearcaders;
+package net.awhipple.spacearcaders.gameobjects;
 
+import net.awhipple.spacearcaders.utils.GameState;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
@@ -25,7 +26,7 @@ public class PlayerShip implements Actor {
         shipSpeed = 400;
     }
 
-    PlayerShip(Image shipImage) throws SlickException {
+    public PlayerShip(Image shipImage) throws SlickException {
         setDefaults();
 
         shipLocationX = 612f;
@@ -34,7 +35,7 @@ public class PlayerShip implements Actor {
         playerShipIcon = shipImage;
     }
 
-    PlayerShip(float x, float y, Image shipImage) throws SlickException {
+    public PlayerShip(float x, float y, Image shipImage) throws SlickException {
         setDefaults();
 
         shipLocationX = x;

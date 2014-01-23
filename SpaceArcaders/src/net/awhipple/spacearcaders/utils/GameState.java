@@ -2,8 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package spacearcaders;
+package net.awhipple.spacearcaders.utils;
 
+import net.awhipple.spacearcaders.gameobjects.Actor;
+import net.awhipple.spacearcaders.gameobjects.StarMap;
+import net.awhipple.spacearcaders.gameobjects.PlayerShip;
+import net.awhipple.spacearcaders.gameobjects.Laser;
 import java.util.LinkedList;
 import java.util.List;
 import org.newdawn.slick.Image;
@@ -46,15 +50,15 @@ public class GameState {
         addActor(ps);
     }   
 
-    void addLaser(Laser aLaser) {
+    public void addLaser(Laser aLaser) {
        addActor(aLaser);
     }
     
-    void addActor(Actor actor) {
+    public void addActor(Actor actor) {
         actorsToBeAdded.add(actor);
     }
     
-    void addAllActors() {
+    public void addAllActors() {
         while(actorsToBeAdded.size() > 0)
             actorList.add(actorsToBeAdded.remove(0));
     }
