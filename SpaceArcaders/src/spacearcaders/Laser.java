@@ -28,8 +28,7 @@ public class Laser implements Actor {
     @Override
     public void draw() {
         laserIcon.draw( (int) (laserLocationX-laserIcon.getWidth()/2),
-                (int) (laserLocationY-laserIcon.getHeight()/2));
-        
+            (int) (laserLocationY-laserIcon.getHeight()/2));
     }
     
     @Override
@@ -37,7 +36,6 @@ public class Laser implements Actor {
         float delta = (1f/60f);
         
         laserLocationY -= (laserSpeed * delta);
-        
     }
     
 }

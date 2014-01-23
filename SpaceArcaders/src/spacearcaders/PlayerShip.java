@@ -1,7 +1,5 @@
 package spacearcaders;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
@@ -27,18 +25,16 @@ public class PlayerShip implements Actor {
         shipSpeed = 400;
     }
 
-    PlayerShip() throws SlickException {
+    PlayerShip(Image shipImage) throws SlickException {
         setDefaults();
 
         shipLocationX = 612f;
         shipLocationY = 550f;
 
-        Color transColor = new Color(255, 0, 255, 255);
-
-        playerShipIcon = new Image("data/proto-ship.PNG", transColor);
+        playerShipIcon = shipImage;
     }
 
-    PlayerShip(float x, float y, String fileName) throws SlickException {
+    PlayerShip(float x, float y, Image shipImage) throws SlickException {
         setDefaults();
 
         shipLocationX = x;
@@ -46,7 +42,7 @@ public class PlayerShip implements Actor {
 
         Color transColor = new Color(255, 0, 255, 255);
 
-        playerShipIcon = new Image(fileName, transColor);
+        playerShipIcon = shipImage;
     }
 
     @Override
@@ -73,7 +69,7 @@ public class PlayerShip implements Actor {
     }
     
     private void shootLaser(GameState gs) {
-        Laser aLaser = new Laser(shipLocationX, shipLocationY, gs.getLaserImage());
+        Laser aLaser = new Laser(shipLocationX, shipLocationY, gs.getLibraryImage("laser"));
         gs.addLaser(aLaser);
     }
 

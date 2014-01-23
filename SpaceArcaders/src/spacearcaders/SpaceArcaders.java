@@ -25,15 +25,21 @@ public class SpaceArcaders extends BasicGame {
     @Override
     public void init(GameContainer gc) throws SlickException {
         
-        gs = new GameState();
+        try {
+            gs = new GameState();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            gc.exit();
+            return;
+        }
         
         gs.createStarMap(SCREEN_X, SCREEN_Y);
         
-        PlayerShip player1 = new PlayerShip(SCREEN_X/4,3*SCREEN_Y/4,"data/proto-ship.PNG");
+        PlayerShip player1 = new PlayerShip(SCREEN_X/4,3*SCREEN_Y/4, gs.getLibraryImage("ship") );
         player1.setKeys(Input.KEY_W, Input.KEY_S, Input.KEY_A, Input.KEY_D, Input.KEY_J);
         gs.addPlayer(player1);
         
-        PlayerShip player2 = new PlayerShip(3*SCREEN_X/4,3*SCREEN_Y/4,"data/proto-ship.PNG");
+        PlayerShip player2 = new PlayerShip(3*SCREEN_X/4,3*SCREEN_Y/4, gs.getLibraryImage("ship") );
         player2.setKeys(Input.KEY_UP, Input.KEY_DOWN, Input.KEY_LEFT, Input.KEY_RIGHT, Input.KEY_RSHIFT);
         gs.addPlayer(player2);
                 

@@ -6,9 +6,6 @@ package spacearcaders;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
@@ -26,19 +23,17 @@ public class GameState {
     private List<Actor> actorList;
     private List<Actor> actorsToBeAdded;
     
-    private Image laserImage;
+    private ImageLibrary imageLibrary;
     
-    public GameState() {
+    public GameState() throws Exception {
         playerList = new LinkedList<>();
         actorList = new LinkedList<>();
         actorsToBeAdded = new LinkedList<>();
         
-        Color transColor = new Color(255, 0, 255, 255);
-        try {
-            laserImage = new Image("data/proto-laser.PNG", transColor);
-        } catch (SlickException ex) {
-            Logger.getLogger(GameState.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        imageLibrary = new ImageLibrary();
+        
+        imageLibrary.loadImage("data/proto-laser.PNG", "laser");
+        imageLibrary.loadImage("data/proto-ship.PNG", "ship");
     }
     
     public void createStarMap(int screenX, int screenY) throws SlickException {
@@ -68,10 +63,6 @@ public class GameState {
     public Input getInput() { return input; }
     
     public List<Actor> getActorList() { return actorList; }
-    
-    public Image getLaserImage() {
-        return laserImage;
-    }
 
-   
+    public Image getLibraryImage(String key) { return imageLibrary.getImage(key); }
 }
