@@ -21,6 +21,7 @@ public class PlayerShip implements Actor {
     private int moveKeyLeft;
     private int moveKeyRight;
     private int laserShootKey;
+    private int fireSpeed;
     
     private void setDefaults() {
         shipSpeed = 400;
@@ -89,9 +90,23 @@ public class PlayerShip implements Actor {
         float delta = (1f/60f);
         Input input = gs.getInput();
     
-        if (input.isKeyDown(laserShootKey)){
-            shootLaser(gs);
+        if(!input.isKeyDown(laserShootKey))
+            fireSpeed=0;
+        
+        if(input.isKeyDown(laserShootKey)){
+            if(fireSpeed == 0) {
+                shootLaser(gs);
+                ++fireSpeed;
+                }
+            
+            if(fireSpeed == 25)
+                fireSpeed = 0;
+         
+            else {
+                ++fireSpeed;
+            }
         }
+        
         if (input.isKeyDown(moveKeyUp)) {
             moveUp(delta);
         }
