@@ -55,6 +55,10 @@ public class UIBar implements Actor{
         this.y = y;
     }
     
+    public void setValue(float value) {
+        this.value = value;
+    }
+    
     private void setImage() {
         imageGraphics.setColor(Color.yellow);
         imageGraphics.clear();
