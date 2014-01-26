@@ -38,20 +38,18 @@ public class SpaceArcaders extends BasicGame {
             return;
         }
         
-        gs.createStarMap();
-        
         PlayerShip player1 = new PlayerShip(SCREEN_W/4,3*SCREEN_H/4, gs.getImage("ship") );
         player1.setKeys(Input.KEY_W, Input.KEY_S, Input.KEY_A, Input.KEY_D, Input.KEY_J);
-        gs.addPlayer(player1);
+        gs.queueNewActor(player1);
         
         PlayerShip player2 = new PlayerShip(3*SCREEN_W/4,3*SCREEN_H/4, gs.getImage("ship") );
         player2.setKeys(Input.KEY_UP, Input.KEY_DOWN, Input.KEY_LEFT, Input.KEY_RIGHT, Input.KEY_RSHIFT);
-        gs.addPlayer(player2);
+        gs.queueNewActor(player2);
         
         gs.queueNewActor(new UIPlayerHealthBar(player1, 100, SCREEN_H-20));
         gs.queueNewActor(new UIPlayerHealthBar(player2, SCREEN_W-200, SCREEN_H-20));
         
-        gs.updateActorList();
+        gs.processActorQueues();
         
         gc.setAlwaysRender(true);
     }
@@ -72,21 +70,14 @@ public class SpaceArcaders extends BasicGame {
         Input input = gc.getInput();
         gs.setInput(input);
         
-        List<Actor> actorList = gs.getActorList();
-        for(Actor curActor : actorList) {
-            curActor.update(gs);
-        }
-        gs.updateActorList();
+        gs.updateActors();
         
         if(input.isKeyDown(Input.KEY_ESCAPE)) gc.exit();
     }
 
     @Override
     public void render(GameContainer gc, Graphics grphcs) throws SlickException {
-        List<Actor> actorList = gs.getActorList();
-        for (Actor curActor : actorList) {
-            curActor.draw();
-        }
+        gs.renderActors();
     }
         
     public static void main(String[] args) {

@@ -20,9 +20,9 @@ import org.newdawn.slick.SlickException;
  * @author Aaron
  */
 public class GameState {
-    Input input;
-    int SCREEN_W, SCREEN_H, TARGET_FPS;
-    float delta;
+    private Input input;
+    private int SCREEN_W, SCREEN_H;
+    private float delta;
     
     private List<Actor> actorList;
     private List<Actor> actorsToBeAdded;
@@ -37,7 +37,6 @@ public class GameState {
         this.SCREEN_W = SCREEN_W;
         this.SCREEN_H = SCREEN_H;
         
-        this.TARGET_FPS = TARGET_FPS;
         delta = 1f / (float)TARGET_FPS;
         
         actorList = new LinkedList<>();
@@ -45,27 +44,28 @@ public class GameState {
         actorsToBeRemoved = new LinkedList<>();
         
         imageLibrary = new ImageLibrary();
-        
-        imageLibrary.loadImage("laser", "data/images/proto-laser.PNG");
-        imageLibrary.loadImage("ship",  "data/images/proto-ship.PNG");
-        imageLibrary.loadImage("pause", "data/images/pause.PNG");
-        
         soundLibrary = new SoundLibrary();
-        soundLibrary.loadSound("laser", "data/sounds/laser.wav");
         
         pauseObject = null;
+        
+        loadResources();
+        
+        createStarMap();
+        
+        processActorQueues();
     }
-    
-    public void createStarMap() throws SlickException {
-        queueNewActor(new StarMap(SCREEN_W, SCREEN_H));
-    }
-    
-    public void addPlayer(PlayerShip ps) {
-        queueNewActor(ps);
-    }   
 
-    public void addLaser(Laser aLaser) {
-       queueNewActor(aLaser);
+    public void updateActors() {
+        for(Actor curActor : actorList) {
+            curActor.update(this);
+        }
+        processActorQueues();
+    }
+    
+    public void renderActors() {
+        for (Actor curActor : actorList) {
+            curActor.draw();
+        }
     }
     
     public void queueNewActor(Actor actor) {
@@ -76,7 +76,7 @@ public class GameState {
         actorsToBeRemoved.add(actor);
     }
     
-    public void updateActorList() {
+    public final void processActorQueues() {
         while(actorsToBeAdded.size() > 0)
             actorList.add(actorsToBeAdded.remove(0));
         while(actorsToBeRemoved.size() > 0)
@@ -87,14 +87,14 @@ public class GameState {
         if(pauseObject == null) {
             pauseObject = new UIImage(SCREEN_W/2, SCREEN_H/2, pauseImage);
             queueNewActor(pauseObject);
-            updateActorList();
+            processActorQueues();
         }
     }
    
     public void unpause() { 
         if(pauseObject != null) {
             queueRemoveActor(pauseObject);
-            updateActorList();
+            processActorQueues();
             pauseObject = null;
         }
     }
@@ -103,10 +103,20 @@ public class GameState {
     
     public void setInput(Input input) { this.input = input; }
     public Input getInput() { return input; }
-    
-    public List<Actor> getActorList() { return actorList; }
 
     public Image getImage(String key) { return imageLibrary.getImage(key); }
     
     public float getDelta() { return delta; }
+
+    private void createStarMap() throws SlickException {
+        queueNewActor(new StarMap(SCREEN_W, SCREEN_H));
+    }
+    
+    private void loadResources() throws Exception {
+        imageLibrary.loadImage("laser", "data/images/proto-laser.PNG");
+        imageLibrary.loadImage("ship",  "data/images/proto-ship.PNG");
+        imageLibrary.loadImage("pause", "data/images/pause.PNG");
+        
+        soundLibrary.loadSound("laser", "data/sounds/laser.wav");
+    }
 }

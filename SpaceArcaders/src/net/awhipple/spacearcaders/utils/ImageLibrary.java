@@ -14,7 +14,7 @@ import org.newdawn.slick.Image;
  * @author Aaron
  */
 public class ImageLibrary {
-    public static Color TRANS_COLOR = new Color(255, 0, 255, 255);
+    public static final Color TRANS_COLOR = new Color(255, 0, 255, 255);
     
     Map<String, Image> imageMap;
     
