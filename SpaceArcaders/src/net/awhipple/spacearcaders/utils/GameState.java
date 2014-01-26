@@ -10,7 +10,7 @@ import net.awhipple.spacearcaders.gameobjects.PlayerShip;
 import net.awhipple.spacearcaders.gameobjects.Laser;
 import java.util.LinkedList;
 import java.util.List;
-import net.awhipple.spacearcaders.ui.UIElement;
+import net.awhipple.spacearcaders.ui.UIImage;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
@@ -30,7 +30,7 @@ public class GameState {
     
     private ImageLibrary imageLibrary;
     
-    private UIElement pauseObject;
+    private UIImage pauseObject;
     
     public GameState(int SCREEN_W, int SCREEN_H, int TARGET_FPS) throws Exception {
         this.SCREEN_W = SCREEN_W;
@@ -81,7 +81,7 @@ public class GameState {
    
     public void pause(Image pauseImage) {
         if(pauseObject == null) {
-            pauseObject = new UIElement(SCREEN_W/2, SCREEN_H/2, pauseImage);
+            pauseObject = new UIImage(SCREEN_W/2, SCREEN_H/2, pauseImage);
             queueNewActor(pauseObject);
             updateActorList();
         }

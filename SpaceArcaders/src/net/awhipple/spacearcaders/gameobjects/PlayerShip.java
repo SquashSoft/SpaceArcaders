@@ -15,6 +15,7 @@ public class PlayerShip implements Actor {
     private float shipLocationX, shipLocationY;
     private Image playerShipIcon;
     private float shipSpeed;
+    private float shipHealth;
     
     private int moveKeyUp;
     private int moveKeyDown;
@@ -27,22 +28,13 @@ public class PlayerShip implements Actor {
         shipSpeed = 400;
     }
 
-    public PlayerShip(Image shipImage) throws SlickException {
-        setDefaults();
-
-        shipLocationX = 612f;
-        shipLocationY = 550f;
-
-        playerShipIcon = shipImage;
-    }
-
     public PlayerShip(float x, float y, Image shipImage) throws SlickException {
         setDefaults();
 
         shipLocationX = x;
         shipLocationY = y;
-
-        Color transColor = new Color(255, 0, 255, 255);
+        
+        shipHealth = 100f;
 
         playerShipIcon = shipImage;
     }
@@ -73,6 +65,7 @@ public class PlayerShip implements Actor {
     private void shootLaser(GameState gs) {
         Laser aLaser = new Laser(shipLocationX, shipLocationY, gs.getLibraryImage("laser"));
         gs.addLaser(aLaser);
+        shipHealth -= 1f;
     }
 
     public void setKeys(int KEY_UP, int KEY_DOWN, int KEY_LEFT, int KEY_RIGHT, int KEY_SHOOT) {
@@ -80,8 +73,7 @@ public class PlayerShip implements Actor {
         moveKeyDown = KEY_DOWN;
         moveKeyLeft = KEY_LEFT;
         moveKeyRight = KEY_RIGHT;
-        laserShootKey = KEY_SHOOT;
-        
+        laserShootKey = KEY_SHOOT;   
     }
     
     
@@ -123,4 +115,6 @@ public class PlayerShip implements Actor {
             moveRight(delta);
         }
     }
+    
+    public float getHealth() { return shipHealth; }
 }

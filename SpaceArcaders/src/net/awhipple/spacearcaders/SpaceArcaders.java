@@ -4,6 +4,7 @@ import net.awhipple.spacearcaders.utils.GameState;
 import net.awhipple.spacearcaders.gameobjects.Actor;
 import net.awhipple.spacearcaders.gameobjects.PlayerShip;
 import java.util.List;
+import net.awhipple.spacearcaders.ui.UIBar;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
@@ -46,7 +47,10 @@ public class SpaceArcaders extends BasicGame {
         PlayerShip player2 = new PlayerShip(3*SCREEN_W/4,3*SCREEN_H/4, gs.getLibraryImage("ship") );
         player2.setKeys(Input.KEY_UP, Input.KEY_DOWN, Input.KEY_LEFT, Input.KEY_RIGHT, Input.KEY_RSHIFT);
         gs.addPlayer(player2);
-                
+        
+        UIBar uiBar1 = new UIBar(player1.getHealth(), 180, 50);
+        gs.queueNewActor(uiBar1);
+        
         gs.updateActorList();
         
         gc.setAlwaysRender(true);

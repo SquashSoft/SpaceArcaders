@@ -12,12 +12,12 @@ import org.newdawn.slick.Image;
  *
  * @author Aaron
  */
-public class UIElement implements Actor {
+public class UIImage implements Actor {
 
     private Image image;
     private int xLocation, yLocation;
     
-    public UIElement(int x, int y, Image uiImage) {
+    public UIImage(int x, int y, Image uiImage) {
         xLocation = x;
         yLocation = y;
         image = uiImage;
