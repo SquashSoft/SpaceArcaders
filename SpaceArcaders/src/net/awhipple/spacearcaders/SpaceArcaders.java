@@ -4,7 +4,6 @@ import net.awhipple.spacearcaders.utils.GameState;
 import net.awhipple.spacearcaders.gameobjects.Actor;
 import net.awhipple.spacearcaders.gameobjects.PlayerShip;
 import java.util.List;
-import net.awhipple.spacearcaders.ui.UIBar;
 import net.awhipple.spacearcaders.ui.UIPlayerHealthBar;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
@@ -24,10 +23,10 @@ public class SpaceArcaders extends BasicGame {
     private static final boolean FULLSCREEN_FLAG = false;
     private static final int TARGET_FPS = 60;
 
-    GameState gs;
+    private GameState gs;
     
-    boolean gameIsPaused = false;
-    
+    private boolean gameIsPaused = false;
+
     @Override
     public void init(GameContainer gc) throws SlickException {
         
@@ -41,11 +40,11 @@ public class SpaceArcaders extends BasicGame {
         
         gs.createStarMap();
         
-        PlayerShip player1 = new PlayerShip(SCREEN_W/4,3*SCREEN_H/4, gs.getLibraryImage("ship") );
+        PlayerShip player1 = new PlayerShip(SCREEN_W/4,3*SCREEN_H/4, gs.getImage("ship") );
         player1.setKeys(Input.KEY_W, Input.KEY_S, Input.KEY_A, Input.KEY_D, Input.KEY_J);
         gs.addPlayer(player1);
         
-        PlayerShip player2 = new PlayerShip(3*SCREEN_W/4,3*SCREEN_H/4, gs.getLibraryImage("ship") );
+        PlayerShip player2 = new PlayerShip(3*SCREEN_W/4,3*SCREEN_H/4, gs.getImage("ship") );
         player2.setKeys(Input.KEY_UP, Input.KEY_DOWN, Input.KEY_LEFT, Input.KEY_RIGHT, Input.KEY_RSHIFT);
         gs.addPlayer(player2);
         
@@ -62,7 +61,7 @@ public class SpaceArcaders extends BasicGame {
         
         //Handles pausing the game when the window loses focus
         if(!gc.hasFocus()) { 
-            gs.pause(gs.getLibraryImage("pause"));
+            gs.pause(gs.getImage("pause"));
             gameIsPaused = true;
             return;
         } else if(gameIsPaused) { 

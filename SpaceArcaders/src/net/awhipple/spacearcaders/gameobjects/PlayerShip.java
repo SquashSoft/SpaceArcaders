@@ -63,8 +63,9 @@ public class PlayerShip implements Actor {
     }
     
     private void shootLaser(GameState gs) {
-        Laser aLaser = new Laser(shipLocationX, shipLocationY, gs.getLibraryImage("laser"));
+        Laser aLaser = new Laser(shipLocationX, shipLocationY, gs.getImage("laser"));
         gs.addLaser(aLaser);
+        gs.playSound("laser");
         shipHealth -= 1f;
     }
 

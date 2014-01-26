@@ -22,7 +22,7 @@ public class ImageLibrary {
         imageMap = new HashMap<>();
     }
     
-    public void loadImage(String fileName, String key) throws Exception {
+    public void loadImage(String key, String fileName) throws Exception {
         
         if(imageMap.containsKey(key)) throw new Exception("ERROR: Tried to load an image and save it under pre existing key: " + key);
         

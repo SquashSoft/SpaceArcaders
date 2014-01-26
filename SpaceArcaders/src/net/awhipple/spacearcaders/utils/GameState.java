@@ -29,6 +29,7 @@ public class GameState {
     private List<Actor> actorsToBeRemoved;
     
     private ImageLibrary imageLibrary;
+    private SoundLibrary soundLibrary;
     
     private UIImage pauseObject;
     
@@ -45,9 +46,12 @@ public class GameState {
         
         imageLibrary = new ImageLibrary();
         
-        imageLibrary.loadImage("data/proto-laser.PNG", "laser");
-        imageLibrary.loadImage("data/proto-ship.PNG", "ship");
-        imageLibrary.loadImage("data/pause.PNG", "pause");
+        imageLibrary.loadImage("laser", "data/images/proto-laser.PNG");
+        imageLibrary.loadImage("ship",  "data/images/proto-ship.PNG");
+        imageLibrary.loadImage("pause", "data/images/pause.PNG");
+        
+        soundLibrary = new SoundLibrary();
+        soundLibrary.loadSound("laser", "data/sounds/laser.wav");
         
         pauseObject = null;
     }
@@ -94,13 +98,15 @@ public class GameState {
             pauseObject = null;
         }
     }
+
+    public void playSound(String key) { soundLibrary.getSound(key).play(1f, .02f); }
     
     public void setInput(Input input) { this.input = input; }
     public Input getInput() { return input; }
     
     public List<Actor> getActorList() { return actorList; }
 
-    public Image getLibraryImage(String key) { return imageLibrary.getImage(key); }
+    public Image getImage(String key) { return imageLibrary.getImage(key); }
     
     public float getDelta() { return delta; }
 }
