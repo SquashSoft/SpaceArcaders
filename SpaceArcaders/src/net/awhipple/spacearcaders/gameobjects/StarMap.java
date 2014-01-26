@@ -59,7 +59,7 @@ public class StarMap implements Actor{
 
     @Override
     public void update(GameState gs) {
-        float delta = (1f/60f);
+        float delta = gs.getDelta();
         curDelta += delta;
         while (curDelta > scrollSpeed) {
             curDelta -= scrollSpeed;

@@ -28,7 +28,7 @@ public class SpaceArcaders extends BasicGame {
     public void init(GameContainer gc) throws SlickException {
         
         try {
-            gs = new GameState(SCREEN_W, SCREEN_H);
+            gs = new GameState(SCREEN_W, SCREEN_H, TARGET_FPS);
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             gc.exit();
@@ -46,22 +46,18 @@ public class SpaceArcaders extends BasicGame {
         gs.addPlayer(player2);
                 
         gs.updateActorList();
+        
+        gc.setAlwaysRender(true);
     }
 
     @Override
     public void update(GameContainer gc, int delta) throws SlickException {
         
         //Handles pausing the game when the window loses focus
-        if(!gc.hasFocus()) {
-            if(gs.requestPause(gs.getLibraryImage("pause"))) {
-                gc.setAlwaysRender(false);
-                return;
-            } else {
-                gc.setAlwaysRender(true);
-            }
-        } else {
-            gs.unpause();
-        }
+        if(!gc.hasFocus()) { 
+            gs.pause(gs.getLibraryImage("pause"));
+            return;
+        } else { gs.unpause(); }
         
         Input input = gc.getInput();
         gs.setInput(input);

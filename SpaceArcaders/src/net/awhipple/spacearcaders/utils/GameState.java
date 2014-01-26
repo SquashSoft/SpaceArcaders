@@ -21,11 +21,10 @@ import org.newdawn.slick.SlickException;
  */
 public class GameState {
     Input input;
-    int SCREEN_W, SCREEN_H;
+    int SCREEN_W, SCREEN_H, TARGET_FPS;
+    float delta;
     
     private StarMap starMap;
-    
-    private List<PlayerShip> playerList;
     
     private List<Actor> actorList;
     private List<Actor> actorsToBeAdded;
@@ -34,13 +33,13 @@ public class GameState {
     private ImageLibrary imageLibrary;
     
     private UIElement pauseObject;
-    private int pauseRequests = 0;
     
-    public GameState(int SCREEN_W, int SCREEN_H) throws Exception {
+    public GameState(int SCREEN_W, int SCREEN_H, int TARGET_FPS) throws Exception {
         this.SCREEN_W = SCREEN_W;
         this.SCREEN_H = SCREEN_H;
         
-        playerList = new LinkedList<>();
+        this.TARGET_FPS = TARGET_FPS;
+        delta = 1f / (float)TARGET_FPS;
         
         actorList = new LinkedList<>();
         actorsToBeAdded = new LinkedList<>();
@@ -61,7 +60,6 @@ public class GameState {
     }
     
     public void addPlayer(PlayerShip ps) {
-        playerList.add(ps);
         queueNewActor(ps);
     }   
 
@@ -83,6 +81,22 @@ public class GameState {
         while(actorsToBeRemoved.size() > 0)
             actorList.remove(actorsToBeRemoved.remove(0));
     }
+   
+    public void pause(Image pauseImage) {
+        if(pauseObject == null) {
+            pauseObject = new UIElement(SCREEN_W/2, SCREEN_H/2, pauseImage);
+            queueNewActor(pauseObject);
+            updateActorList();
+        }
+    }
+   
+    public void unpause() { 
+        if(pauseObject != null) {
+            queueRemoveActor(pauseObject);
+            updateActorList();
+            pauseObject = null;
+        }
+    }
     
     public void setInput(Input input) { this.input = input; }
     public Input getInput() { return input; }
@@ -91,28 +105,5 @@ public class GameState {
 
     public Image getLibraryImage(String key) { return imageLibrary.getImage(key); }
     
-    private void addPauseToScreen(Image pauseImage) {
-        if(pauseObject == null) {
-            pauseObject = new UIElement(SCREEN_W/2, SCREEN_H/2, pauseImage);
-            queueNewActor(pauseObject);
-            updateActorList();
-        }
-    }
-    
-    public boolean requestPause(Image pauseImage) {
-        if(pauseRequests < 5) {
-            addPauseToScreen(pauseImage);
-            pauseRequests++;
-            return false;
-        } else {
-            return true;
-        }
-    }
-    
-    public void unpause() { 
-        pauseRequests = 0;
-        queueRemoveActor(pauseObject);
-        updateActorList();
-        pauseObject = null;
-    }
+    public float getDelta() { return delta; }
 }

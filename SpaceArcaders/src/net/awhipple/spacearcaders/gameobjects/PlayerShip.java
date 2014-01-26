@@ -87,7 +87,7 @@ public class PlayerShip implements Actor {
     
     @Override
     public void update(GameState gs) {
-        float delta = (1f/60f);
+        float delta = gs.getDelta();
         Input input = gs.getInput();
     
         if(!input.isKeyDown(laserShootKey))
