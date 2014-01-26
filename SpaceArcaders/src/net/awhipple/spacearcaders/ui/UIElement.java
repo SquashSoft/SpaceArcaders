@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.awhipple.spacearcaders.gameobjects;
+package net.awhipple.spacearcaders.ui;
 
+import net.awhipple.spacearcaders.gameobjects.Actor;
 import net.awhipple.spacearcaders.utils.GameState;
 import org.newdawn.slick.Image;
 
@@ -13,8 +14,8 @@ import org.newdawn.slick.Image;
  */
 public class UIElement implements Actor {
 
-    Image image;
-    int xLocation, yLocation;
+    private Image image;
+    private int xLocation, yLocation;
     
     public UIElement(int x, int y, Image uiImage) {
         xLocation = x;

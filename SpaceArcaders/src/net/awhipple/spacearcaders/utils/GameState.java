@@ -10,7 +10,7 @@ import net.awhipple.spacearcaders.gameobjects.PlayerShip;
 import net.awhipple.spacearcaders.gameobjects.Laser;
 import java.util.LinkedList;
 import java.util.List;
-import net.awhipple.spacearcaders.gameobjects.UIElement;
+import net.awhipple.spacearcaders.ui.UIElement;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
@@ -23,8 +23,6 @@ public class GameState {
     Input input;
     int SCREEN_W, SCREEN_H, TARGET_FPS;
     float delta;
-    
-    private StarMap starMap;
     
     private List<Actor> actorList;
     private List<Actor> actorsToBeAdded;
@@ -54,9 +52,8 @@ public class GameState {
         pauseObject = null;
     }
     
-    public void createStarMap(int screenX, int screenY) throws SlickException {
-        starMap = new StarMap(screenX, screenY);
-        queueNewActor(starMap);
+    public void createStarMap() throws SlickException {
+        queueNewActor(new StarMap(SCREEN_W, SCREEN_H));
     }
     
     public void addPlayer(PlayerShip ps) {

@@ -9,6 +9,6 @@ import net.awhipple.spacearcaders.utils.GameState;
 public interface Actor {
     public void draw();
     public void update(GameState gs);
-    }
+}
 
 

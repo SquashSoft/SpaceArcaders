@@ -18,11 +18,13 @@ import org.newdawn.slick.SlickException;
 
 public class SpaceArcaders extends BasicGame {
     
-    private static final int SCREEN_W = 1024, SCREEN_H = 768;
+    private static final int SCREEN_W = 1600, SCREEN_H = 900;
     private static final boolean FULLSCREEN_FLAG = false;
     private static final int TARGET_FPS = 60;
 
     GameState gs;
+    
+    boolean gameIsPaused = false;
     
     @Override
     public void init(GameContainer gc) throws SlickException {
@@ -35,7 +37,7 @@ public class SpaceArcaders extends BasicGame {
             return;
         }
         
-        gs.createStarMap(SCREEN_W, SCREEN_H);
+        gs.createStarMap();
         
         PlayerShip player1 = new PlayerShip(SCREEN_W/4,3*SCREEN_H/4, gs.getLibraryImage("ship") );
         player1.setKeys(Input.KEY_W, Input.KEY_S, Input.KEY_A, Input.KEY_D, Input.KEY_J);
@@ -56,8 +58,12 @@ public class SpaceArcaders extends BasicGame {
         //Handles pausing the game when the window loses focus
         if(!gc.hasFocus()) { 
             gs.pause(gs.getLibraryImage("pause"));
+            gameIsPaused = true;
             return;
-        } else { gs.unpause(); }
+        } else if(gameIsPaused) { 
+            gs.unpause(); 
+            gameIsPaused = false;
+        }
         
         Input input = gc.getInput();
         gs.setInput(input);
