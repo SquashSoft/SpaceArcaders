@@ -113,8 +113,11 @@ public class GameState {
     }
     
     private void loadResources() throws Exception {
-        imageLibrary.loadImage("laser", "data/images/proto-laser.PNG");
         imageLibrary.loadImage("ship",  "data/images/proto-ship.PNG");
+        imageLibrary.loadImage("laser", "data/images/proto-laser.PNG");
+        
+        imageLibrary.loadImage("imp",   "data/images/imp.png");
+        
         imageLibrary.loadImage("pause", "data/images/pause.PNG");
         
         soundLibrary.loadSound("laser", "data/sounds/laser.wav");

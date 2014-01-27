@@ -1,9 +1,9 @@
 package net.awhipple.spacearcaders;
 
+import net.awhipple.spacearcaders.ai.MoveTo;
+import net.awhipple.spacearcaders.gameobjects.Enemy;
 import net.awhipple.spacearcaders.utils.GameState;
-import net.awhipple.spacearcaders.gameobjects.Actor;
 import net.awhipple.spacearcaders.gameobjects.PlayerShip;
-import java.util.List;
 import net.awhipple.spacearcaders.ui.UIPlayerHealthBar;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
@@ -24,6 +24,7 @@ public class SpaceArcaders extends BasicGame {
     private static final int TARGET_FPS = 60;
 
     private GameState gs;
+    Enemy enemy;
     
     private boolean gameIsPaused = false;
 
@@ -37,7 +38,7 @@ public class SpaceArcaders extends BasicGame {
             gc.exit();
             return;
         }
-        
+
         PlayerShip player1 = new PlayerShip(SCREEN_W/4,3*SCREEN_H/4, gs.getImage("ship") );
         player1.setKeys(Input.KEY_W, Input.KEY_S, Input.KEY_A, Input.KEY_D, Input.KEY_J);
         gs.queueNewActor(player1);
@@ -46,6 +47,9 @@ public class SpaceArcaders extends BasicGame {
         player2.setKeys(Input.KEY_UP, Input.KEY_DOWN, Input.KEY_LEFT, Input.KEY_RIGHT, Input.KEY_RSHIFT);
         gs.queueNewActor(player2);
         
+        enemy = new Enemy(SCREEN_W/2, 150, gs.getImage("imp"));
+        gs.queueNewActor(enemy);
+
         gs.queueNewActor(new UIPlayerHealthBar(player1, 100, SCREEN_H-20));
         gs.queueNewActor(new UIPlayerHealthBar(player2, SCREEN_W-200, SCREEN_H-20));
         
@@ -73,6 +77,9 @@ public class SpaceArcaders extends BasicGame {
         gs.updateActors();
         
         if(input.isKeyDown(Input.KEY_ESCAPE)) gc.exit();
+        if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+            enemy.setAI(new MoveTo(input.getMouseX(), input.getMouseY(), 300));
+        }
     }
 
     @Override
