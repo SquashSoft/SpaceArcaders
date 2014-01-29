@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import net.awhipple.spacearcaders.gameobjects.Enemy;
+import net.awhipple.spacearcaders.utils.GameState;
 
 /**
  *
@@ -17,13 +18,14 @@ public class AIList {
     private List<AIAction> aiActionList;
     private Iterator<AIAction> aiActionListIterator;
     private AIAction currentAction;
-    private boolean loop;
+    private boolean loop, loopSafety;
     
     public AIList() {
         aiActionList = new LinkedList<>();
         aiActionListIterator = null;
         currentAction = null;
         loop = false;
+        loopSafety = false;
     }
 
     public void addAction(AIAction aiAction) {
@@ -35,11 +37,12 @@ public class AIList {
      * @param delta the time step to use
      * @return Returns true only when all actions have been completed;
      */
-    public boolean execute(Enemy enemy, float delta) {
+    public boolean execute(Enemy enemy, GameState gs) {
         if(currentAction == null && !getNextAction()) return false;
         AIAction.CompletionStatus status = AIAction.CompletionStatus.COMPLETE_REEXECUTE;
         while(status == AIAction.CompletionStatus.COMPLETE_REEXECUTE) {
-            status = currentAction.execute(enemy, delta);
+            status = currentAction.execute(enemy, gs);
+            if(status != AIAction.CompletionStatus.COMPLETE_REEXECUTE) loopSafety = true;
             if(status == AIAction.CompletionStatus.COMPLETE_REEXECUTE ||
                status == AIAction.CompletionStatus.COMPLETE) {
                 if(!getNextAction()) return false;
@@ -60,6 +63,8 @@ public class AIList {
             aiActionListIterator = aiActionList.iterator();
             if(aiActionListIterator.hasNext()) {
                 currentAction = aiActionListIterator.next();
+                if(!loopSafety) return false;
+                loopSafety = false;
                 return true;
             } else { return false; }
         } else {

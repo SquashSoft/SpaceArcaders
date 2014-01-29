@@ -35,8 +35,8 @@ public class Laser implements Actor {
     @Override
     public void update(GameState gs) {
         float delta = gs.getDelta();
-        
         laserLocationY -= (laserSpeed * delta);
+        if(laserLocationY<-100)gs.queueRemoveActor(this);
     }
     
 }

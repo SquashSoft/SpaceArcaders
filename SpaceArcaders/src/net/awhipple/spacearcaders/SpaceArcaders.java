@@ -23,7 +23,6 @@ public class SpaceArcaders extends BasicGame {
     private static final int TARGET_FPS = 60;
 
     private GameState gs;
-    Enemy enemy;
     
     private boolean gameIsPaused = false;
 
@@ -46,8 +45,10 @@ public class SpaceArcaders extends BasicGame {
         player2.setKeys(Input.KEY_UP, Input.KEY_DOWN, Input.KEY_LEFT, Input.KEY_RIGHT, Input.KEY_RCONTROL);
         gs.queueNewActor(player2);
         
-        enemy = new Enemy(SCREEN_W/2, -300, gs.getImage("imp"));
-        gs.queueNewActor(enemy);
+        for(int i = 0; i < 1; i++) {
+            Enemy enemy = new Enemy(SCREEN_W/2, -300, gs.getImage("imp"));
+            gs.queueNewActor(enemy);
+        }
 
         gs.queueNewActor(new UIPlayerHealthBar(player1, 100, SCREEN_H-20));
         gs.queueNewActor(new UIPlayerHealthBar(player2, SCREEN_W-200, SCREEN_H-20));

@@ -7,6 +7,7 @@ package net.awhipple.spacearcaders.ai;
 import java.util.LinkedList;
 import java.util.List;
 import net.awhipple.spacearcaders.gameobjects.Enemy;
+import net.awhipple.spacearcaders.utils.GameState;
 
 /**
  *
@@ -27,10 +28,10 @@ public class AI {
         firstActionsRemovalQueue = new LinkedList<>();
     }
     
-    public void execute(Enemy enemy, float delta) {
+    public void execute(Enemy enemy, GameState gs) {
         if(firstActions != null) {
             for(AIList aiList : firstActions) {
-                if(!aiList.execute(enemy, delta)) {
+                if(!aiList.execute(enemy, gs)) {
                     firstActionsRemovalQueue.add(aiList);
                 }
             }
@@ -40,7 +41,7 @@ public class AI {
             if(firstActions.isEmpty()) firstActions = null;
         } else if(loopActions != null) {
             for(AIList aiList : loopActions) {
-                aiList.execute(enemy, delta);
+                aiList.execute(enemy, gs);
             }
         }
     }

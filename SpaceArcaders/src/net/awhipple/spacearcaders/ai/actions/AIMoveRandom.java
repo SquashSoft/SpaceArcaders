@@ -2,10 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.awhipple.spacearcaders.ai;
+package net.awhipple.spacearcaders.ai.actions;
 
+import net.awhipple.spacearcaders.ai.AIAction;
 import net.awhipple.spacearcaders.gameobjects.Enemy;
 import net.awhipple.spacearcaders.utils.GameMath;
+import net.awhipple.spacearcaders.utils.GameState;
 
 /**
  *
@@ -29,7 +31,8 @@ public class AIMoveRandom implements AIAction{
     }
     
     @Override
-    public CompletionStatus execute(Enemy enemy, float delta) {
+    public CompletionStatus execute(Enemy enemy, GameState gs) {
+        float delta = gs.getDelta();
         if(firstRun) {
             toX = (int)(Math.random()*SCREEN_W);
             toY = (int)(Math.random()*SCREEN_H);

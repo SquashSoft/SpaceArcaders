@@ -5,9 +5,10 @@
 package net.awhipple.spacearcaders.gameobjects;
 
 import net.awhipple.spacearcaders.ai.AI;
-import net.awhipple.spacearcaders.ai.AIMoveRandom;
-import net.awhipple.spacearcaders.ai.AIWait;
-import net.awhipple.spacearcaders.ai.MoveTo;
+import net.awhipple.spacearcaders.ai.actions.AIFire;
+import net.awhipple.spacearcaders.ai.actions.AIMoveRandom;
+import net.awhipple.spacearcaders.ai.actions.AIWait;
+import net.awhipple.spacearcaders.ai.actions.AIMoveTo;
 import net.awhipple.spacearcaders.utils.GameState;
 import org.newdawn.slick.Image;
 
@@ -18,7 +19,7 @@ import org.newdawn.slick.Image;
 public class Enemy implements Actor {
 
     private Image image;
-    private float x, y;
+    private float x, y,numshots;
         
     private AI ai;
     
@@ -30,10 +31,11 @@ public class Enemy implements Actor {
         
         ai = new AI();
         
-        ai.addAIAction(new MoveTo(800,450,130));
-        ai.addAIAction(new AIWait(5f));
+        ai.addAIAction(new AIMoveTo(800,350,130));
+        ai.addAIAction(new AIWait(2f));
         
         ai.addAILoopAction(new AIMoveRandom(1600, 900, 300));
+        ai.addAILoopAction(new AIFire());  
     }
     
     @Override
@@ -43,7 +45,13 @@ public class Enemy implements Actor {
 
     @Override
     public void update(GameState gs) {
-        ai.execute(this, gs.getDelta());
+numshots = 0;
+        ai.execute(this, gs);
+    }
+    
+    public void fire(GameState gs) {
+        gs.queueNewActor(new Laser(x, y, gs.getImage("laser")));
+numshots++;System.out.println(numshots);
     }
     
     public float getX() { return x; }
