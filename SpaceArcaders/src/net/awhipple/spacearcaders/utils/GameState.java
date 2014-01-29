@@ -8,6 +8,7 @@ import net.awhipple.spacearcaders.gameobjects.Actor;
 import net.awhipple.spacearcaders.gameobjects.StarMap;
 import java.util.LinkedList;
 import java.util.List;
+import net.awhipple.spacearcaders.gameobjects.Enemy;
 import net.awhipple.spacearcaders.ui.UIImage;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
@@ -25,6 +26,7 @@ public class GameState {
     private List<Actor> actorList;
     private List<Actor> actorsToBeAdded;
     private List<Actor> actorsToBeRemoved;
+    private List<Enemy> enemyList;
     
     private ImageLibrary imageLibrary;
     private SoundLibrary soundLibrary;
@@ -39,6 +41,7 @@ public class GameState {
         delta = targetDelta;
         
         actorList = new LinkedList<>();
+        enemyList = new LinkedList<>();
         actorsToBeAdded = new LinkedList<>();
         actorsToBeRemoved = new LinkedList<>();
         
@@ -76,10 +79,18 @@ public class GameState {
     }
     
     public final void processActorQueues() {
-        while(actorsToBeAdded.size() > 0)
-            actorList.add(actorsToBeAdded.remove(0));
-        while(actorsToBeRemoved.size() > 0)
-            actorList.remove(actorsToBeRemoved.remove(0));
+        while(actorsToBeAdded.size() > 0) {
+            Actor actor = actorsToBeAdded.remove(0);
+            actorList.add(actor);
+            if(actor instanceof Enemy)
+                enemyList.add((Enemy) actor);
+        }
+        while(actorsToBeRemoved.size() > 0) {
+            Actor actor = actorsToBeRemoved.remove(0);
+            actorList.remove(actor);
+            if(actor instanceof Enemy)
+                enemyList.remove((Enemy) actor);
+        }
     }
    
     public void pause(Image pauseImage) {
@@ -119,6 +130,10 @@ public class GameState {
         queueNewActor(new StarMap(SCREEN_W, SCREEN_H));
     }
     
+    public List<Enemy> getEnemyList() {
+        return enemyList;
+    }
+     
     private void loadResources() throws Exception {
         imageLibrary.loadImage("ship",  "data/images/proto-ship.PNG");
         imageLibrary.loadImage("laser", "data/images/proto-laser.PNG");
@@ -128,5 +143,8 @@ public class GameState {
         imageLibrary.loadImage("pause", "data/images/pause.PNG");
         
         soundLibrary.loadSound("laser", "data/sounds/laser.wav");
+        soundLibrary.loadSound("explode", "data/sounds/explode.wav");
+        soundLibrary.loadSound("explodemini", "data/sounds/explodemini.wav");
     }
+
 }

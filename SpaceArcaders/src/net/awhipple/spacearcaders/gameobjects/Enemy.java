@@ -10,6 +10,7 @@ import net.awhipple.spacearcaders.ai.actions.AIMoveRandom;
 import net.awhipple.spacearcaders.ai.actions.AIWait;
 import net.awhipple.spacearcaders.ai.actions.AIMoveTo;
 import net.awhipple.spacearcaders.utils.GameState;
+import net.awhipple.spacearcaders.utils.HitBox;
 import org.newdawn.slick.Image;
 
 /**
@@ -19,7 +20,8 @@ import org.newdawn.slick.Image;
 public class Enemy implements Actor {
 
     private Image image;
-    private float x, y,numshots;
+    private float x, y;
+    private HitBox enemiesHitBox;
         
     private AI ai;
     
@@ -29,13 +31,13 @@ public class Enemy implements Actor {
         
         this.image = image;
         
+        this.enemiesHitBox = new HitBox((image.getWidth()/2-5));
+        
         ai = new AI();
         
-        ai.addAIAction(new AIMoveTo(800,350,130));
-        ai.addAIAction(new AIWait(2f));
-        
+        ai.addAIAction(new AIMoveRandom(1600,-500,500));
+       
         ai.addAILoopAction(new AIMoveRandom(1600, 900, 300));
-        ai.addAILoopAction(new AIFire());  
     }
     
     @Override
@@ -45,13 +47,11 @@ public class Enemy implements Actor {
 
     @Override
     public void update(GameState gs) {
-numshots = 0;
         ai.execute(this, gs);
     }
     
     public void fire(GameState gs) {
         gs.queueNewActor(new Laser(x, y, gs.getImage("laser")));
-numshots++;System.out.println(numshots);
     }
     
     public float getX() { return x; }
@@ -61,4 +61,5 @@ numshots++;System.out.println(numshots);
         this.x = x;
         this.y = y;
     }
+    public HitBox getHitBox(){ return enemiesHitBox; }
 }

@@ -1,7 +1,6 @@
 package net.awhipple.spacearcaders.gameobjects;
 
 import net.awhipple.spacearcaders.utils.GameState;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
@@ -16,13 +15,14 @@ public class PlayerShip implements Actor {
     private Image playerShipIcon;
     private float shipSpeed;
     private float shipHealth;
+    private float shotsPerSecond;
+    private float fireSpeed;
     
     private int moveKeyUp;
     private int moveKeyDown;
     private int moveKeyLeft;
     private int moveKeyRight;
     private int laserShootKey;
-    private int fireSpeed;
     
     private void setDefaults() {
         shipSpeed = 400;
@@ -33,9 +33,10 @@ public class PlayerShip implements Actor {
 
         shipLocationX = x;
         shipLocationY = y;
-        
+        fireSpeed = 0f;
+        shotsPerSecond = 3f;
         shipHealth = 100f;
-
+       
         playerShipIcon = shipImage;
     }
 
@@ -83,21 +84,17 @@ public class PlayerShip implements Actor {
         float delta = gs.getDelta();
         Input input = gs.getInput();
     
+        
         if(!input.isKeyDown(laserShootKey))
             fireSpeed=0;
         
         if(input.isKeyDown(laserShootKey)){
-            if(fireSpeed == 0) {
+            if(fireSpeed <= 0) {
                 shootLaser(gs);
-                ++fireSpeed;
+                fireSpeed += (1/shotsPerSecond);
                 }
             
-            if(fireSpeed == 25)
-                fireSpeed = 0;
-         
-            else {
-                ++fireSpeed;
-            }
+            fireSpeed -= delta;
         }
         
         if (input.isKeyDown(moveKeyUp)) {

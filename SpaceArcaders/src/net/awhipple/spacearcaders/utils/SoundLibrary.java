@@ -24,7 +24,7 @@ public class SoundLibrary {
         
         if(soundMap.containsKey(key)) throw new Exception("ERROR: Tried to load a sound and save it under pre existing key: " + key);
         
-        soundMap.put(key, new Sound("data/sounds/laser.wav"));
+        soundMap.put(key, new Sound(fileName));
     }
     
     public Sound getSound(String key) { return soundMap.get(key); }

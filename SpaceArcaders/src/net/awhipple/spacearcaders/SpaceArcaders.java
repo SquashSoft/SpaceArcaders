@@ -45,7 +45,7 @@ public class SpaceArcaders extends BasicGame {
         player2.setKeys(Input.KEY_UP, Input.KEY_DOWN, Input.KEY_LEFT, Input.KEY_RIGHT, Input.KEY_RCONTROL);
         gs.queueNewActor(player2);
         
-        for(int i = 0; i < 1; i++) {
+        for(int i = 0; i < 5; i++) {
             Enemy enemy = new Enemy(SCREEN_W/2, -300, gs.getImage("imp"));
             gs.queueNewActor(enemy);
         }
