@@ -5,8 +5,7 @@
 package net.awhipple.spacearcaders.gameobjects;
 
 import net.awhipple.spacearcaders.ai.AI;
-import net.awhipple.spacearcaders.ai.AIAction;
-import net.awhipple.spacearcaders.ai.AIAction.CompletionStatus;
+import net.awhipple.spacearcaders.ai.AIMoveRandom;
 import net.awhipple.spacearcaders.ai.AIWait;
 import net.awhipple.spacearcaders.ai.MoveTo;
 import net.awhipple.spacearcaders.utils.GameState;
@@ -22,7 +21,6 @@ public class Enemy implements Actor {
     private float x, y;
         
     private AI ai;
-    private boolean curDir;
     
     public Enemy(float x, float y, Image image) {
         this.x = x;
@@ -30,8 +28,12 @@ public class Enemy implements Actor {
         
         this.image = image;
         
-        ai = new AI(new AIWait(1f));
-        curDir = false;
+        ai = new AI();
+        
+        ai.addAIAction(new MoveTo(800,450,130));
+        ai.addAIAction(new AIWait(5f));
+        
+        ai.addAILoopAction(new AIMoveRandom(1600, 900, 300));
     }
     
     @Override
@@ -41,11 +43,7 @@ public class Enemy implements Actor {
 
     @Override
     public void update(GameState gs) {
-        if(ai.execute(this, gs.getDelta()) == CompletionStatus.COMPLETE) {
-            ai.setAIAction( curDir ? new MoveTo(gs.getScreenWidth()-100, gs.getScreenHeight()/4, 300)
-                                   : new MoveTo(100, gs.getScreenHeight()/4, 300));
-            curDir = !curDir;
-        }
+        ai.execute(this, gs.getDelta());
     }
     
     public float getX() { return x; }
@@ -54,9 +52,5 @@ public class Enemy implements Actor {
     public void setPosition(float x, float y) {
         this.x = x;
         this.y = y;
-    }
-    
-    public void setAI(AIAction aiAction) {
-        this.ai.setAIAction(aiAction);
     }
 }

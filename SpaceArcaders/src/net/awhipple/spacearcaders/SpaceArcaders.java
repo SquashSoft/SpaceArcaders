@@ -1,6 +1,5 @@
 package net.awhipple.spacearcaders;
 
-import net.awhipple.spacearcaders.ai.MoveTo;
 import net.awhipple.spacearcaders.gameobjects.Enemy;
 import net.awhipple.spacearcaders.utils.GameState;
 import net.awhipple.spacearcaders.gameobjects.PlayerShip;
@@ -44,10 +43,10 @@ public class SpaceArcaders extends BasicGame {
         gs.queueNewActor(player1);
         
         PlayerShip player2 = new PlayerShip(3*SCREEN_W/4,3*SCREEN_H/4, gs.getImage("ship") );
-        player2.setKeys(Input.KEY_UP, Input.KEY_DOWN, Input.KEY_LEFT, Input.KEY_RIGHT, Input.KEY_RSHIFT);
+        player2.setKeys(Input.KEY_UP, Input.KEY_DOWN, Input.KEY_LEFT, Input.KEY_RIGHT, Input.KEY_RCONTROL);
         gs.queueNewActor(player2);
         
-        enemy = new Enemy(SCREEN_W/2, 150, gs.getImage("imp"));
+        enemy = new Enemy(SCREEN_W/2, -300, gs.getImage("imp"));
         gs.queueNewActor(enemy);
 
         gs.queueNewActor(new UIPlayerHealthBar(player1, 100, SCREEN_H-20));
@@ -77,9 +76,6 @@ public class SpaceArcaders extends BasicGame {
         gs.updateActors();
         
         if(input.isKeyDown(Input.KEY_ESCAPE)) gc.exit();
-        if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-            enemy.setAI(new MoveTo(input.getMouseX(), input.getMouseY(), 300));
-        }
     }
 
     @Override

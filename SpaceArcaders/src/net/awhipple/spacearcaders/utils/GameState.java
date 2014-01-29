@@ -6,8 +6,6 @@ package net.awhipple.spacearcaders.utils;
 
 import net.awhipple.spacearcaders.gameobjects.Actor;
 import net.awhipple.spacearcaders.gameobjects.StarMap;
-import net.awhipple.spacearcaders.gameobjects.PlayerShip;
-import net.awhipple.spacearcaders.gameobjects.Laser;
 import java.util.LinkedList;
 import java.util.List;
 import net.awhipple.spacearcaders.ui.UIImage;

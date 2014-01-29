@@ -4,10 +4,9 @@
  */
 package net.awhipple.spacearcaders.ai;
 
-import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import net.awhipple.spacearcaders.gameobjects.Enemy;
-import net.awhipple.spacearcaders.utils.Pair;
 
 /**
  *
@@ -15,18 +14,42 @@ import net.awhipple.spacearcaders.utils.Pair;
  */
 public class AI {
     
-    private AIAction aiAction;
-    private List<Pair<Iterator<AIAction>, List<AIAction>>> firstActions, loopActions;
+    private List<AIList> firstActions, loopActions;
+    private List<AIList> firstActionsRemovalQueue;
     
-    public AI(AIAction aiAction) {
-        this.aiAction = aiAction;
+    public AI() {
+        firstActions = new LinkedList<>();
+        firstActions.add(new AIList());
+        
+        loopActions = new LinkedList<>();
+        loopActions.add((new AIList().setLoop(true)));
+        
+        firstActionsRemovalQueue = new LinkedList<>();
     }
     
-    public AIAction.CompletionStatus execute(Enemy enemy, float delta) {
-        return aiAction.execute(enemy, delta);
+    public void execute(Enemy enemy, float delta) {
+        if(firstActions != null) {
+            for(AIList aiList : firstActions) {
+                if(!aiList.execute(enemy, delta)) {
+                    firstActionsRemovalQueue.add(aiList);
+                }
+            }
+            while(firstActionsRemovalQueue.size() > 0) {
+                firstActions.remove(firstActionsRemovalQueue.remove(0));
+            }
+            if(firstActions.isEmpty()) firstActions = null;
+        } else if(loopActions != null) {
+            for(AIList aiList : loopActions) {
+                aiList.execute(enemy, delta);
+            }
+        }
     }
     
-    public void setAIAction(AIAction aiAction) {
-        this.aiAction = aiAction;
+    public void addAIAction(AIAction aiAction) {
+        firstActions.get(0).addAction(aiAction);
+    }
+    
+    public void addAILoopAction(AIAction aiAction) {
+        loopActions.get(0).addAction(aiAction);
     }
 }

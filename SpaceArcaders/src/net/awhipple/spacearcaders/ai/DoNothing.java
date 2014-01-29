@@ -16,5 +16,10 @@ public class DoNothing implements AIAction{
     public CompletionStatus execute(Enemy enemy, float delta) {
         return CompletionStatus.NOT_COMPLETE;
     }
+
+    @Override
+    public void init() {
+        
+    }
     
 }

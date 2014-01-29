@@ -12,10 +12,11 @@ import net.awhipple.spacearcaders.gameobjects.Enemy;
  */
 public class AIWait implements AIAction{
 
-    private float timeLeft;
+    private float timeLeft, timerLength;
     
     public AIWait(float timeLeft) {
         this.timeLeft = timeLeft;
+        this.timerLength = timeLeft;
     }
     
     @Override
@@ -23,6 +24,11 @@ public class AIWait implements AIAction{
         timeLeft-=delta;
         if(timeLeft <= 0) return CompletionStatus.COMPLETE;
         else return CompletionStatus.NOT_COMPLETE;
+    }
+
+    @Override
+    public void init() {
+        timeLeft = timerLength;
     }
     
 }
