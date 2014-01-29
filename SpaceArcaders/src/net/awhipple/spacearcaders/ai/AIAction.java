@@ -11,5 +11,12 @@ import net.awhipple.spacearcaders.gameobjects.Enemy;
  * @author Aaron
  */
 public interface AIAction {
-    public boolean execute(Enemy enemy, float delta);
+    
+    public static enum CompletionStatus {
+        NOT_COMPLETE,
+        COMPLETE,
+        COMPLETE_REEXECUTE;
+    }
+    
+    public CompletionStatus execute(Enemy enemy, float delta);
 }

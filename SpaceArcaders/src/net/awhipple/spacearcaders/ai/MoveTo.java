@@ -28,7 +28,7 @@ public class MoveTo implements AIAction{
     }
     
     @Override
-    public boolean execute(Enemy enemy, float delta) {
+    public CompletionStatus execute(Enemy enemy, float delta) {
         if(firstRun) {
             rad = GameMath.pointsToRad(enemy.getX(), enemy.getY(), toX, toY);
             xVec = (float) Math.cos(rad);
@@ -42,10 +42,10 @@ public class MoveTo implements AIAction{
         
         if( GameMath.whichSide(enemy.getX(), toX) != xs ||
             GameMath.whichSide(enemy.getY(), toY) != ys) {
-            return true;
+            return CompletionStatus.COMPLETE;
         }
         
-        return false;
+        return CompletionStatus.NOT_COMPLETE;
     }
     
     

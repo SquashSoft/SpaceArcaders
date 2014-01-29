@@ -107,6 +107,9 @@ public class GameState {
     public Image getImage(String key) { return imageLibrary.getImage(key); }
     
     public float getDelta() { return delta; }
+    
+    public int getScreenWidth() { return SCREEN_W; }
+    public int getScreenHeight() { return SCREEN_H; }
 
     private void createStarMap() throws SlickException {
         queueNewActor(new StarMap(SCREEN_W, SCREEN_H));
