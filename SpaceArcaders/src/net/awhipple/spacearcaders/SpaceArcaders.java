@@ -73,6 +73,7 @@ public class SpaceArcaders extends BasicGame {
         
         Input input = gc.getInput();
         gs.setInput(input);
+        gs.setDeltaFromFps(gc.getFPS());
         
         gs.updateActors();
         
