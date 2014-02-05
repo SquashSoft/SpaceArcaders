@@ -13,18 +13,18 @@ import net.awhipple.spacearcaders.utils.GameState;
  *
  * @author Aaron
  */
-public class AIMoveTo implements AIAction{
+public class AIMoveDistance implements AIAction{
 
     boolean firstRun;
-    float toX, toY, xVec, yVec, speed; 
+    float xDis, yDis, toX, toY, xVec, yVec, speed; 
     double rad;
     int xs, ys;
     
-    public AIMoveTo(float x, float y, float speed) {
+    public AIMoveDistance(float x, float y, float speed) {
         firstRun = true;
         
-        toX = x;
-        toY = y;
+        xDis = x;
+        yDis = y;
         
         this.speed = speed;
     }
@@ -33,6 +33,8 @@ public class AIMoveTo implements AIAction{
     public CompletionStatus execute(Enemy enemy, GameState gs) {
         float delta = gs.getDelta();
         if(firstRun) {
+            toX = enemy.getX() + xDis;
+            toY = enemy.getY() + yDis;
             rad = GameMath.pointsToRad(enemy.getX(), enemy.getY(), toX, toY);
             xVec = (float) Math.cos(rad);
             yVec = (float) Math.sin(rad);

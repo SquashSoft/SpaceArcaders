@@ -6,6 +6,7 @@ package net.awhipple.spacearcaders.gameobjects;
 
 import net.awhipple.spacearcaders.ai.AI;
 import net.awhipple.spacearcaders.ai.actions.AIFire;
+import net.awhipple.spacearcaders.ai.actions.AIMoveDistance;
 import net.awhipple.spacearcaders.ai.actions.AIMoveRandom;
 import net.awhipple.spacearcaders.ai.actions.AIWait;
 import net.awhipple.spacearcaders.ai.actions.AIMoveTo;
@@ -35,9 +36,17 @@ public class Enemy implements Actor {
         
         ai = new AI();
         
-        ai.addAIAction(new AIMoveRandom(1600,-500,500));
+        //ai.addAIAction(new AIMoveRandom(300));
        
-        ai.addAILoopAction(new AIMoveRandom(1600, 900, 300));
+        //ai.addAILoopAction(new AIMoveRandom(300));
+        int speed = 300;
+        
+        ai.addAIAction(new AIMoveDistance(0,400,speed));
+        
+        ai.addAILoopAction(new AIMoveDistance(0,    300, speed));
+        ai.addAILoopAction(new AIMoveDistance(300,    0, speed));
+        ai.addAILoopAction(new AIMoveDistance(0,   -300, speed));
+        ai.addAILoopAction(new AIMoveDistance(-300,   0, speed));
     }
     
     @Override

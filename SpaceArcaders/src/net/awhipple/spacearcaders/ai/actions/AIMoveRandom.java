@@ -19,13 +19,9 @@ public class AIMoveRandom implements AIAction{
     float toX, toY, xVec, yVec, speed; 
     double rad;
     int xs, ys;
-    int SCREEN_W, SCREEN_H;
     
-    public AIMoveRandom(int SCREEN_W, int SCREEN_H, float speed) {
+    public AIMoveRandom(float speed) {
         firstRun = true;
-        
-        this.SCREEN_W = SCREEN_W;
-        this.SCREEN_H = SCREEN_H;
         
         this.speed = speed;
     }
@@ -34,8 +30,8 @@ public class AIMoveRandom implements AIAction{
     public CompletionStatus execute(Enemy enemy, GameState gs) {
         float delta = gs.getDelta();
         if(firstRun) {
-            toX = (int)(Math.random()*SCREEN_W);
-            toY = (int)(Math.random()*SCREEN_H);
+            toX = (int)(Math.random()*gs.getScreenWidth());
+            toY = (int)(Math.random()*gs.getScreenHeight());
             rad = GameMath.pointsToRad(enemy.getX(), enemy.getY(), toX, toY);
             xVec = (float) Math.cos(rad);
             yVec = (float) Math.sin(rad);
@@ -48,6 +44,7 @@ public class AIMoveRandom implements AIAction{
         
         if( GameMath.whichSide(enemy.getX(), toX) != xs ||
             GameMath.whichSide(enemy.getY(), toY) != ys) {
+            enemy.setPosition(toX, toY);
             return CompletionStatus.COMPLETE;
         }
         
