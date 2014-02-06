@@ -21,7 +21,7 @@ import org.newdawn.slick.SlickException;
 public class GameState {
     private Input input;
     private int SCREEN_W, SCREEN_H;
-    private float delta, targetDelta;
+    private double delta, targetDelta;
     
     private List<Actor> actorList;
     private List<Actor> actorsToBeAdded;
@@ -37,7 +37,7 @@ public class GameState {
         this.SCREEN_W = SCREEN_W;
         this.SCREEN_H = SCREEN_H;
         
-        targetDelta = 1f / (float)TARGET_FPS;
+        targetDelta = 1d / (double)TARGET_FPS;
         delta = targetDelta;
         
         actorList = new LinkedList<>();
@@ -116,14 +116,14 @@ public class GameState {
 
     public Image getImage(String key) { return imageLibrary.getImage(key); }
     
-    public float getDelta() { return delta; }
+    public double getDelta() { return delta; }
     
     public int getScreenWidth() { return SCREEN_W; }
     public int getScreenHeight() { return SCREEN_H; }
     
     public void setDeltaFromFps(int fps) {
         if(fps == 0) delta = targetDelta;
-        else this.delta = 1f/(float)fps;
+        else this.delta = 1d/(double)fps;
     }
 
     private void createStarMap() throws SlickException {

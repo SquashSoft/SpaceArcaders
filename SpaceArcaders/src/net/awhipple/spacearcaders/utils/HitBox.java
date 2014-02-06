@@ -15,7 +15,7 @@ public class HitBox {
         this.radius = radius;
         
     }
-    public boolean collisionCheck(float myX, float myY, float tarX, float tarY, HitBox tarHitBox){
+    public boolean collisionCheck(double myX, double myY, double tarX, double tarY, HitBox tarHitBox){
         return collisionCheck((int)myX,(int) myY,(int) tarX,(int) tarY, tarHitBox);
     }
     public boolean collisionCheck(int myX, int myY, int tarX, int tarY, HitBox tarHitBox){

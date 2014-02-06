@@ -19,15 +19,15 @@ public class UIBar implements Actor{
 
     private int x, y;
     
-    private float value;
-    private float oldValue;
+    private double value;
+    private double oldValue;
     
     private Image image;
     private Graphics imageGraphics;
     
-    public UIBar(float value, int x, int y) throws SlickException{
+    public UIBar(double value, int x, int y) throws SlickException{
         this.value = value;
-        oldValue = 100f;
+        oldValue = 100d;
         
         setLocation(x, y);
         
@@ -55,7 +55,7 @@ public class UIBar implements Actor{
         this.y = y;
     }
     
-    public void setValue(float value) {
+    public void setValue(double value) {
         this.value = value;
     }
     

@@ -14,17 +14,17 @@ import org.newdawn.slick.Image;
  */
 public class Laser implements Actor {
 
-    private float laserLocationX, laserLocationY;
-    private float laserSpeed;
+    private double laserLocationX, laserLocationY;
+    private double laserSpeed;
     private Image laserIcon;
     private HitBox lasersHitBox;
     
-    public Laser (float locationX, float locationY, Image laserImage){
+    public Laser (double locationX, double locationY, Image laserImage){
 
        laserLocationX = locationX;
        laserLocationY = locationY;
        
-       laserSpeed = 800.5f;
+       laserSpeed = 800d;
        laserIcon = laserImage;
        lasersHitBox = new HitBox((laserIcon.getWidth()/2-5));
     }
@@ -36,7 +36,7 @@ public class Laser implements Actor {
     
     @Override
     public void update(GameState gs) {
-        float delta = gs.getDelta();
+        double delta = gs.getDelta();
         laserLocationY -= (laserSpeed * delta);
         if(        laserLocationY<-100
                 || laserLocationY>gs.getScreenHeight()+100

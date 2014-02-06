@@ -18,6 +18,8 @@ import org.newdawn.slick.SlickException;
 
 public class SpaceArcaders extends BasicGame {
     
+    private static final boolean DEBUG = true;
+    
     private static final int SCREEN_W = 1600, SCREEN_H = 900;
     private static final boolean FULLSCREEN_FLAG = false;
     private static final int TARGET_FPS = 60;
@@ -26,6 +28,8 @@ public class SpaceArcaders extends BasicGame {
     
     private boolean gameIsPaused = false;
 
+    private int p = 60;
+    
     @Override
     public void init(GameContainer gc) throws SlickException {
         
@@ -45,8 +49,8 @@ public class SpaceArcaders extends BasicGame {
         player2.setKeys(Input.KEY_UP, Input.KEY_DOWN, Input.KEY_LEFT, Input.KEY_RIGHT, Input.KEY_RCONTROL);
         gs.queueNewActor(player2);
         
-        for(int i = 0; i < 5; i++) {
-            Enemy enemy = new Enemy(i*200, -300, gs.getImage("imp"));
+        for(int i = 2; i < 4; i++) {
+            Enemy enemy = new Enemy(i*200+200, -300, gs.getImage("imp"));
             gs.queueNewActor(enemy);
         }
 
@@ -62,7 +66,7 @@ public class SpaceArcaders extends BasicGame {
     public void update(GameContainer gc, int delta) throws SlickException {
         
         //Handles pausing the game when the window loses focus
-        if(!gc.hasFocus()) { 
+        if(!DEBUG && !gc.hasFocus()) { 
             gs.pause(gs.getImage("pause"));
             gameIsPaused = true;
             return;
@@ -73,7 +77,13 @@ public class SpaceArcaders extends BasicGame {
         
         Input input = gc.getInput();
         gs.setInput(input);
-        gs.setDeltaFromFps(gc.getFPS());
+        
+        //if(!DEBUG) gs.setDeltaFromFps(gc.getFPS());
+        //else gs.setDeltaFromFps(TARGET_FPS);
+        //System.out.println(gc.getFPS());
+        
+        //if(p == 60) p = 61; else p = 60;
+        gs.setDeltaFromFps(61);
         
         gs.updateActors();
         

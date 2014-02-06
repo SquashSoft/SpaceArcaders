@@ -16,11 +16,11 @@ import net.awhipple.spacearcaders.utils.GameState;
 public class AIMoveRandom implements AIAction{
 
     boolean firstRun;
-    float toX, toY, xVec, yVec, speed; 
+    double toX, toY, xVec, yVec, speed; 
     double rad;
     int xs, ys;
     
-    public AIMoveRandom(float speed) {
+    public AIMoveRandom(double speed) {
         firstRun = true;
         
         this.speed = speed;
@@ -28,13 +28,13 @@ public class AIMoveRandom implements AIAction{
     
     @Override
     public CompletionStatus execute(Enemy enemy, GameState gs) {
-        float delta = gs.getDelta();
+        double delta = gs.getDelta();
         if(firstRun) {
             toX = (int)(Math.random()*gs.getScreenWidth());
             toY = (int)(Math.random()*gs.getScreenHeight());
             rad = GameMath.pointsToRad(enemy.getX(), enemy.getY(), toX, toY);
-            xVec = (float) Math.cos(rad);
-            yVec = (float) Math.sin(rad);
+            xVec = Math.cos(rad);
+            yVec = Math.sin(rad);
             xs = GameMath.whichSide(enemy.getX(), toX);
             ys = GameMath.whichSide(enemy.getY(), toY);
             firstRun = false;

@@ -15,12 +15,12 @@ import net.awhipple.spacearcaders.utils.GameState;
  */
 public class AIMoveTo implements AIAction{
 
-    boolean firstRun;
-    float toX, toY, xVec, yVec, speed; 
-    double rad;
-    int xs, ys;
+    protected boolean firstRun;
+    protected double toX, toY, xVec, yVec, speed; 
+    protected double rad;
+    protected int xs, ys;
     
-    public AIMoveTo(float x, float y, float speed) {
+    public AIMoveTo(double x, double y, double speed) {
         firstRun = true;
         
         toX = x;
@@ -31,11 +31,11 @@ public class AIMoveTo implements AIAction{
     
     @Override
     public CompletionStatus execute(Enemy enemy, GameState gs) {
-        float delta = gs.getDelta();
+        double delta = gs.getDelta();
         if(firstRun) {
             rad = GameMath.pointsToRad(enemy.getX(), enemy.getY(), toX, toY);
-            xVec = (float) Math.cos(rad);
-            yVec = (float) Math.sin(rad);
+            xVec = (double) Math.cos(rad);
+            yVec = (double) Math.sin(rad);
             xs = GameMath.whichSide(enemy.getX(), toX);
             ys = GameMath.whichSide(enemy.getY(), toY);
             firstRun = false;
@@ -43,8 +43,8 @@ public class AIMoveTo implements AIAction{
         
         enemy.setPosition(enemy.getX()+xVec*speed*delta, enemy.getY()+yVec*speed*delta);
         
-        if( GameMath.whichSide(enemy.getX(), toX) != xs ||
-            GameMath.whichSide(enemy.getY(), toY) != ys) {
+        if( (xs != 0 && GameMath.whichSide(enemy.getX(), toX) != xs) ||
+            (ys != 0 && GameMath.whichSide(enemy.getY(), toY) != ys)) {
             enemy.setPosition(toX, toY);
             return CompletionStatus.COMPLETE;
         }

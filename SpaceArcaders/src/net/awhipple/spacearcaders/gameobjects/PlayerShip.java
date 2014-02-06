@@ -11,12 +11,12 @@ import org.newdawn.slick.SlickException;
  */
 public class PlayerShip implements Actor {
 
-    private float shipLocationX, shipLocationY;
+    private double shipLocationX, shipLocationY;
     private Image playerShipIcon;
-    private float shipSpeed;
-    private float shipHealth;
-    private float shotsPerSecond;
-    private float fireSpeed;
+    private double shipSpeed;
+    private double shipHealth;
+    private double shotsPerSecond;
+    private double fireSpeed;
     
     private int moveKeyUp;
     private int moveKeyDown;
@@ -28,14 +28,14 @@ public class PlayerShip implements Actor {
         shipSpeed = 400;
     }
 
-    public PlayerShip(float x, float y, Image shipImage) throws SlickException {
+    public PlayerShip(double x, double y, Image shipImage) throws SlickException {
         setDefaults();
 
         shipLocationX = x;
         shipLocationY = y;
-        fireSpeed = 0f;
-        shotsPerSecond = 3f;
-        shipHealth = 100f;
+        fireSpeed = 0d;
+        shotsPerSecond = 3d;
+        shipHealth = 100d;
        
         playerShipIcon = shipImage;
     }
@@ -46,19 +46,19 @@ public class PlayerShip implements Actor {
                 (int) (shipLocationY - playerShipIcon.getHeight() / 2));
     }
 
-    private void moveUp(float delta) {
+    private void moveUp(double delta) {
         shipLocationY -= shipSpeed * delta;
     }
 
-    private void moveDown(float delta) {
+    private void moveDown(double delta) {
         shipLocationY += shipSpeed * delta;
     }
 
-    private void moveLeft(float delta) {
+    private void moveLeft(double delta) {
         shipLocationX -= shipSpeed * delta;
     }
 
-    private void moveRight(float delta) {
+    private void moveRight(double delta) {
         shipLocationX += shipSpeed * delta;
 
     }
@@ -67,7 +67,7 @@ public class PlayerShip implements Actor {
         Laser aLaser = new Laser(shipLocationX, shipLocationY, gs.getImage("laser"));
         gs.queueNewActor(aLaser);
         gs.playSound("laser");
-        shipHealth -= 1f;
+        shipHealth -= 1d;
     }
 
     public void setKeys(int KEY_UP, int KEY_DOWN, int KEY_LEFT, int KEY_RIGHT, int KEY_SHOOT) {
@@ -81,7 +81,7 @@ public class PlayerShip implements Actor {
     
     @Override
     public void update(GameState gs) {
-        float delta = gs.getDelta();
+        double delta = gs.getDelta();
         Input input = gs.getInput();
     
         
@@ -114,5 +114,5 @@ public class PlayerShip implements Actor {
         }
     }
     
-    public float getHealth() { return shipHealth; }
+    public double getHealth() { return shipHealth; }
 }

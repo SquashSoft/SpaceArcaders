@@ -4,12 +4,8 @@
  */
 package net.awhipple.spacearcaders.gameobjects;
 
-import net.awhipple.spacearcaders.ai.AI;
-import net.awhipple.spacearcaders.ai.actions.AIFire;
-import net.awhipple.spacearcaders.ai.actions.AIMoveDistance;
-import net.awhipple.spacearcaders.ai.actions.AIMoveRandom;
-import net.awhipple.spacearcaders.ai.actions.AIWait;
-import net.awhipple.spacearcaders.ai.actions.AIMoveTo;
+import net.awhipple.spacearcaders.ai.*;
+import net.awhipple.spacearcaders.ai.actions.*;
 import net.awhipple.spacearcaders.utils.GameState;
 import net.awhipple.spacearcaders.utils.HitBox;
 import org.newdawn.slick.Image;
@@ -21,12 +17,12 @@ import org.newdawn.slick.Image;
 public class Enemy implements Actor {
 
     private Image image;
-    private float x, y;
+    private double x, y;
     private HitBox enemiesHitBox;
         
     private AI ai;
     
-    public Enemy(float x, float y, Image image) {
+    public Enemy(double x, double y, Image image) {
         this.x = x;
         this.y = y;
         
@@ -51,7 +47,7 @@ public class Enemy implements Actor {
     
     @Override
     public void draw() {
-        image.draw(x-image.getWidth()/2, y-image.getHeight()/2);
+        image.draw((int)(x-image.getWidth()/2), (int)(y-image.getHeight()/2));
     }
 
     @Override
@@ -63,10 +59,10 @@ public class Enemy implements Actor {
         gs.queueNewActor(new Laser(x, y, gs.getImage("laser")));
     }
     
-    public float getX() { return x; }
-    public float getY() { return y; }
+    public double getX() { return x; }
+    public double getY() { return y; }
 
-    public void setPosition(float x, float y) {
+    public void setPosition(double x, double y) {
         this.x = x;
         this.y = y;
     }

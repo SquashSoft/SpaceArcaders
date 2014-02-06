@@ -14,16 +14,16 @@ import net.awhipple.spacearcaders.utils.GameState;
  */
 public class AIWait implements AIAction{
 
-    private float timeLeft, timerLength;
+    private double timeLeft, timerLength;
     
-    public AIWait(float timeLeft) {
+    public AIWait(double timeLeft) {
         this.timeLeft = timeLeft;
         this.timerLength = timeLeft;
     }
     
     @Override
     public CompletionStatus execute(Enemy enemy, GameState gs) {
-        float delta = gs.getDelta();
+        double delta = gs.getDelta();
         timeLeft-=delta;
         if(timeLeft <= 0) return CompletionStatus.COMPLETE;
         else return CompletionStatus.NOT_COMPLETE;
