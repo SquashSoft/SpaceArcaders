@@ -32,10 +32,14 @@ public class Enemy implements Actor {
         
         ai = new AI();
         
-        //ai.addAIAction(new AIMoveRandom(300));
-       
-        //ai.addAILoopAction(new AIMoveRandom(300));
-        int speed = 300;
+        ai.addAIAction(new AIMoveRandom(300), 0);
+        
+        ai.addAILoopAction(new AIMoveRandom(300), 0);
+                
+        //ai.addAILoopAction(new AIWait(.5), 1);
+        //ai.addAILoopAction(new AIFire(), 1);
+
+        /*int speed = 300;
         
         ai.addAIAction(new AIMoveDistance(0,400,speed));
         
@@ -43,6 +47,7 @@ public class Enemy implements Actor {
         ai.addAILoopAction(new AIMoveDistance(300,    0, speed));
         ai.addAILoopAction(new AIMoveDistance(0,   -300, speed));
         ai.addAILoopAction(new AIMoveDistance(-300,   0, speed));
+        */
     }
     
     @Override
@@ -66,5 +71,21 @@ public class Enemy implements Actor {
         this.x = x;
         this.y = y;
     }
+    
     public HitBox getHitBox(){ return enemiesHitBox; }
+    
+    public void setAI(AI ai) { this.ai = ai; }
+    
+    //Work in progress
+    public static Enemy createEnemy() {
+        Enemy en = new Enemy(0, 0, null);
+        AI ai = new AI();
+        try {
+            ai.addAILoopAction((AIAction)Class.forName("net.awhipple.spacearcaders.ai.actions.AIMoveRandom").getConstructor(double.class).newInstance(new Object[] {300d}), 0);
+        } catch(Exception ex) {
+            System.out.println("Warning: Failed to add ai action to enemy - " + ex.getMessage());
+        }
+        en.setAI(ai);
+        return en;
+    }
 }

@@ -20,10 +20,8 @@ public class AI {
     
     public AI() {
         firstActions = new LinkedList<>();
-        firstActions.add(new AIList());
         
         loopActions = new LinkedList<>();
-        loopActions.add((new AIList().setLoop(true)));
         
         firstActionsRemovalQueue = new LinkedList<>();
     }
@@ -47,10 +45,29 @@ public class AI {
     }
     
     public void addAIAction(AIAction aiAction) {
-        firstActions.get(0).addAction(aiAction);
+        addActionToList(aiAction, firstActions, 0, false);
+    }
+
+    public void addAIAction(AIAction aiAction, int aiList) {
+        addActionToList(aiAction, firstActions, aiList, false);        
     }
     
     public void addAILoopAction(AIAction aiAction) {
-        loopActions.get(0).addAction(aiAction);
+        addActionToList(aiAction, loopActions, 0, true);
+    }
+
+    public void addAILoopAction(AIAction aiAction, int aiList) {
+        addActionToList(aiAction, loopActions, aiList, true);
+    }
+    
+    private void addActionToList(AIAction aiAction, List<AIList> list, int listNumber, boolean loop) {
+        if(list.size() > listNumber) {
+            list.get(listNumber).addAction(aiAction);
+        } else if(list.size() == listNumber) {
+            list.add(new AIList().setLoop(loop));
+            list.get(listNumber).addAction(aiAction);
+        } else {
+            System.out.println("WARNING: An AI Action was not added to the list because it was beyond the bounds of the array");
+        }
     }
 }

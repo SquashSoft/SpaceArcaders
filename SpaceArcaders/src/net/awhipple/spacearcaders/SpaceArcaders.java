@@ -28,8 +28,6 @@ public class SpaceArcaders extends BasicGame {
     
     private boolean gameIsPaused = false;
 
-    private int p = 60;
-    
     @Override
     public void init(GameContainer gc) throws SlickException {
         
@@ -49,11 +47,6 @@ public class SpaceArcaders extends BasicGame {
         player2.setKeys(Input.KEY_UP, Input.KEY_DOWN, Input.KEY_LEFT, Input.KEY_RIGHT, Input.KEY_RCONTROL);
         gs.queueNewActor(player2);
         
-        for(int i = 2; i < 4; i++) {
-            Enemy enemy = new Enemy(i*200+200, -300, gs.getImage("imp"));
-            gs.queueNewActor(enemy);
-        }
-
         gs.queueNewActor(new UIPlayerHealthBar(player1, 100, SCREEN_H-20));
         gs.queueNewActor(new UIPlayerHealthBar(player2, SCREEN_W-200, SCREEN_H-20));
         
@@ -75,15 +68,18 @@ public class SpaceArcaders extends BasicGame {
             gameIsPaused = false;
         }
         
+        if(gs.getEnemyList().isEmpty()) {
+            for(int i = 2; i < 4; i++) {
+                Enemy enemy = new Enemy(i*200+200, -300, gs.getImage("imp"));
+                gs.queueNewActor(enemy);
+            }
+        }
+        
         Input input = gc.getInput();
         gs.setInput(input);
         
-        //if(!DEBUG) gs.setDeltaFromFps(gc.getFPS());
-        //else gs.setDeltaFromFps(TARGET_FPS);
-        //System.out.println(gc.getFPS());
-        
-        //if(p == 60) p = 61; else p = 60;
-        gs.setDeltaFromFps(61);
+        if(!DEBUG) gs.setDeltaFromFps(gc.getFPS());
+        else gs.setDeltaFromFps(TARGET_FPS);
         
         gs.updateActors();
         
