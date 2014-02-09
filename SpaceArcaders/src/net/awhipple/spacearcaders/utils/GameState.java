@@ -135,16 +135,17 @@ public class GameState {
     }
      
     private void loadResources() throws Exception {
-        imageLibrary.loadImage("ship",  "data/images/proto-ship.PNG");
-        imageLibrary.loadImage("laser", "data/images/proto-laser.PNG");
+        imageLibrary.loadImage("ship",          "data/images/proto-ship.PNG");
+        imageLibrary.loadImage("laser",         "data/images/proto-laser.PNG");
         
-        imageLibrary.loadImage("imp",   "data/images/imp.png");
+        imageLibrary.loadImage("imp",           "data/images/imp.png");
         
-        imageLibrary.loadImage("pause", "data/images/pause.PNG");
+        imageLibrary.loadImage("pause",         "data/images/pause.PNG");
+        imageLibrary.loadImage("particle",      "data/images/particle.png");
         
-        soundLibrary.loadSound("laser", "data/sounds/laser.wav");
-        soundLibrary.loadSound("explode", "data/sounds/explode.wav");
-        soundLibrary.loadSound("explodemini", "data/sounds/explodemini.wav");
+        soundLibrary.loadSound("laser",         "data/sounds/laser.wav");
+        soundLibrary.loadSound("explode",       "data/sounds/explode.wav");
+        soundLibrary.loadSound("explodemini",   "data/sounds/explodemini.wav");
     }
 
 }

@@ -27,4 +27,9 @@ public class GameMath {
         else if (p1 > p2) return 1;
         else return 0;
     }
+    
+    //returns the velocity it would take to go from v1 to v2 in t seconds
+    public static double transitionSpeed(double v1, double v2, double t) {
+        return (v2-v1)/t;
+    }
 }

@@ -1,6 +1,7 @@
 package net.awhipple.spacearcaders;
 
 import net.awhipple.spacearcaders.gameobjects.Enemy;
+import net.awhipple.spacearcaders.gameobjects.Particle;
 import net.awhipple.spacearcaders.utils.GameState;
 import net.awhipple.spacearcaders.gameobjects.PlayerShip;
 import net.awhipple.spacearcaders.ui.UIPlayerHealthBar;
@@ -27,7 +28,7 @@ public class SpaceArcaders extends BasicGame {
     private GameState gs;
     
     private boolean gameIsPaused = false;
-
+    
     @Override
     public void init(GameContainer gc) throws SlickException {
         
@@ -69,8 +70,8 @@ public class SpaceArcaders extends BasicGame {
         }
         
         if(gs.getEnemyList().isEmpty()) {
-            for(int i = 2; i < 4; i++) {
-                Enemy enemy = new Enemy(i*200+200, -300, gs.getImage("imp"));
+            for(int i = 0; i < 5; i++) {
+                Enemy enemy = new Enemy(i*200, -300, gs.getImage("imp"));
                 gs.queueNewActor(enemy);
             }
         }

@@ -43,15 +43,17 @@ public class Laser implements Actor {
                 || laserLocationX>gs.getScreenWidth()+100
                 || laserLocationX<-100) 
                 gs.queueRemoveActor(this);
-   boolean tester = false;
+        boolean laserCollided = false;
         for(Enemy en : gs.getEnemyList()){
             if(lasersHitBox.collisionCheck(laserLocationX, laserLocationY, en.getX(), en.getY(), en.getHitBox())){
-                gs.queueRemoveActor(en);
+                Particle.createExplosion(gs, laserLocationX, laserLocationY, 30, 100);
+                //gs.queueRemoveActor(en);
                 gs.playSound("explode");
-                tester = true;
+                laserCollided = true;
+                break;
             }
         }
-        if(tester)
+        if(laserCollided)
             gs.queueRemoveActor(this);
     }
 }
