@@ -10,6 +10,8 @@ import java.util.LinkedList;
 import java.util.List;
 import net.awhipple.spacearcaders.gameobjects.Enemy;
 import net.awhipple.spacearcaders.ui.UIImage;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
@@ -31,6 +33,8 @@ public class GameState {
     private ImageLibrary imageLibrary;
     private SoundLibrary soundLibrary;
     
+    private Image pixel;
+    
     private UIImage pauseObject;
     
     public GameState(int SCREEN_W, int SCREEN_H, int TARGET_FPS) throws Exception {
@@ -51,6 +55,12 @@ public class GameState {
         pauseObject = null;
         
         loadResources();
+        
+        pixel = new Image(1, 1);
+        Graphics gfx = pixel.getGraphics();
+        gfx.setColor(Color.white);
+        gfx.drawRect(0, 0, 1, 1);
+        gfx.flush();
         
         createStarMap();
         
@@ -117,6 +127,8 @@ public class GameState {
     public Image getImage(String key) { return imageLibrary.getImage(key); }
     
     public double getDelta() { return delta; }
+    
+    public Image getPixel() { return pixel; }
     
     public int getScreenWidth() { return SCREEN_W; }
     public int getScreenHeight() { return SCREEN_H; }

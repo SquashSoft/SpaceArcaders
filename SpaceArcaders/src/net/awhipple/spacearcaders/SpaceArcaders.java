@@ -1,7 +1,7 @@
 package net.awhipple.spacearcaders;
 
 import net.awhipple.spacearcaders.gameobjects.Enemy;
-import net.awhipple.spacearcaders.gameobjects.Particle;
+import net.awhipple.spacearcaders.graphics.Particle;
 import net.awhipple.spacearcaders.utils.GameState;
 import net.awhipple.spacearcaders.gameobjects.PlayerShip;
 import net.awhipple.spacearcaders.ui.UIPlayerHealthBar;

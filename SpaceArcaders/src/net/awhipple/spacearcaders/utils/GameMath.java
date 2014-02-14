@@ -32,4 +32,10 @@ public class GameMath {
     public static double transitionSpeed(double v1, double v2, double t) {
         return (v2-v1)/t;
     }
+    
+    //This function returns x1 when ration = 0 and x2 when ration = 1 and 
+    //and ranges in a linear fashion between those two values
+    public static double transitionPercent(double x1, double x2, double ratio) {
+        return x1+(x2-x1)*ratio;
+    }
 }

@@ -4,6 +4,8 @@
  */
 package net.awhipple.spacearcaders.gameobjects;
 
+import net.awhipple.spacearcaders.graphics.Particle;
+import net.awhipple.spacearcaders.graphics.Spark;
 import net.awhipple.spacearcaders.utils.GameState;
 import net.awhipple.spacearcaders.utils.HitBox;
 import org.newdawn.slick.Image;
@@ -47,6 +49,7 @@ public class Laser implements Actor {
         for(Enemy en : gs.getEnemyList()){
             if(lasersHitBox.collisionCheck(laserLocationX, laserLocationY, en.getX(), en.getY(), en.getHitBox())){
                 Particle.createExplosion(gs, laserLocationX, laserLocationY, 30, 100);
+                Spark.createPixelShower(gs, laserLocationX, laserLocationY, 7);
                 //gs.queueRemoveActor(en);
                 gs.playSound("explode");
                 laserCollided = true;

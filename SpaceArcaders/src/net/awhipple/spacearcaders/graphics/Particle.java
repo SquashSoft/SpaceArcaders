@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.awhipple.spacearcaders.gameobjects;
+package net.awhipple.spacearcaders.graphics;
 
+import net.awhipple.spacearcaders.gameobjects.Actor;
 import net.awhipple.spacearcaders.utils.GameMath;
 import net.awhipple.spacearcaders.utils.GameState;
 import org.newdawn.slick.Color;
