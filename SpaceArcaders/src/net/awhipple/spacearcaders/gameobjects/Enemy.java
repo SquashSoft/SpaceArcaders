@@ -8,6 +8,7 @@ import net.awhipple.spacearcaders.ai.*;
 import net.awhipple.spacearcaders.ai.actions.*;
 import net.awhipple.spacearcaders.utils.GameState;
 import net.awhipple.spacearcaders.utils.HitBox;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 
 /**
@@ -21,6 +22,9 @@ public class Enemy implements Actor {
     private HitBox enemiesHitBox;
         
     private AI ai;
+    
+    private double flashTime;
+    private boolean flash;
     
     public Enemy(double x, double y, Image image) {
         this.x = x;
@@ -48,16 +52,25 @@ public class Enemy implements Actor {
         ai.addAILoopAction(new AIMoveDistance(0,   -300, speed));
         ai.addAILoopAction(new AIMoveDistance(-300,   0, speed));
         */
+        
+        flashTime = 0;
+        flash = false;
     }
     
     @Override
     public void draw() {
-        image.draw((int)(x-image.getWidth()/2), (int)(y-image.getHeight()/2));
+        if(flash) image.drawFlash((int)(x-image.getWidth()/2), (int)(y-image.getHeight()/2), image.getWidth(), image.getHeight(), new Color(155, 155, 155));
+        else image.draw((int)(x-image.getWidth()/2), (int)(y-image.getHeight()/2));
     }
 
     @Override
     public void update(GameState gs) {
         ai.execute(this, gs);
+        
+        if(flash) {
+            flashTime -= gs.getDelta();
+            if(flashTime <= 0) flash = false;
+        }
     }
     
     public void fire(GameState gs) {
@@ -87,5 +100,10 @@ public class Enemy implements Actor {
         }
         en.setAI(ai);
         return en;
+    }
+
+    public void flash() {
+        flashTime = .02;
+        flash = true;
     }
 }

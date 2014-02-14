@@ -70,12 +70,12 @@ public class Spark implements Actor{
     
     @Override
     public void draw() {
-        double i = 0;
+        double i = pixelList.size()-1;
         for(SparkPixel pix : pixelList) {
             int gradientNum = pixelList.size() != 1 ? 
                     (int)((i/(pixelList.size()-1))*(gradient.size()-1)) : 0;
             pixel.draw(pix.x, pix.y, gradient.get(gradientNum));
-            i++;
+            i--;
         }
     }
 
@@ -96,16 +96,16 @@ public class Spark implements Actor{
     private static void populateGradient() {
         gradient = new ArrayList();
         for(double i = 0; i <= 1; i+=.01) {
-            gradient.add(new Color((int)GameMath.transitionPercent(255, 244, i),
-                                   (int)GameMath.transitionPercent(255, 250, i),
+            gradient.add(new Color((int)GameMath.transitionPercent(183, 244, i),
+                                   (int)GameMath.transitionPercent(183, 250, i),
                                    (int)GameMath.transitionPercent(255, 88, i),
-                                   255));
+                                   (int)GameMath.transitionPercent(200, 175, i)));
         }
         for(double i = 0; i <= 1; i+=.01) {
             gradient.add(new Color((int)GameMath.transitionPercent(244, 255, i),
                                    (int)GameMath.transitionPercent(250, 0, i),
                                    (int)GameMath.transitionPercent(88, 0, i),
-                                   (int)GameMath.transitionPercent(255, 0, i)));
+                                   (int)GameMath.transitionPercent(175, 128, i)));
         }
     }
 }
