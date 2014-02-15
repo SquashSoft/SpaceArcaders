@@ -50,7 +50,7 @@ public class Laser implements Actor {
             if(lasersHitBox.collisionCheck(laserLocationX, laserLocationY, en.getX(), en.getY(), en.getHitBox())){
                 Particle.createExplosion(gs, laserLocationX, laserLocationY, 30, 100);
                 Spark.createPixelShower(gs, laserLocationX, laserLocationY, 7);
-                en.flash();
+                en.hitDmg(25);
                 //gs.queueRemoveActor(en);
                 gs.playSound("explode");
                 laserCollided = true;

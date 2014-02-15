@@ -6,6 +6,8 @@ package net.awhipple.spacearcaders.gameobjects;
 
 import net.awhipple.spacearcaders.ai.*;
 import net.awhipple.spacearcaders.ai.actions.*;
+import net.awhipple.spacearcaders.graphics.Particle;
+import net.awhipple.spacearcaders.graphics.Spark;
 import net.awhipple.spacearcaders.utils.GameState;
 import net.awhipple.spacearcaders.utils.HitBox;
 import org.newdawn.slick.Color;
@@ -20,7 +22,8 @@ public class Enemy implements Actor {
     private Image image;
     private double x, y;
     private HitBox enemiesHitBox;
-        
+    private double enemyHealth;
+    private boolean deadEnemy;
     private AI ai;
     
     private double flashTime;
@@ -34,6 +37,8 @@ public class Enemy implements Actor {
         
         this.enemiesHitBox = new HitBox((image.getWidth()/2-5));
         
+        enemyHealth = 100d;
+        deadEnemy = false;
         ai = new AI();
         
         ai.addAIAction(new AIMoveRandom(300), 0);
@@ -71,6 +76,12 @@ public class Enemy implements Actor {
             flashTime -= gs.getDelta();
             if(flashTime <= 0) flash = false;
         }
+        if(deadEnemy)
+        {
+            //Particle.createExplosion(gs, x, y, 100, 350);
+            Spark.createPixelShower(gs, x, y, 100);
+            gs.queueRemoveActor(this);
+        }
     }
     
     public void fire(GameState gs) {
@@ -105,5 +116,12 @@ public class Enemy implements Actor {
     public void flash() {
         flashTime = .02;
         flash = true;
+    }
+
+    public void hitDmg(int i) {
+        enemyHealth = enemyHealth - i;
+        flash();
+        if (enemyHealth <= 0)
+            deadEnemy = true;
     }
 }
