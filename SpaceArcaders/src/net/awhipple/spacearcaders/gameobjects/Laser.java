@@ -51,7 +51,6 @@ public class Laser implements Actor {
                 Particle.createExplosion(gs, laserLocationX, laserLocationY, 30, 100);
                 Spark.createPixelShower(gs, laserLocationX, laserLocationY, 7);
                 en.hitDmg(25);
-                //gs.queueRemoveActor(en);
                 gs.playSound("explode");
                 laserCollided = true;
                 break;

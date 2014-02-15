@@ -6,7 +6,6 @@ package net.awhipple.spacearcaders.gameobjects;
 
 import net.awhipple.spacearcaders.ai.*;
 import net.awhipple.spacearcaders.ai.actions.*;
-import net.awhipple.spacearcaders.graphics.Particle;
 import net.awhipple.spacearcaders.graphics.Spark;
 import net.awhipple.spacearcaders.utils.GameState;
 import net.awhipple.spacearcaders.utils.HitBox;
@@ -21,6 +20,7 @@ public class Enemy implements Actor {
 
     private Image image;
     private double x, y;
+    private double size;
     private HitBox enemiesHitBox;
     private double enemyHealth;
     private boolean deadEnemy;
@@ -29,9 +29,16 @@ public class Enemy implements Actor {
     private double flashTime;
     private boolean flash;
     
+    public Enemy(double x, double y, double size, Image image) {
+        this(x, y, image);
+        this.size = size;
+        this.enemiesHitBox = new HitBox((int)((image.getWidth()/2-5)*size));
+    }
+    
     public Enemy(double x, double y, Image image) {
         this.x = x;
         this.y = y;
+        this.size = 1;
         
         this.image = image;
         
@@ -64,8 +71,10 @@ public class Enemy implements Actor {
     
     @Override
     public void draw() {
-        if(flash) image.drawFlash((int)(x-image.getWidth()/2), (int)(y-image.getHeight()/2), image.getWidth(), image.getHeight(), new Color(155, 155, 155));
-        else image.draw((int)(x-image.getWidth()/2), (int)(y-image.getHeight()/2));
+        int width = (int)(image.getWidth()*size);
+        int height = (int)(image.getHeight()*size);
+        if(flash) image.drawFlash((int)(x-width/2), (int)(y-height/2), width, height, new Color(155, 155, 155));
+        else image.draw((int)(x-width/2), (int)(y-height/2), width, height);
     }
 
     @Override
@@ -78,9 +87,13 @@ public class Enemy implements Actor {
         }
         if(deadEnemy)
         {
-            //Particle.createExplosion(gs, x, y, 100, 350);
             Spark.createPixelShower(gs, x, y, 100);
             gs.queueRemoveActor(this);
+            if(getSize() > .6) {
+                for(int i = 0; i < 2; i++) {
+                    gs.queueNewActor(new Enemy((int)(x), y, getSize()*.75, gs.getImage("imp")));
+                }
+            }
         }
     }
     
@@ -99,6 +112,8 @@ public class Enemy implements Actor {
     public HitBox getHitBox(){ return enemiesHitBox; }
     
     public void setAI(AI ai) { this.ai = ai; }
+    
+    public double getSize() { return size; }
     
     //Work in progress
     public static Enemy createEnemy() {

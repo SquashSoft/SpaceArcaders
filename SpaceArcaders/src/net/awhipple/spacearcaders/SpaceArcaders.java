@@ -29,6 +29,8 @@ public class SpaceArcaders extends BasicGame {
     
     private boolean gameIsPaused = false;
     
+    private int numEnemies = 0;
+    
     @Override
     public void init(GameContainer gc) throws SlickException {
         
@@ -70,8 +72,10 @@ public class SpaceArcaders extends BasicGame {
         }
         
         if(gs.getEnemyList().isEmpty()) {
-            for(int i = 0; i < 5; i++) {
-                Enemy enemy = new Enemy(i*200, -300, gs.getImage("imp"));
+            if(numEnemies == 0) numEnemies = 1;
+            else numEnemies *= 2;
+            for(int i = 0; i < numEnemies; i++) {
+                Enemy enemy = new Enemy((int)(Math.random()*SCREEN_W), -300, gs.getImage("imp"));
                 gs.queueNewActor(enemy);
             }
         }
