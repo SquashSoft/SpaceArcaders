@@ -1,1 +1,1 @@
-java -jar -Djava.library.path=C:\Users\Aaron\Documents\GitHub\SpaceArcaders\SpaceArcaders\natives-win SpaceArcaders.jar
+java -jar -Djava.library.path=natives-win SpaceArcaders.jar
