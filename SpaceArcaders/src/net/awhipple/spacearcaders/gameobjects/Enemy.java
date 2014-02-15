@@ -33,6 +33,7 @@ public class Enemy implements Actor {
         this(x, y, image);
         this.size = size;
         this.enemiesHitBox = new HitBox((int)((image.getWidth()/2-5)*size));
+        this.enemyHealth = enemyHealth * size*size;
     }
     
     public Enemy(double x, double y, Image image) {
@@ -91,7 +92,10 @@ public class Enemy implements Actor {
             gs.queueRemoveActor(this);
             if(getSize() > .6) {
                 for(int i = 0; i < 2; i++) {
-                    gs.queueNewActor(new Enemy((int)(x), y, getSize()*.75, gs.getImage("imp")));
+                    Image impImage = image == gs.getImage("imp-red") ? gs.getImage("imp-green") :
+                                     image == gs.getImage("imp-green") ? gs.getImage("imp-blue") :
+                                     gs.getImage("imp-red");
+                    gs.queueNewActor(new Enemy((int)(x), y, getSize()*.75, impImage));
                 }
             }
         }

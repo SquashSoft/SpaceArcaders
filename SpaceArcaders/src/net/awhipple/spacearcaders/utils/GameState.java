@@ -150,7 +150,9 @@ public class GameState {
         imageLibrary.loadImage("ship",          "data/images/proto-ship.PNG");
         imageLibrary.loadImage("laser",         "data/images/proto-laser.PNG");
         
-        imageLibrary.loadImage("imp",           "data/images/imp.png");
+        imageLibrary.loadImage("imp-red",           "data/images/imp-red.png");
+        imageLibrary.loadImage("imp-green",           "data/images/imp-green.png");
+        imageLibrary.loadImage("imp-blue",           "data/images/imp-blue.png");
         
         imageLibrary.loadImage("pause",         "data/images/pause.PNG");
         imageLibrary.loadImage("particle",      "data/images/particle.png");

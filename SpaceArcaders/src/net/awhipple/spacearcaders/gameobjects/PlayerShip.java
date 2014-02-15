@@ -1,5 +1,6 @@
 package net.awhipple.spacearcaders.gameobjects;
 
+import net.awhipple.spacearcaders.graphics.Particle;
 import net.awhipple.spacearcaders.utils.GameState;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
@@ -13,6 +14,7 @@ public class PlayerShip implements Actor {
 
     private double shipLocationX, shipLocationY;
     private Image playerShipIcon;
+    private double jetParticleTimer;
     private double shipSpeed;
     private double shipHealth;
     private double shotsPerSecond;
@@ -23,6 +25,7 @@ public class PlayerShip implements Actor {
     private int moveKeyLeft;
     private int moveKeyRight;
     private int laserShootKey;
+    private boolean altFire;
     
     private void setDefaults() {
         shipSpeed = 400;
@@ -30,11 +33,14 @@ public class PlayerShip implements Actor {
 
     public PlayerShip(double x, double y, Image shipImage) throws SlickException {
         setDefaults();
+        
+        jetParticleTimer = .03;
 
         shipLocationX = x;
         shipLocationY = y;
         fireSpeed = 0d;
         shotsPerSecond = 3d;
+        altFire = false;
         shipHealth = 100d;
        
         playerShipIcon = shipImage;
@@ -64,8 +70,9 @@ public class PlayerShip implements Actor {
     }
     
     private void shootLaser(GameState gs) {
-        Laser aLaser = new Laser(shipLocationX, shipLocationY, gs.getImage("laser"));
-        gs.queueNewActor(aLaser);
+        if(!altFire) gs.queueNewActor(new Laser(shipLocationX-20, shipLocationY-50, gs.getImage("laser")));
+        else         gs.queueNewActor(new Laser(shipLocationX+20, shipLocationY-50, gs.getImage("laser")));
+        altFire = !altFire;
         gs.playSound("laser");
         shipHealth -= 1d;
     }
@@ -97,18 +104,29 @@ public class PlayerShip implements Actor {
             fireSpeed -= delta;
         }
         
+        jetParticleTimer -= delta;
+        if(jetParticleTimer <= 0) {
+            jetParticleTimer += .03;
+            gs.queueNewActor(new Particle(shipLocationX-38, shipLocationY+55, 30, 30, 255, 128, 0, 128,
+                                          shipLocationX-38, shipLocationY+75,  5,  5, 255,   0, 0, 75,
+                                          .5,gs.getImage("particle")));
+            gs.queueNewActor(new Particle(shipLocationX+38, shipLocationY+55, 30, 30, 255, 128, 0, 128,
+                                          shipLocationX+38, shipLocationY+75,  5,  5, 255,   0, 0, 75,
+                                          .5,gs.getImage("particle")));
+        }
+        
         if (input.isKeyDown(moveKeyUp)) {
             moveUp(delta);
         }
-
+        
         if (input.isKeyDown(moveKeyDown)) {
             moveDown(delta);
         }
-
+        
         if (input.isKeyDown(moveKeyLeft)) {
             moveLeft(delta);
         }
-
+        
         if (input.isKeyDown(moveKeyRight)) {
             moveRight(delta);
         }

@@ -43,7 +43,7 @@ public class SpaceArcaders extends BasicGame {
         }
 
         PlayerShip player1 = new PlayerShip(SCREEN_W/4,3*SCREEN_H/4, gs.getImage("ship") );
-        player1.setKeys(Input.KEY_W, Input.KEY_S, Input.KEY_A, Input.KEY_D, Input.KEY_J);
+        player1.setKeys(Input.KEY_W, Input.KEY_S, Input.KEY_A, Input.KEY_D, Input.KEY_G);
         gs.queueNewActor(player1);
         
         PlayerShip player2 = new PlayerShip(3*SCREEN_W/4,3*SCREEN_H/4, gs.getImage("ship") );
@@ -75,7 +75,7 @@ public class SpaceArcaders extends BasicGame {
             if(numEnemies == 0) numEnemies = 1;
             else numEnemies *= 2;
             for(int i = 0; i < numEnemies; i++) {
-                Enemy enemy = new Enemy((int)(Math.random()*SCREEN_W), -300, gs.getImage("imp"));
+                Enemy enemy = new Enemy((int)(Math.random()*SCREEN_W), -300, gs.getImage("imp-red"));
                 gs.queueNewActor(enemy);
             }
         }
