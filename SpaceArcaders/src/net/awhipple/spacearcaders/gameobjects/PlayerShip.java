@@ -1,7 +1,9 @@
 package net.awhipple.spacearcaders.gameobjects;
 
 import net.awhipple.spacearcaders.graphics.Particle;
+import net.awhipple.spacearcaders.graphics.Spark;
 import net.awhipple.spacearcaders.utils.GameState;
+import net.awhipple.spacearcaders.utils.HitBox;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
@@ -14,6 +16,7 @@ public class PlayerShip implements Actor {
 
     private double shipLocationX, shipLocationY;
     private Image playerShipIcon;
+    private HitBox hitBox;
     private double jetParticleTimer;
     private double shipSpeed;
     private double shipHealth;
@@ -25,7 +28,11 @@ public class PlayerShip implements Actor {
     private int moveKeyLeft;
     private int moveKeyRight;
     private int laserShootKey;
+    
     private boolean altFire;
+    private boolean dead;
+    private double explodeTime;
+    private double nextExplosion;
     
     private void setDefaults() {
         shipSpeed = 400;
@@ -44,6 +51,9 @@ public class PlayerShip implements Actor {
         shipHealth = 100d;
        
         playerShipIcon = shipImage;
+        hitBox = new HitBox(shipImage.getWidth()/4);
+        
+        dead = false;
     }
 
     @Override
@@ -74,7 +84,6 @@ public class PlayerShip implements Actor {
         else         gs.queueNewActor(new Laser(shipLocationX+20, shipLocationY-50, gs.getImage("laser")));
         altFire = !altFire;
         gs.playSound("laser");
-        shipHealth -= 1d;
     }
 
     public void setKeys(int KEY_UP, int KEY_DOWN, int KEY_LEFT, int KEY_RIGHT, int KEY_SHOOT) {
@@ -89,8 +98,25 @@ public class PlayerShip implements Actor {
     @Override
     public void update(GameState gs) {
         double delta = gs.getDelta();
+        
+        if(dead) {
+            explodeTime -= delta;
+            nextExplosion -= delta;
+            if(nextExplosion <= 0) {
+                double xLoc = shipLocationX + Math.random()*playerShipIcon.getWidth()-playerShipIcon.getWidth()/2;
+                double yLoc = shipLocationY + Math.random()*playerShipIcon.getHeight()-playerShipIcon.getHeight()/2;
+                Spark.createPixelShower(gs, xLoc, yLoc, 100);
+                gs.playSound("explode");
+                nextExplosion += 0.1;
+            }
+            if(explodeTime <= 0) {
+                gs.queueRemoveActor(this);
+                Spark.createPixelShower(gs, shipLocationX, shipLocationY, 200);
+            }
+            return;
+        }
+        
         Input input = gs.getInput();
-    
         
         if(!input.isKeyDown(laserShootKey))
             fireSpeed=0;
@@ -132,5 +158,18 @@ public class PlayerShip implements Actor {
         }
     }
     
+    public void dealDamage(double dmg) {
+        shipHealth -= dmg;
+        if(shipHealth <= 0) {
+            dead = true;
+            hitBox = new HitBox(-1);
+            explodeTime = 1;
+            nextExplosion = .1d;
+        }
+    }
+    
     public double getHealth() { return shipHealth; }
+    public HitBox getHitBox() { return hitBox; }
+    public double getX() { return shipLocationX; }
+    public double getY() { return shipLocationY; }
 }

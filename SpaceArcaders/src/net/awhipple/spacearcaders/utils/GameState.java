@@ -9,6 +9,7 @@ import net.awhipple.spacearcaders.gameobjects.StarMap;
 import java.util.LinkedList;
 import java.util.List;
 import net.awhipple.spacearcaders.gameobjects.Enemy;
+import net.awhipple.spacearcaders.gameobjects.PlayerShip;
 import net.awhipple.spacearcaders.ui.UIImage;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -29,6 +30,7 @@ public class GameState {
     private List<Actor> actorsToBeAdded;
     private List<Actor> actorsToBeRemoved;
     private List<Enemy> enemyList;
+    private List<PlayerShip> playerShipList;
     
     private ImageLibrary imageLibrary;
     private SoundLibrary soundLibrary;
@@ -46,6 +48,8 @@ public class GameState {
         
         actorList = new LinkedList<>();
         enemyList = new LinkedList<>();
+        playerShipList = new LinkedList<>();
+        
         actorsToBeAdded = new LinkedList<>();
         actorsToBeRemoved = new LinkedList<>();
         
@@ -94,12 +98,16 @@ public class GameState {
             actorList.add(actor);
             if(actor instanceof Enemy)
                 enemyList.add((Enemy) actor);
+            if(actor instanceof PlayerShip) 
+                playerShipList.add((PlayerShip) actor);
         }
         while(actorsToBeRemoved.size() > 0) {
             Actor actor = actorsToBeRemoved.remove(0);
             actorList.remove(actor);
             if(actor instanceof Enemy)
                 enemyList.remove((Enemy) actor);
+            if(actor instanceof PlayerShip)
+                playerShipList.remove((PlayerShip) actor);
         }
     }
    
@@ -142,9 +150,8 @@ public class GameState {
         queueNewActor(new StarMap(SCREEN_W, SCREEN_H));
     }
     
-    public List<Enemy> getEnemyList() {
-        return enemyList;
-    }
+    public List<Enemy> getEnemyList() { return enemyList; }
+    public List<PlayerShip> getPlayerShipList() { return playerShipList; }
      
     private void loadResources() throws Exception {
         imageLibrary.loadImage("ship",          "data/images/proto-ship.PNG");

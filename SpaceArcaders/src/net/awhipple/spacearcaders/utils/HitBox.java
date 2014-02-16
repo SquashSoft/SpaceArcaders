@@ -5,7 +5,7 @@
 package net.awhipple.spacearcaders.utils;
 
 /**
- *
+ * A hit box with radius of -1 will never collide with any other hit box
  * @author Nate
  */
 public class HitBox {
@@ -19,6 +19,7 @@ public class HitBox {
         return collisionCheck((int)myX,(int) myY,(int) tarX,(int) tarY, tarHitBox);
     }
     public boolean collisionCheck(int myX, int myY, int tarX, int tarY, HitBox tarHitBox){
+        if(radius == -1 || tarHitBox.getRad() == -1) return false;
         int xdif = tarX - myX;
         int ydif = tarY - myY;
         int totalRad = (tarHitBox.getRad()+radius);

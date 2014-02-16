@@ -23,7 +23,6 @@ public class Enemy implements Actor {
     private double size;
     private HitBox enemiesHitBox;
     private double enemyHealth;
-    private boolean deadEnemy;
     private AI ai;
     
     private double flashTime;
@@ -46,7 +45,6 @@ public class Enemy implements Actor {
         this.enemiesHitBox = new HitBox((image.getWidth()/2-5));
         
         enemyHealth = 100d;
-        deadEnemy = false;
         ai = new AI();
         
         ai.addAIAction(new AIMoveRandom(300), 0);
@@ -86,8 +84,15 @@ public class Enemy implements Actor {
             flashTime -= gs.getDelta();
             if(flashTime <= 0) flash = false;
         }
-        if(deadEnemy)
-        {
+        for(PlayerShip player : gs.getPlayerShipList()) {
+            if(enemiesHitBox.collisionCheck(x, y, player.getX(), player.getY(), player.getHitBox())) {
+                player.dealDamage(25);
+                gs.playSound("explode");
+                enemyHealth = 0;
+                size = .01;
+            }
+        }
+        if(enemyHealth <= 0) {
             Spark.createPixelShower(gs, x, y, 100);
             gs.queueRemoveActor(this);
             if(getSize() > .6) {
@@ -140,7 +145,5 @@ public class Enemy implements Actor {
     public void hitDmg(int i) {
         enemyHealth = enemyHealth - i;
         flash();
-        if (enemyHealth <= 0)
-            deadEnemy = true;
     }
 }
