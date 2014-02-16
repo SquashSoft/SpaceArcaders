@@ -88,11 +88,15 @@ public class Spark implements Actor{
     }
     
     public static void createPixelShower(GameState gs, double x, double y, int numSparks) {
-        for(int i = 0; i < numSparks; i++) {
-            gs.queueNewActor(new Spark(x, y, Math.random()*2*Math.PI, Math.random()*700+300, gs.getPixel()));
-        }
+        createPixelShower(gs, x, y, numSparks, 700d);
     }
-    
+    public static void createPixelShower(GameState gs, double x, double y, int numSparks, double sparkSpeed){
+     
+        for(int i = 0; i < numSparks; i++) {
+            gs.queueNewActor(new Spark(x, y, Math.random()*2*Math.PI, Math.random()*sparkSpeed+(sparkSpeed/2), gs.getPixel()));
+        }
+        
+    }
     private static void populateGradient() {
         gradient = new ArrayList();
         for(double i = 0; i <= 1; i+=.01) {

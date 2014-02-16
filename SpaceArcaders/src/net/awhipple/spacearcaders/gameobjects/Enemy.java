@@ -93,7 +93,7 @@ public class Enemy implements Actor {
             }
         }
         if(enemyHealth <= 0) {
-            Spark.createPixelShower(gs, x, y, 100);
+            Spark.createPixelShower(gs, x, y, (int) (size*size), 700*size);
             gs.queueRemoveActor(this);
             if(getSize() > .6) {
                 for(int i = 0; i < 2; i++) {
