@@ -16,7 +16,7 @@ import org.newdawn.slick.Image;
  *
  * @author Aaron
  */
-public class Enemy implements Actor {
+public class Enemy implements Actor, Target {
 
     private Image image;
     private double x, y;
@@ -50,6 +50,9 @@ public class Enemy implements Actor {
         ai.addAIAction(new AIMoveRandom(300), 0);
         
         ai.addAILoopAction(new AIMoveRandom(300), 0);
+        
+        ai.addAILoopAction(new AIFire(), 1);
+        ai.addAILoopAction(new AIWait(2), 1);
                 
         //ai.addAILoopAction(new AIWait(.5), 1);
         //ai.addAILoopAction(new AIFire(), 1);
@@ -66,6 +69,7 @@ public class Enemy implements Actor {
         
         flashTime = 0;
         flash = false;
+        
     }
     
     @Override
@@ -107,10 +111,12 @@ public class Enemy implements Actor {
     }
     
     public void fire(GameState gs) {
-        gs.queueNewActor(new Laser(x, y, gs.getImage("laser")));
+        gs.queueNewActor(new Laser(x, y, -600,  "player", gs.getImage("laser")));
     }
     
+    @Override
     public double getX() { return x; }
+    @Override
     public double getY() { return y; }
 
     public void setPosition(double x, double y) {
@@ -118,6 +124,7 @@ public class Enemy implements Actor {
         this.y = y;
     }
     
+    @Override
     public HitBox getHitBox(){ return enemiesHitBox; }
     
     public void setAI(AI ai) { this.ai = ai; }
@@ -142,8 +149,10 @@ public class Enemy implements Actor {
         flash = true;
     }
 
-    public void hitDmg(int i) {
+    @Override
+    public void dealDamage(double i) {
         enemyHealth = enemyHealth - i;
         flash();
     }
+ 
 }

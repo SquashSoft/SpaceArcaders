@@ -12,7 +12,7 @@ import org.newdawn.slick.SlickException;
  *
  * @author Nate
  */
-public class PlayerShip implements Actor {
+public class PlayerShip implements Actor, Target {
 
     private double shipLocationX, shipLocationY;
     private Image playerShipIcon;
@@ -80,8 +80,9 @@ public class PlayerShip implements Actor {
     }
     
     private void shootLaser(GameState gs) {
-        if(!altFire) gs.queueNewActor(new Laser(shipLocationX-20, shipLocationY-50, gs.getImage("laser")));
-        else         gs.queueNewActor(new Laser(shipLocationX+20, shipLocationY-50, gs.getImage("laser")));
+        double laserSpeed = 800d;
+        if(!altFire) gs.queueNewActor(new Laser(shipLocationX-20, shipLocationY-50, laserSpeed, "enemy", gs.getImage("laser")));
+        else         gs.queueNewActor(new Laser(shipLocationX+20, shipLocationY-50, laserSpeed, "enemy", gs.getImage("laser")));
         altFire = !altFire;
         gs.playSound("laser");
     }
@@ -158,6 +159,7 @@ public class PlayerShip implements Actor {
         }
     }
     
+    @Override
     public void dealDamage(double dmg) {
         shipHealth -= dmg;
         if(shipHealth <= 0) {
@@ -169,7 +171,10 @@ public class PlayerShip implements Actor {
     }
     
     public double getHealth() { return shipHealth; }
+    @Override
     public HitBox getHitBox() { return hitBox; }
+    @Override
     public double getX() { return shipLocationX; }
+    @Override
     public double getY() { return shipLocationY; }
 }

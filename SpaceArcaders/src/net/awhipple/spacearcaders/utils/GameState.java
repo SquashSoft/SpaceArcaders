@@ -4,12 +4,15 @@
  */
 package net.awhipple.spacearcaders.utils;
 
+import java.util.HashMap;
 import net.awhipple.spacearcaders.gameobjects.Actor;
 import net.awhipple.spacearcaders.gameobjects.StarMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import net.awhipple.spacearcaders.gameobjects.Enemy;
 import net.awhipple.spacearcaders.gameobjects.PlayerShip;
+import net.awhipple.spacearcaders.gameobjects.Target;
 import net.awhipple.spacearcaders.ui.UIImage;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -31,7 +34,7 @@ public class GameState {
     private List<Actor> actorsToBeRemoved;
     private List<Enemy> enemyList;
     private List<PlayerShip> playerShipList;
-    
+    private Map<String, List<Target>> targetMap;
     private ImageLibrary imageLibrary;
     private SoundLibrary soundLibrary;
     
@@ -49,6 +52,7 @@ public class GameState {
         actorList = new LinkedList<>();
         enemyList = new LinkedList<>();
         playerShipList = new LinkedList<>();
+        targetMap = new HashMap<>();
         
         actorsToBeAdded = new LinkedList<>();
         actorsToBeRemoved = new LinkedList<>();
@@ -96,21 +100,29 @@ public class GameState {
         while(actorsToBeAdded.size() > 0) {
             Actor actor = actorsToBeAdded.remove(0);
             actorList.add(actor);
-            if(actor instanceof Enemy)
+            if(actor instanceof Enemy){
                 enemyList.add((Enemy) actor);
-            if(actor instanceof PlayerShip) 
+                addToTargetList((Target)actor, "enemy");
+            }
+            if(actor instanceof PlayerShip){ 
                 playerShipList.add((PlayerShip) actor);
+                addToTargetList((Target)actor, "player");
+            }
         }
         while(actorsToBeRemoved.size() > 0) {
             Actor actor = actorsToBeRemoved.remove(0);
             actorList.remove(actor);
-            if(actor instanceof Enemy)
+            if(actor instanceof Enemy) {
+                removeFromTargetMap((Target) actor);
                 enemyList.remove((Enemy) actor);
-            if(actor instanceof PlayerShip)
+            }
+            
+            if(actor instanceof PlayerShip) {
+                removeFromTargetMap((Target) actor);
                 playerShipList.remove((PlayerShip) actor);
+            }
         }
     }
-   
     public void pause(Image pauseImage) {
         if(pauseObject == null) {
             pauseObject = new UIImage(SCREEN_W/2, SCREEN_H/2, pauseImage);
@@ -152,7 +164,30 @@ public class GameState {
     
     public List<Enemy> getEnemyList() { return enemyList; }
     public List<PlayerShip> getPlayerShipList() { return playerShipList; }
-     
+    
+    public List<Target> getTargetList(String targetType) {
+        if(targetMap.containsKey(targetType))
+            return targetMap.get(targetType);
+        else
+            return addTargetList(targetType); 
+    }
+    
+    public void addToTargetList(Target targetToAdd, String targetType) {
+            if(!targetMap.containsKey(targetType))
+                addTargetList(targetType);
+            targetMap.get(targetType).add(targetToAdd);
+    }
+    private void removeFromTargetMap(Target target) {
+         for(String key: targetMap.keySet())
+             targetMap.get(key).remove(target);
+    }
+
+    private List<Target> addTargetList(String targetType) {
+        List<Target> targetList = new LinkedList<>();
+        targetMap.put(targetType, targetList);
+        return targetList;
+    }
+    
     private void loadResources() throws Exception {
         imageLibrary.loadImage("ship",          "data/images/proto-ship.PNG");
         imageLibrary.loadImage("laser",         "data/images/proto-laser.PNG");
@@ -169,4 +204,5 @@ public class GameState {
         soundLibrary.loadSound("explodemini",   "data/sounds/explodemini.wav");
     }
 
+  
 }

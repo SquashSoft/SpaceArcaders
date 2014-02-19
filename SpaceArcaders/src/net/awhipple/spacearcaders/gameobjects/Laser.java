@@ -4,6 +4,7 @@
  */
 package net.awhipple.spacearcaders.gameobjects;
 
+import java.util.List;
 import net.awhipple.spacearcaders.graphics.Particle;
 import net.awhipple.spacearcaders.graphics.Spark;
 import net.awhipple.spacearcaders.utils.GameState;
@@ -20,15 +21,19 @@ public class Laser implements Actor {
     private double laserSpeed;
     private Image laserIcon;
     private HitBox lasersHitBox;
+    private List<Target> targetList;
+    private String targetType;
     
-    public Laser (double locationX, double locationY, Image laserImage){
+    public Laser (double locationX, double locationY, double laserSpeed, String targetType, Image laserImage){
 
        laserLocationX = locationX;
        laserLocationY = locationY;
        
-       laserSpeed = 800d;
+       this.laserSpeed = laserSpeed;
        laserIcon = laserImage;
        lasersHitBox = new HitBox((laserIcon.getWidth()/2-5));
+       targetList = null;
+       this.targetType = targetType;
     }
     @Override
     public void draw() {
@@ -45,12 +50,14 @@ public class Laser implements Actor {
                 || laserLocationX>gs.getScreenWidth()+100
                 || laserLocationX<-100) 
                 gs.queueRemoveActor(this);
+        if(targetList == null)
+            targetList = gs.getTargetList(targetType);
         boolean laserCollided = false;
-        for(Enemy en : gs.getEnemyList()){
-            if(lasersHitBox.collisionCheck(laserLocationX, laserLocationY, en.getX(), en.getY(), en.getHitBox())){
+        for(Target target : targetList){
+            if(lasersHitBox.collisionCheck(laserLocationX, laserLocationY, target.getX(), target.getY(), target.getHitBox())){
                 Particle.createExplosion(gs, laserLocationX, laserLocationY, 30, 100);
                 Spark.createPixelShower(gs, laserLocationX, laserLocationY, 7);
-                en.hitDmg(25);
+                target.dealDamage(25);
                 gs.playSound("explode");
                 laserCollided = true;
                 break;
