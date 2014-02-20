@@ -10,6 +10,7 @@ import net.awhipple.spacearcaders.graphics.Spark;
 import net.awhipple.spacearcaders.utils.GameState;
 import net.awhipple.spacearcaders.utils.HitBox;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 /**
  *
@@ -35,6 +36,12 @@ public class Laser implements Actor {
        targetList = null;
        this.targetType = targetType;
     }
+    
+    @Override
+    public void init(GameState gs) throws SlickException {
+        targetList = gs.getTargetList(targetType);
+    }
+    
     @Override
     public void draw() {
         laserIcon.draw( (int) (laserLocationX-laserIcon.getWidth()/2),
@@ -50,8 +57,6 @@ public class Laser implements Actor {
                 || laserLocationX>gs.getScreenWidth()+100
                 || laserLocationX<-100) 
                 gs.queueRemoveActor(this);
-        if(targetList == null)
-            targetList = gs.getTargetList(targetType);
         boolean laserCollided = false;
         for(Target target : targetList){
             if(lasersHitBox.collisionCheck(laserLocationX, laserLocationY, target.getX(), target.getY(), target.getHitBox())){

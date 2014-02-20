@@ -7,6 +7,7 @@ package net.awhipple.spacearcaders.ui;
 import net.awhipple.spacearcaders.gameobjects.Actor;
 import net.awhipple.spacearcaders.utils.GameState;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 /**
  *
@@ -22,6 +23,9 @@ public class UIImage implements Actor {
         yLocation = y;
         image = uiImage;
     }
+    
+    @Override
+    public void init(GameState gs) throws SlickException {}
     
     @Override
     public void draw() {

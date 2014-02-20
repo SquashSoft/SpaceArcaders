@@ -99,6 +99,12 @@ public class GameState {
     public final void processActorQueues() {
         while(actorsToBeAdded.size() > 0) {
             Actor actor = actorsToBeAdded.remove(0);
+            try {
+                actor.init(this);
+            } catch (SlickException ex) {
+                System.out.println("WARNING! Unable to init actor!!! " + actor);
+                System.out.println(ex.getMessage());
+            }
             actorList.add(actor);
             if(actor instanceof Enemy){
                 enemyList.add((Enemy) actor);
@@ -159,7 +165,7 @@ public class GameState {
     }
 
     private void createStarMap() throws SlickException {
-        queueNewActor(new StarMap(SCREEN_W, SCREEN_H));
+        queueNewActor(new StarMap());
     }
     
     public List<Enemy> getEnemyList() { return enemyList; }

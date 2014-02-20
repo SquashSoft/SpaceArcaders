@@ -38,6 +38,9 @@ public class UIBar implements Actor{
     }
     
     @Override
+    public void init(GameState gs) throws SlickException {}
+    
+    @Override
     public void draw() {
         image.draw(x, y);
     }

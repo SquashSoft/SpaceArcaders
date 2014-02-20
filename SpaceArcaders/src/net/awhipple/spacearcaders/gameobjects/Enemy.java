@@ -11,6 +11,7 @@ import net.awhipple.spacearcaders.utils.GameState;
 import net.awhipple.spacearcaders.utils.HitBox;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 /**
  *
@@ -71,6 +72,9 @@ public class Enemy implements Actor, Target {
         flash = false;
         
     }
+    
+    @Override
+    public void init(GameState gs) throws SlickException {}
     
     @Override
     public void draw() {

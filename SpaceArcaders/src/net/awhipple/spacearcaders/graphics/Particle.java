@@ -9,6 +9,7 @@ import net.awhipple.spacearcaders.utils.GameMath;
 import net.awhipple.spacearcaders.utils.GameState;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 /**
  *
@@ -48,6 +49,9 @@ public class Particle implements Actor {
         
         image = particleImage;
     }
+    
+    @Override
+    public void init(GameState gs) throws SlickException {}
     
     @Override
     public void draw() {

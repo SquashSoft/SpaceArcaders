@@ -12,6 +12,7 @@ import net.awhipple.spacearcaders.utils.GameMath;
 import net.awhipple.spacearcaders.utils.GameState;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 /**
  *
@@ -43,6 +44,9 @@ public class Spark implements Actor{
         this.time = .2;
         this.numPixels = 20;
     }
+    
+    @Override
+    public void init(GameState gs) throws SlickException {}
     
     @Override
     public void update(GameState gs) {

@@ -57,6 +57,9 @@ public class PlayerShip implements Actor, Target {
     }
 
     @Override
+    public void init(GameState gs) throws SlickException {}
+    
+    @Override
     public void draw() {
         playerShipIcon.draw((int) (shipLocationX - playerShipIcon.getWidth() / 2),
                 (int) (shipLocationY - playerShipIcon.getHeight() / 2));

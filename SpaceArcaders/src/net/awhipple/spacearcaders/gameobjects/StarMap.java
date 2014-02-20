@@ -25,23 +25,26 @@ public class StarMap implements Actor{
     private int mapWidth, mapHeight;
     private double scrollSpeed, curDelta;
     
-    public StarMap(int screenWidth, int screenHeight) throws SlickException {
+    public StarMap() {
         scrollSpeed = (1d/20d);
         curDelta = 0;
         
-        mapWidth = screenWidth;
-        mapHeight = screenHeight;
-        
         starLoc = new LinkedList<>();
-        
-        for(int y = 0; y < screenHeight; y++) {
-            starLoc.add(new Integer((int)(Math.random() * mapWidth)));
-        }
         
         backColor = Color.black;
         starColor = Color.white;
+    }
+    
+    @Override
+    public void init(GameState gs) throws SlickException{
+        mapWidth = gs.getScreenWidth();
+        mapHeight = gs.getScreenWidth();
         
-        starMap = new Image(screenWidth, screenHeight);
+        for(int y = 0; y < mapHeight; y++) {
+            starLoc.add(new Integer((int)(Math.random() * mapWidth)));
+        }
+        
+        starMap = new Image(mapWidth, mapHeight);
                 
         starMapGraphics = starMap.getGraphics();
         starMapGraphics.setColor(backColor);
