@@ -29,6 +29,11 @@ public class PlayerShip implements Actor, Target {
     private int moveKeyRight;
     private int laserShootKey;
     
+    private double maxUp;
+    private double maxDown;
+    private double maxLeft;
+    private double maxRight;
+    
     private boolean altFire;
     private boolean dead;
     private double explodeTime;
@@ -57,7 +62,14 @@ public class PlayerShip implements Actor, Target {
     }
 
     @Override
-    public void init(GameState gs) throws SlickException {}
+    public void init(GameState gs) throws SlickException {
+    
+       maxUp = (gs.getScreenHeight()/10);
+       maxDown = (gs.getScreenHeight()-(gs.getScreenHeight()/10));
+       maxLeft = (gs.getScreenWidth()/15);
+       maxRight = (gs.getScreenWidth()-(gs.getScreenWidth()/15));
+        
+    }
     
     @Override
     public void draw() {
@@ -66,18 +78,26 @@ public class PlayerShip implements Actor, Target {
     }
 
     private void moveUp(double delta) {
+        if (shipLocationY < maxUp)
+            return;
         shipLocationY -= shipSpeed * delta;
     }
 
     private void moveDown(double delta) {
+        if (shipLocationY > maxDown)
+            return;
         shipLocationY += shipSpeed * delta;
     }
 
     private void moveLeft(double delta) {
+        if (shipLocationX < maxLeft)
+            return;
         shipLocationX -= shipSpeed * delta;
     }
 
     private void moveRight(double delta) {
+        if (shipLocationX > maxRight)
+            return;
         shipLocationX += shipSpeed * delta;
 
     }
