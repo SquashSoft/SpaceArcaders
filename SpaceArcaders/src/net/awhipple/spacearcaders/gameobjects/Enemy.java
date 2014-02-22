@@ -105,9 +105,9 @@ public class Enemy implements Actor, Target {
             gs.queueRemoveActor(this);
             if(getSize() > .6) {
                 for(int i = 0; i < 2; i++) {
-                    Image impImage = image == gs.getImage("imp-red") ? gs.getImage("imp-green") :
-                                     image == gs.getImage("imp-green") ? gs.getImage("imp-blue") :
-                                     gs.getImage("imp-red");
+                    Image impImage = image == gs.getImage("imp-red", true) ? gs.getImage("imp-green", true) :
+                                     image == gs.getImage("imp-green", true) ? gs.getImage("imp-blue", true) :
+                                     gs.getImage("imp-red", true);
                     gs.queueNewActor(new Enemy((int)(x), y, getSize()*.75, impImage));
                 }
             }
@@ -115,7 +115,7 @@ public class Enemy implements Actor, Target {
     }
     
     public void fire(GameState gs) {
-        gs.queueNewActor(new Laser(x, y, -600,  "player", gs.getImage("laser")));
+        gs.queueNewActor(new Laser(x, y, -600,  "player", gs.getImage("laser", true)));
     }
     
     @Override

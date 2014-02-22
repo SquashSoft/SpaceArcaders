@@ -150,7 +150,11 @@ public class GameState {
     public void setInput(Input input) { this.input = input; }
     public Input getInput() { return input; }
 
-    public Image getImage(String key) { return imageLibrary.getImage(key); }
+    public Image getImage(String key, boolean flipped) { 
+        if(flipped) return imageLibrary.getFlippedImage(key); 
+        else return imageLibrary.getImage(key); 
+    }
+    public Image getImage(String key) { return getImage(key, false); }
     
     public double getDelta() { return delta; }
     

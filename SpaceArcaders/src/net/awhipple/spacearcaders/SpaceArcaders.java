@@ -74,7 +74,7 @@ public class SpaceArcaders extends BasicGame {
             if(numEnemies == 0) numEnemies = 1;
             else numEnemies *= 2;
             for(int i = 0; i < numEnemies; i++) {
-                Enemy enemy = new Enemy((int)(Math.random()*SCREEN_W), -300, gs.getImage("imp-red"));
+                Enemy enemy = new Enemy((int)(Math.random()*SCREEN_W), -300, gs.getImage("imp-red", true));
                 gs.queueNewActor(enemy);
             }
         }
