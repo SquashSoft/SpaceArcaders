@@ -6,7 +6,6 @@ package net.awhipple.spacearcaders.utils;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 
 /**
@@ -14,8 +13,6 @@ import org.newdawn.slick.Image;
  * @author Aaron
  */
 public class ImageLibrary {
-    public static final Color TRANS_COLOR = new Color(255, 0, 255, 255);
-    
     Map<String, ImageCache> imageMap;
     
     public ImageLibrary() {
@@ -26,7 +23,7 @@ public class ImageLibrary {
         
         if(imageMap.containsKey(key)) throw new Exception("ERROR: Tried to load an image and save it under pre existing key: " + key);
         
-        imageMap.put(key, new ImageCache(new Image(fileName, TRANS_COLOR)));
+        imageMap.put(key, new ImageCache(new Image(fileName)));
     }
     
     public Image getImage(String key) { return imageMap.get(key).getBaseImage(); }
