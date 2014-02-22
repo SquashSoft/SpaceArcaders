@@ -28,6 +28,7 @@ public class Enemy implements Actor, Target {
     
     private double flashTime;
     private boolean flash;
+    private boolean spawnChildren;
     
     public Enemy(double x, double y, double size, Image image) {
         this(x, y, image);
@@ -70,7 +71,7 @@ public class Enemy implements Actor, Target {
         
         flashTime = 0;
         flash = false;
-        
+        spawnChildren = true;        
     }
     
     @Override
@@ -97,13 +98,13 @@ public class Enemy implements Actor, Target {
                 player.dealDamage(25);
                 gs.playSound("explode");
                 enemyHealth = 0;
-                size = .01;
+                spawnChildren = false;
             }
         }
         if(enemyHealth <= 0) {
-            Spark.createPixelShower(gs, x, y, (int) (size*size), 700*size);
+            Spark.createPixelShower(gs, x, y, (int)(100f*size*size*size), 700*size);
             gs.queueRemoveActor(this);
-            if(getSize() > .6) {
+            if(spawnChildren && getSize() > .6) {
                 for(int i = 0; i < 2; i++) {
                     Image impImage = image == gs.getImage("imp-red", true) ? gs.getImage("imp-green", true) :
                                      image == gs.getImage("imp-green", true) ? gs.getImage("imp-blue", true) :
