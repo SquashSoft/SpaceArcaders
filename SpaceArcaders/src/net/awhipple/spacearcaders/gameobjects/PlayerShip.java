@@ -64,10 +64,10 @@ public class PlayerShip implements Actor, Target {
     @Override
     public void init(GameState gs) throws SlickException {
     
-       maxUp = (gs.getScreenHeight()/10);
-       maxDown = (gs.getScreenHeight()-(gs.getScreenHeight()/10));
-       maxLeft = (gs.getScreenWidth()/15);
-       maxRight = (gs.getScreenWidth()-(gs.getScreenWidth()/15));
+       maxUp = (playerShipIcon.getHeight()/2);
+       maxDown = (gs.getScreenHeight() - (playerShipIcon.getHeight()/2));
+       maxLeft = (playerShipIcon.getWidth()/2);
+       maxRight = (gs.getScreenWidth()- (playerShipIcon.getWidth()/2));
         
     }
     
