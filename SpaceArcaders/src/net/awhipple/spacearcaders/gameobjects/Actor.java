@@ -1,6 +1,6 @@
 package net.awhipple.spacearcaders.gameobjects;
 
-import net.awhipple.spacearcaders.utils.GameState;
+import net.awhipple.spacearcaders.views.GameField;
 import org.newdawn.slick.SlickException;
 
 /**
@@ -8,9 +8,9 @@ import org.newdawn.slick.SlickException;
  * @author Aaron
  */
 public interface Actor{
-    public void init(GameState gs) throws SlickException;
+    public void init(GameField gf) throws SlickException;
     public void draw();
-    public void update(GameState gs);
+    public void update(GameField gf);
 }
 
 

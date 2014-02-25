@@ -7,7 +7,7 @@ package net.awhipple.spacearcaders.gameobjects;
 import java.util.List;
 import net.awhipple.spacearcaders.graphics.Particle;
 import net.awhipple.spacearcaders.graphics.Spark;
-import net.awhipple.spacearcaders.utils.GameState;
+import net.awhipple.spacearcaders.views.GameField;
 import net.awhipple.spacearcaders.utils.HitBox;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -38,8 +38,8 @@ public class Laser implements Actor {
     }
     
     @Override
-    public void init(GameState gs) throws SlickException {
-        targetList = gs.getTargetList(targetType);
+    public void init(GameField gf) throws SlickException {
+        targetList = gf.getTargetList(targetType);
     }
     
     @Override
@@ -49,26 +49,26 @@ public class Laser implements Actor {
     }
     
     @Override
-    public void update(GameState gs) {
-        double delta = gs.getDelta();
+    public void update(GameField gf) {
+        double delta = gf.getDelta();
         laserLocationY -= (laserSpeed * delta);
         if(        laserLocationY<-100
-                || laserLocationY>gs.getScreenHeight()+100
-                || laserLocationX>gs.getScreenWidth()+100
+                || laserLocationY>gf.getScreenHeight()+100
+                || laserLocationX>gf.getScreenWidth()+100
                 || laserLocationX<-100) 
-                gs.queueRemoveActor(this);
+                gf.queueRemoveActor(this);
         boolean laserCollided = false;
         for(Target target : targetList){
             if(lasersHitBox.collisionCheck(laserLocationX, laserLocationY, target.getX(), target.getY(), target.getHitBox())){
-                Particle.createExplosion(gs, laserLocationX, laserLocationY, 30, 100);
-                Spark.createPixelShower(gs, laserLocationX, laserLocationY, 7);
+                Particle.createExplosion(gf, laserLocationX, laserLocationY, 30, 100);
+                Spark.createPixelShower(gf, laserLocationX, laserLocationY, 7);
                 target.dealDamage(25);
-                gs.playSound("explode");
+                gf.getResLib().playSound("explode");
                 laserCollided = true;
                 break;
             }
         }
         if(laserCollided)
-            gs.queueRemoveActor(this);
+            gf.queueRemoveActor(this);
     }
 }

@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import net.awhipple.spacearcaders.gameobjects.Enemy;
-import net.awhipple.spacearcaders.utils.GameState;
+import net.awhipple.spacearcaders.views.GameField;
 
 /**
  *
@@ -37,11 +37,11 @@ public class AIList {
      * @param delta the time step to use
      * @return Returns true only when all actions have been completed;
      */
-    public boolean execute(Enemy enemy, GameState gs) {
+    public boolean execute(Enemy enemy, GameField gf) {
         if(currentAction == null && !getNextAction()) return false;
         AIAction.CompletionStatus status = AIAction.CompletionStatus.COMPLETE_REEXECUTE;
         while(status == AIAction.CompletionStatus.COMPLETE_REEXECUTE) {
-            status = currentAction.execute(enemy, gs);
+            status = currentAction.execute(enemy, gf);
             if(status != AIAction.CompletionStatus.COMPLETE_REEXECUTE) loopSafety = true;
             if(status == AIAction.CompletionStatus.COMPLETE_REEXECUTE ||
                status == AIAction.CompletionStatus.COMPLETE) {

@@ -5,7 +5,7 @@
 package net.awhipple.spacearcaders.ai;
 
 import net.awhipple.spacearcaders.gameobjects.Enemy;
-import net.awhipple.spacearcaders.utils.GameState;
+import net.awhipple.spacearcaders.views.GameField;
 
 /**
  * Execute should return one of the following enums.
@@ -36,6 +36,6 @@ public interface AIAction {
         COMPLETE_REEXECUTE;
     }
     
-    public CompletionStatus execute(Enemy enemy, GameState gs);
+    public CompletionStatus execute(Enemy enemy, GameField gf);
     public void init();
 }

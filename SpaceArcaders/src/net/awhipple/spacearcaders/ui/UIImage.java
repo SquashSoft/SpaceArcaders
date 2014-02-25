@@ -5,7 +5,7 @@
 package net.awhipple.spacearcaders.ui;
 
 import net.awhipple.spacearcaders.gameobjects.Actor;
-import net.awhipple.spacearcaders.utils.GameState;
+import net.awhipple.spacearcaders.views.GameField;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
@@ -25,7 +25,7 @@ public class UIImage implements Actor {
     }
     
     @Override
-    public void init(GameState gs) throws SlickException {}
+    public void init(GameField gf) throws SlickException {}
     
     @Override
     public void draw() {
@@ -33,7 +33,7 @@ public class UIImage implements Actor {
     }
 
     @Override
-    public void update(GameState gs) {
+    public void update(GameField gf) {
         
     }
     

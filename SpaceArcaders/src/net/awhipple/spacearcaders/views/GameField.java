@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.awhipple.spacearcaders.utils;
+package net.awhipple.spacearcaders.views;
 
 import java.util.HashMap;
 import net.awhipple.spacearcaders.gameobjects.Actor;
@@ -13,7 +13,8 @@ import java.util.Map;
 import net.awhipple.spacearcaders.gameobjects.Enemy;
 import net.awhipple.spacearcaders.gameobjects.PlayerShip;
 import net.awhipple.spacearcaders.gameobjects.Target;
-import net.awhipple.spacearcaders.ui.UIImage;
+import net.awhipple.spacearcaders.ui.UIPlayerHealthBar;
+import net.awhipple.spacearcaders.utils.ResourceLibrary;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -24,7 +25,7 @@ import org.newdawn.slick.SlickException;
  *
  * @author Aaron
  */
-public class GameState {
+public final class GameField implements View{
     private Input input;
     private int SCREEN_W, SCREEN_H;
     private double delta, targetDelta;
@@ -35,14 +36,15 @@ public class GameState {
     private List<Enemy> enemyList;
     private List<PlayerShip> playerShipList;
     private Map<String, List<Target>> targetMap;
-    private ImageLibrary imageLibrary;
-    private SoundLibrary soundLibrary;
     
     private Image pixel;
+    private ResourceLibrary resourceLibrary;
     
-    private UIImage pauseObject;
+    int numEnemies = 0;
     
-    public GameState(int SCREEN_W, int SCREEN_H, int TARGET_FPS) throws Exception {
+    public GameField(ResourceLibrary resourceLibrary, int SCREEN_W, int SCREEN_H, int TARGET_FPS) throws SlickException {
+        this.resourceLibrary = resourceLibrary;
+        
         this.SCREEN_W = SCREEN_W;
         this.SCREEN_H = SCREEN_H;
         
@@ -57,13 +59,6 @@ public class GameState {
         actorsToBeAdded = new LinkedList<>();
         actorsToBeRemoved = new LinkedList<>();
         
-        imageLibrary = new ImageLibrary();
-        soundLibrary = new SoundLibrary();
-        
-        pauseObject = null;
-        
-        loadResources();
-        
         pixel = new Image(1, 1);
         Graphics gfx = pixel.getGraphics();
         gfx.setColor(Color.white);
@@ -73,8 +68,37 @@ public class GameState {
         createStarMap();
         
         processActorQueues();
+        
+        PlayerShip player1 = new PlayerShip(SCREEN_W/4,3*SCREEN_H/4, resourceLibrary.getImage("ship") );
+        player1.setKeys(Input.KEY_W, Input.KEY_S, Input.KEY_A, Input.KEY_D, Input.KEY_G);
+        queueNewActor(player1);
+        
+        PlayerShip player2 = new PlayerShip(3*SCREEN_W/4,3*SCREEN_H/4, resourceLibrary.getImage("ship") );
+        player2.setKeys(Input.KEY_UP, Input.KEY_DOWN, Input.KEY_LEFT, Input.KEY_RIGHT, Input.KEY_RCONTROL);
+        queueNewActor(player2);
+        
+        queueNewActor(new UIPlayerHealthBar(player1, 100, SCREEN_H-20));
+        queueNewActor(new UIPlayerHealthBar(player2, SCREEN_W-200, SCREEN_H-20));
+        
+        processActorQueues();
     }
 
+    @Override
+    public void update(Input input) {
+        if(enemyList.isEmpty()) {
+            if(numEnemies == 0) numEnemies = 1;
+            else numEnemies *= 2;
+            for(int i = 0; i < numEnemies; i++) {
+                Enemy enemy = new Enemy((int)(Math.random()*SCREEN_W), -300, resourceLibrary.getImage("imp-red", true));
+                queueNewActor(enemy);
+            }
+        }
+
+        setInput(input);
+        
+        updateActors();
+    }
+    
     public void updateActors() {
         for(Actor curActor : actorList) {
             curActor.update(this);
@@ -82,7 +106,8 @@ public class GameState {
         processActorQueues();
     }
     
-    public void renderActors() {
+    @Override
+    public void render() {
         for (Actor curActor : actorList) {
             curActor.draw();
         }
@@ -129,33 +154,10 @@ public class GameState {
             }
         }
     }
-    public void pause(Image pauseImage) {
-        if(pauseObject == null) {
-            pauseObject = new UIImage(SCREEN_W/2, SCREEN_H/2, pauseImage);
-            queueNewActor(pauseObject);
-            processActorQueues();
-        }
-    }
-   
-    public void unpause() { 
-        if(pauseObject != null) {
-            queueRemoveActor(pauseObject);
-            processActorQueues();
-            pauseObject = null;
-        }
-    }
 
-    public void playSound(String key) { soundLibrary.getSound(key).play(1f, .02f); }
-    
     public void setInput(Input input) { this.input = input; }
     public Input getInput() { return input; }
 
-    public Image getImage(String key, boolean flipped) { 
-        if(flipped) return imageLibrary.getFlippedImage(key); 
-        else return imageLibrary.getImage(key); 
-    }
-    public Image getImage(String key) { return getImage(key, false); }
-    
     public double getDelta() { return delta; }
     
     public Image getPixel() { return pixel; }
@@ -198,21 +200,5 @@ public class GameState {
         return targetList;
     }
     
-    private void loadResources() throws Exception {
-        imageLibrary.loadImage("ship",          "data/images/proto-ship.PNG");
-        imageLibrary.loadImage("laser",         "data/images/proto-laser.PNG");
-        
-        imageLibrary.loadImage("imp-red",           "data/images/imp-red.png");
-        imageLibrary.loadImage("imp-green",           "data/images/imp-green.png");
-        imageLibrary.loadImage("imp-blue",           "data/images/imp-blue.png");
-        
-        imageLibrary.loadImage("pause",         "data/images/pause.PNG");
-        imageLibrary.loadImage("particle",      "data/images/particle.png");
-        
-        soundLibrary.loadSound("laser",         "data/sounds/laser.wav");
-        soundLibrary.loadSound("explode",       "data/sounds/explode.wav");
-        soundLibrary.loadSound("explodemini",   "data/sounds/explodemini.wav");
-    }
-
-  
+    public ResourceLibrary getResLib() { return resourceLibrary; }
 }

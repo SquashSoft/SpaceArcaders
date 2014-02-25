@@ -7,6 +7,7 @@ package net.awhipple.spacearcaders.utils;
 import java.util.HashMap;
 import java.util.Map;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 /**
  *
@@ -19,9 +20,9 @@ public class ImageLibrary {
         imageMap = new HashMap<>();
     }
     
-    public void loadImage(String key, String fileName) throws Exception {
+    public void loadImage(String key, String fileName) throws SlickException {
         
-        if(imageMap.containsKey(key)) throw new Exception("ERROR: Tried to load an image and save it under pre existing key: " + key);
+        if(imageMap.containsKey(key)) throw new SlickException("ERROR: Tried to load an image and save it under pre existing key: " + key);
         
         imageMap.put(key, new ImageCache(new Image(fileName)));
     }
@@ -32,7 +33,7 @@ public class ImageLibrary {
     private class ImageCache {
         Image baseImage, flippedImage;
         
-        public ImageCache(Image baseImage) throws Exception {
+        public ImageCache(Image baseImage) throws SlickException {
             this.baseImage = baseImage;
             flippedImage = null;
         }

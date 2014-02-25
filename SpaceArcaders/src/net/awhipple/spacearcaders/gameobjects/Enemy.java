@@ -7,7 +7,7 @@ package net.awhipple.spacearcaders.gameobjects;
 import net.awhipple.spacearcaders.ai.*;
 import net.awhipple.spacearcaders.ai.actions.*;
 import net.awhipple.spacearcaders.graphics.Spark;
-import net.awhipple.spacearcaders.utils.GameState;
+import net.awhipple.spacearcaders.views.GameField;
 import net.awhipple.spacearcaders.utils.HitBox;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
@@ -46,7 +46,7 @@ public class Enemy implements Actor, Target {
         
         this.enemiesHitBox = new HitBox((image.getWidth()/2-5));
         
-        enemyHealth = 100d;
+        enemyHealth = 75d;
         ai = new AI();
         
         ai.addAIAction(new AIMoveRandom(300), 0);
@@ -75,7 +75,7 @@ public class Enemy implements Actor, Target {
     }
     
     @Override
-    public void init(GameState gs) throws SlickException {}
+    public void init(GameField gf) throws SlickException {}
     
     @Override
     public void draw() {
@@ -86,37 +86,37 @@ public class Enemy implements Actor, Target {
     }
 
     @Override
-    public void update(GameState gs) {
-        ai.execute(this, gs);
+    public void update(GameField gf) {
+        ai.execute(this, gf);
         
         if(flash) {
-            flashTime -= gs.getDelta();
+            flashTime -= gf.getDelta();
             if(flashTime <= 0) flash = false;
         }
-        for(PlayerShip player : gs.getPlayerShipList()) {
+        for(PlayerShip player : gf.getPlayerShipList()) {
             if(enemiesHitBox.collisionCheck(x, y, player.getX(), player.getY(), player.getHitBox())) {
                 player.dealDamage(25);
-                gs.playSound("explode");
+                gf.getResLib().playSound("explode");
                 enemyHealth = 0;
                 spawnChildren = false;
             }
         }
         if(enemyHealth <= 0) {
-            Spark.createPixelShower(gs, x, y, (int)(100f*size*size*size), 700*size);
-            gs.queueRemoveActor(this);
+            Spark.createPixelShower(gf, x, y, (int)(100f*size*size*size), 700*size);
+            gf.queueRemoveActor(this);
             if(spawnChildren && getSize() > .6) {
                 for(int i = 0; i < 2; i++) {
-                    Image impImage = image == gs.getImage("imp-red", true) ? gs.getImage("imp-green", true) :
-                                     image == gs.getImage("imp-green", true) ? gs.getImage("imp-blue", true) :
-                                     gs.getImage("imp-red", true);
-                    gs.queueNewActor(new Enemy((int)(x), y, getSize()*.75, impImage));
+                    Image impImage = image == gf.getResLib().getImage("imp-red", true) ? gf.getResLib().getImage("imp-green", true) :
+                                     image == gf.getResLib().getImage("imp-green", true) ? gf.getResLib().getImage("imp-blue", true) :
+                                     gf.getResLib().getImage("imp-red", true);
+                    gf.queueNewActor(new Enemy((int)(x), y, getSize()*.75, impImage));
                 }
             }
         }
     }
     
-    public void fire(GameState gs) {
-        gs.queueNewActor(new Laser(x, y, -600,  "player", gs.getImage("laser", true)));
+    public void fire(GameField gf) {
+        gf.queueNewActor(new Laser(x, y, -600,  "player", gf.getResLib().getImage("laser", true)));
     }
     
     @Override

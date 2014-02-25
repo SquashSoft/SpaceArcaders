@@ -6,7 +6,7 @@ package net.awhipple.spacearcaders.gameobjects;
 
 import java.util.LinkedList;
 import java.util.Queue;
-import net.awhipple.spacearcaders.utils.GameState;
+import net.awhipple.spacearcaders.views.GameField;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -36,9 +36,9 @@ public class StarMap implements Actor{
     }
     
     @Override
-    public void init(GameState gs) throws SlickException{
-        mapWidth = gs.getScreenWidth();
-        mapHeight = gs.getScreenWidth();
+    public void init(GameField gf) throws SlickException{
+        mapWidth = gf.getScreenWidth();
+        mapHeight = gf.getScreenWidth();
         
         for(int y = 0; y < mapHeight; y++) {
             starLoc.add(new Integer((int)(Math.random() * mapWidth)));
@@ -61,8 +61,8 @@ public class StarMap implements Actor{
     }
 
     @Override
-    public void update(GameState gs) {
-        double delta = gs.getDelta();
+    public void update(GameField gf) {
+        double delta = gf.getDelta();
         curDelta += delta;
         while (curDelta > scrollSpeed) {
             curDelta -= scrollSpeed;

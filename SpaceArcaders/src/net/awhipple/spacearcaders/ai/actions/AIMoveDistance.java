@@ -5,7 +5,7 @@
 package net.awhipple.spacearcaders.ai.actions;
 
 import net.awhipple.spacearcaders.gameobjects.Enemy;
-import net.awhipple.spacearcaders.utils.GameState;
+import net.awhipple.spacearcaders.views.GameField;
 
 /**
  *
@@ -22,12 +22,12 @@ public class AIMoveDistance extends AIMoveTo{
     }
     
     @Override
-    public CompletionStatus execute(Enemy enemy, GameState gs) {
+    public CompletionStatus execute(Enemy enemy, GameField gf) {
         if(firstRun) {
             toX = enemy.getX() + xDis;
             toY = enemy.getY() + yDis;
         }
         
-        return super.execute(enemy, gs);
+        return super.execute(enemy, gf);
     }
 }

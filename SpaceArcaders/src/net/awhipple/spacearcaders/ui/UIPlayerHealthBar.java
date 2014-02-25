@@ -5,7 +5,7 @@
 package net.awhipple.spacearcaders.ui;
 
 import net.awhipple.spacearcaders.gameobjects.PlayerShip;
-import net.awhipple.spacearcaders.utils.GameState;
+import net.awhipple.spacearcaders.views.GameField;
 import org.newdawn.slick.SlickException;
 
 /**
@@ -23,8 +23,8 @@ public class UIPlayerHealthBar extends UIBar {
     }
     
     @Override
-    public void update(GameState gs) {
-        super.update(gs);
+    public void update(GameField gf) {
+        super.update(gf);
         
         super.setValue(player.getHealth());
     }

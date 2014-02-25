@@ -6,7 +6,7 @@ package net.awhipple.spacearcaders.graphics;
 
 import net.awhipple.spacearcaders.gameobjects.Actor;
 import net.awhipple.spacearcaders.utils.GameMath;
-import net.awhipple.spacearcaders.utils.GameState;
+import net.awhipple.spacearcaders.views.GameField;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -51,7 +51,7 @@ public class Particle implements Actor {
     }
     
     @Override
-    public void init(GameState gs) throws SlickException {}
+    public void init(GameField gf) throws SlickException {}
     
     @Override
     public void draw() {
@@ -59,8 +59,8 @@ public class Particle implements Actor {
     }
 
     @Override
-    public void update(GameState gs) {
-        double delta = gs.getDelta();
+    public void update(GameField gf) {
+        double delta = gf.getDelta();
         
         x += xv * delta;
         y += yv * delta;
@@ -72,10 +72,10 @@ public class Particle implements Actor {
         a += av * delta;
         
         time -= delta;
-        if(time <= 0) gs.queueRemoveActor(this);
+        if(time <= 0) gf.queueRemoveActor(this);
     }
     
-    public static void createExplosion(GameState gs, double x, double y, int numParticles, double explosionSize) {
+    public static void createExplosion(GameField gf, double x, double y, int numParticles, double explosionSize) {
         for(int a = 0; a < numParticles; a++) {
             double rad = Math.random()*2*Math.PI,
                    distance = Math.random()*explosionSize,
@@ -83,8 +83,8 @@ public class Particle implements Actor {
                    h = 20;
             Particle p = new Particle(x, y, w, h, 163, 163, 220, 255, 
                              x+Math.cos(rad)*distance, y+Math.sin(rad)*distance, w, h, 240, 0, 0, 0,
-                             .3, gs.getImage("particle"));
-            gs.queueNewActor(p);
+                             .3, gf.getResLib().getImage("particle"));
+            gf.queueNewActor(p);
         }
     }
 }

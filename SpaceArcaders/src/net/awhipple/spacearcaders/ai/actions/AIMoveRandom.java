@@ -7,7 +7,7 @@ package net.awhipple.spacearcaders.ai.actions;
 import net.awhipple.spacearcaders.ai.AIAction;
 import net.awhipple.spacearcaders.gameobjects.Enemy;
 import net.awhipple.spacearcaders.utils.GameMath;
-import net.awhipple.spacearcaders.utils.GameState;
+import net.awhipple.spacearcaders.views.GameField;
 
 /**
  *
@@ -27,11 +27,11 @@ public class AIMoveRandom implements AIAction{
     }
     
     @Override
-    public CompletionStatus execute(Enemy enemy, GameState gs) {
-        double delta = gs.getDelta();
+    public CompletionStatus execute(Enemy enemy, GameField gf) {
+        double delta = gf.getDelta();
         if(firstRun) {
-            toX = (int)(Math.random()*gs.getScreenWidth());
-            toY = (int)(Math.random()*gs.getScreenHeight());
+            toX = (int)(Math.random()*gf.getScreenWidth());
+            toY = (int)(Math.random()*gf.getScreenHeight());
             rad = GameMath.pointsToRad(enemy.getX(), enemy.getY(), toX, toY);
             xVec = Math.cos(rad);
             yVec = Math.sin(rad);

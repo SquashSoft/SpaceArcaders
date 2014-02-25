@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import net.awhipple.spacearcaders.gameobjects.Actor;
 import net.awhipple.spacearcaders.utils.GameMath;
-import net.awhipple.spacearcaders.utils.GameState;
+import net.awhipple.spacearcaders.views.GameField;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -46,11 +46,11 @@ public class Spark implements Actor{
     }
     
     @Override
-    public void init(GameState gs) throws SlickException {}
+    public void init(GameField gf) throws SlickException {}
     
     @Override
-    public void update(GameState gs) {
-        double delta = gs.getDelta();
+    public void update(GameField gf) {
+        double delta = gf.getDelta();
         
         time -= delta;
         for (double speedCount = speed * delta; speedCount >= 0; speedCount--) {
@@ -69,7 +69,7 @@ public class Spark implements Actor{
             pixelList.remove(0);
         }
         
-        if(pixelList.isEmpty()) gs.queueRemoveActor(this);
+        if(pixelList.isEmpty()) gf.queueRemoveActor(this);
     }
     
     @Override
@@ -91,13 +91,13 @@ public class Spark implements Actor{
         }
     }
     
-    public static void createPixelShower(GameState gs, double x, double y, int numSparks) {
-        createPixelShower(gs, x, y, numSparks, 700d);
+    public static void createPixelShower(GameField gf, double x, double y, int numSparks) {
+        createPixelShower(gf, x, y, numSparks, 700d);
     }
-    public static void createPixelShower(GameState gs, double x, double y, int numSparks, double sparkSpeed){
+    public static void createPixelShower(GameField gf, double x, double y, int numSparks, double sparkSpeed){
      
         for(int i = 0; i < numSparks; i++) {
-            gs.queueNewActor(new Spark(x, y, Math.random()*2*Math.PI, Math.random()*sparkSpeed+(sparkSpeed/2), gs.getPixel()));
+            gf.queueNewActor(new Spark(x, y, Math.random()*2*Math.PI, Math.random()*sparkSpeed+(sparkSpeed/2), gf.getPixel()));
         }
         
     }
