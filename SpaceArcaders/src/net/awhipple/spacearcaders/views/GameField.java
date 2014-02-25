@@ -4,6 +4,7 @@
  */
 package net.awhipple.spacearcaders.views;
 
+import java.util.Collections;
 import java.util.HashMap;
 import net.awhipple.spacearcaders.gameobjects.Actor;
 import net.awhipple.spacearcaders.gameobjects.StarMap;
@@ -84,7 +85,7 @@ public final class GameField implements View{
     }
 
     @Override
-    public ViewInstruction update(Input input) {
+    public List<ViewInstruction> update(Input input) {
         if(enemyList.isEmpty()) {
             if(numEnemies == 0) numEnemies = 1;
             else numEnemies *= 2;
@@ -98,6 +99,7 @@ public final class GameField implements View{
         
         updateActors();
         
+        if(input.isKeyDown(Input.KEY_P)) return Collections.singletonList(new ViewInstruction(ViewInstruction.Set.SWITCH_VIEW, new Pause(this, null, SCREEN_W, SCREEN_H)));
         return null;
     }
     

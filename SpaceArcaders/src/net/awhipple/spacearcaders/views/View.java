@@ -4,6 +4,7 @@
  */
 package net.awhipple.spacearcaders.views;
 
+import java.util.List;
 import org.newdawn.slick.Input;
 
 /**
@@ -11,6 +12,6 @@ import org.newdawn.slick.Input;
  * @author Aaron
  */
 public interface View {
-    public ViewInstruction update(Input input);
+    public List<ViewInstruction> update(Input input);
     public void render();
 }
