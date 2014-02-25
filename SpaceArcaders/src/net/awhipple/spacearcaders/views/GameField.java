@@ -84,7 +84,7 @@ public final class GameField implements View{
     }
 
     @Override
-    public void update(Input input) {
+    public ViewInstruction update(Input input) {
         if(enemyList.isEmpty()) {
             if(numEnemies == 0) numEnemies = 1;
             else numEnemies *= 2;
@@ -97,6 +97,8 @@ public final class GameField implements View{
         setInput(input);
         
         updateActors();
+        
+        return null;
     }
     
     public void updateActors() {

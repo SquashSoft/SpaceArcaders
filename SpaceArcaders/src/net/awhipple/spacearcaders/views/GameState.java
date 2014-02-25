@@ -34,7 +34,7 @@ public class GameState {
     }
 
     public void update(Input input) {
-        if(!input.isKeyDown(Input.KEY_TAB)) tabPressed = false;
+        if(true||!input.isKeyDown(Input.KEY_TAB)) tabPressed = false;
         if(input.isKeyDown(Input.KEY_TAB) && !tabPressed) {
             tabPressed = true;
             if(curView == gf1) curView = gf2;

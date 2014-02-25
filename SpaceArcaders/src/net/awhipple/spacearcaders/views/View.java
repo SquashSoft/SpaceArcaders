@@ -11,6 +11,6 @@ import org.newdawn.slick.Input;
  * @author Aaron
  */
 public interface View {
-    public void update(Input input);
+    public ViewInstruction update(Input input);
     public void render();
 }
