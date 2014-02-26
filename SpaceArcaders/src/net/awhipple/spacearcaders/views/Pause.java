@@ -27,6 +27,7 @@ public class Pause implements View{
     
     public Pause(View viewPausedFrom, Image pauseImage, int screenWidth, int screenHeight) {
         this.viewPausedFrom = viewPausedFrom;
+        this.pauseImage = pauseImage;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
         
@@ -54,7 +55,8 @@ public class Pause implements View{
     @Override
     public void render() {
         viewPausedFrom.render();
-        mask.draw(0, 0, screenWidth, screenHeight, new Color(0,0,0,200));
+        mask.draw(0, 0, screenWidth, screenHeight, new Color(0,0,0,175));
+        pauseImage.draw(screenWidth/2-pauseImage.getWidth()/2,screenHeight/2-pauseImage.getHeight()/2);
     }
     
 }

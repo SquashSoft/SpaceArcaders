@@ -27,6 +27,7 @@ public class ResourceLibrary {
         imageLibrary.loadImage("imp-blue",      "data/images/imp-blue.png");
         
         imageLibrary.loadImage("particle",      "data/images/particle.png");
+        imageLibrary.loadImage("pause",         "data/images/pause.png");
         
         soundLibrary.loadSound("laser",         "data/sounds/laser.wav");
         soundLibrary.loadSound("explode",       "data/sounds/explode.wav");

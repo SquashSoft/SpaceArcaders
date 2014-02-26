@@ -87,8 +87,7 @@ public final class GameField implements View{
     @Override
     public List<ViewInstruction> update(Input input) {
         if(enemyList.isEmpty()) {
-            if(numEnemies == 0) numEnemies = 1;
-            else numEnemies *= 2;
+            numEnemies++;
             for(int i = 0; i < numEnemies; i++) {
                 Enemy enemy = new Enemy((int)(Math.random()*SCREEN_W), -300, resourceLibrary.getImage("imp-red", true));
                 queueNewActor(enemy);
@@ -99,7 +98,7 @@ public final class GameField implements View{
         
         updateActors();
         
-        if(input.isKeyDown(Input.KEY_P)) return Collections.singletonList(new ViewInstruction(ViewInstruction.Set.SWITCH_VIEW, new Pause(this, null, SCREEN_W, SCREEN_H)));
+        if(input.isKeyDown(Input.KEY_P)) return Collections.singletonList(new ViewInstruction(ViewInstruction.Set.SWITCH_VIEW, new Pause(this, resourceLibrary.getImage("pause"), SCREEN_W, SCREEN_H)));
         return null;
     }
     
