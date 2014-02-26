@@ -6,6 +6,7 @@ package net.awhipple.spacearcaders.views;
 
 import java.util.Collections;
 import java.util.List;
+import net.awhipple.spacearcaders.utils.GameGlobals;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -18,18 +19,19 @@ import org.newdawn.slick.SlickException;
  */
 public class Pause implements View{
 
+    GameGlobals globals;
+    
     View viewPausedFrom;
-    int screenWidth, screenHeight;
     Image mask;
     Image pauseImage;
     boolean pauseIsPressed = true;
     boolean returnOnKeyUp = false;
     
-    public Pause(View viewPausedFrom, Image pauseImage, int screenWidth, int screenHeight) {
+    public Pause(GameGlobals globals, View viewPausedFrom) {
+        this.globals = globals;
+        
         this.viewPausedFrom = viewPausedFrom;
-        this.pauseImage = pauseImage;
-        this.screenWidth = screenWidth;
-        this.screenHeight = screenHeight;
+        this.pauseImage = globals.getImage("pause");
         
         try {
             mask = new Image(1, 1);
@@ -55,8 +57,8 @@ public class Pause implements View{
     @Override
     public void render() {
         viewPausedFrom.render();
-        mask.draw(0, 0, screenWidth, screenHeight, new Color(0,0,0,175));
-        pauseImage.draw(screenWidth/2-pauseImage.getWidth()/2,screenHeight/2-pauseImage.getHeight()/2);
+        mask.draw(0, 0, globals.getScreenWidth(), globals.getScreenHeight(), new Color(0,0,0,175));
+        pauseImage.draw(globals.getScreenWidth()/2-pauseImage.getWidth()/2,globals.getScreenHeight()/2-pauseImage.getHeight()/2);
     }
     
 }

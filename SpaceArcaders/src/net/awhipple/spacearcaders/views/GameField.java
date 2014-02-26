@@ -15,7 +15,7 @@ import net.awhipple.spacearcaders.gameobjects.Enemy;
 import net.awhipple.spacearcaders.gameobjects.PlayerShip;
 import net.awhipple.spacearcaders.gameobjects.Target;
 import net.awhipple.spacearcaders.ui.UIPlayerHealthBar;
-import net.awhipple.spacearcaders.utils.ResourceLibrary;
+import net.awhipple.spacearcaders.utils.GameGlobals;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -27,9 +27,10 @@ import org.newdawn.slick.SlickException;
  * @author Aaron
  */
 public final class GameField implements View{
+    GameGlobals globals;
+    
     private Input input;
-    private int SCREEN_W, SCREEN_H;
-    private double delta, targetFps, targetDelta;
+    private double delta;
     
     private List<Actor> actorList;
     private List<Actor> actorsToBeAdded;
@@ -39,23 +40,17 @@ public final class GameField implements View{
     private Map<String, List<Target>> targetMap;
     
     private Image pixel;
-    private ResourceLibrary resourceLibrary;
-
+    
     int numPlayers;
     int numEnemies = 0;
     double gameOverTimer = 3;
     
-    public GameField(int numPlayers, ResourceLibrary resourceLibrary, int SCREEN_W, int SCREEN_H, int TARGET_FPS) throws SlickException {
+    public GameField(GameGlobals globals, int numPlayers) throws SlickException {
         this.numPlayers = numPlayers;
         
-        this.resourceLibrary = resourceLibrary;
+        this.globals = globals;
         
-        this.SCREEN_W = SCREEN_W;
-        this.SCREEN_H = SCREEN_H;
-        
-        this.targetFps = TARGET_FPS;
-        targetDelta = 1d / (double)TARGET_FPS;
-        delta = targetDelta;
+        delta = globals.getDelta();
         
         actorList = new LinkedList<>();
         enemyList = new LinkedList<>();
@@ -71,21 +66,22 @@ public final class GameField implements View{
         gfx.drawRect(0, 0, 1, 1);
         gfx.flush();
         
-        createStarMap();
+        queueNewActor(new StarMap());
         
         processActorQueues();
+        int SCREEN_W = globals.getScreenWidth(), SCREEN_H = globals.getScreenHeight();
         if(numPlayers == 1) {
-            PlayerShip player1 = new PlayerShip(SCREEN_W/2,3*SCREEN_H/4, resourceLibrary.getImage("ship") );
+            PlayerShip player1 = new PlayerShip(SCREEN_W/2,3*SCREEN_H/4, globals.getImage("ship") );
             player1.setKeys(Input.KEY_W, Input.KEY_S, Input.KEY_A, Input.KEY_D, Input.KEY_RCONTROL);
             queueNewActor(player1);
             
             queueNewActor(new UIPlayerHealthBar(player1, 100, SCREEN_H-20));
         } else {
-            PlayerShip player1 = new PlayerShip(SCREEN_W/4,3*SCREEN_H/4, resourceLibrary.getImage("ship") );
+            PlayerShip player1 = new PlayerShip(SCREEN_W/4,3*SCREEN_H/4, globals.getImage("ship") );
             player1.setKeys(Input.KEY_W, Input.KEY_S, Input.KEY_A, Input.KEY_D, Input.KEY_G);
             queueNewActor(player1);
 
-            PlayerShip player2 = new PlayerShip(3*SCREEN_W/4,3*SCREEN_H/4, resourceLibrary.getImage("ship") );
+            PlayerShip player2 = new PlayerShip(3*SCREEN_W/4,3*SCREEN_H/4, globals.getImage("ship") );
             player2.setKeys(Input.KEY_UP, Input.KEY_DOWN, Input.KEY_LEFT, Input.KEY_RIGHT, Input.KEY_RCONTROL);
             queueNewActor(player2);
 
@@ -101,7 +97,7 @@ public final class GameField implements View{
         if(enemyList.isEmpty()) {
             numEnemies++;
             for(int i = 0; i < numEnemies; i++) {
-                Enemy enemy = new Enemy((int)(Math.random()*SCREEN_W), -300, resourceLibrary.getImage("imp-red", true));
+                Enemy enemy = new Enemy((int)(Math.random()*globals.getScreenWidth()), -300, globals.getImage("imp-red", true));
                 queueNewActor(enemy);
             }
         }
@@ -112,7 +108,7 @@ public final class GameField implements View{
                 try {
                     return Collections.singletonList(new ViewInstruction(
                         ViewInstruction.Set.SWITCH_VIEW,
-                        new GameField(numPlayers, resourceLibrary, SCREEN_W, SCREEN_H, (int)targetFps)));
+                        new GameField(globals, numPlayers)));
                 } catch(SlickException ex) {
                     System.out.println("Unable to create new game field after player death");
                 }
@@ -126,7 +122,7 @@ public final class GameField implements View{
         if(input.isKeyDown(Input.KEY_P)) {
             return Collections.singletonList(new ViewInstruction(
                     ViewInstruction.Set.SWITCH_VIEW,
-                    new Pause(this, resourceLibrary.getImage("pause"), SCREEN_W, SCREEN_H)));
+                    new Pause(globals, this)));
         }
         return null;
     }
@@ -194,18 +190,6 @@ public final class GameField implements View{
     
     public Image getPixel() { return pixel; }
     
-    public int getScreenWidth() { return SCREEN_W; }
-    public int getScreenHeight() { return SCREEN_H; }
-    
-    public void setDeltaFromFps(int fps) {
-        if(fps == 0) delta = targetDelta;
-        else this.delta = 1d/(double)fps;
-    }
-
-    private void createStarMap() throws SlickException {
-        queueNewActor(new StarMap());
-    }
-    
     public List<Enemy> getEnemyList() { return enemyList; }
     public List<PlayerShip> getPlayerShipList() { return playerShipList; }
     
@@ -232,5 +216,5 @@ public final class GameField implements View{
         return targetList;
     }
     
-    public ResourceLibrary getResLib() { return resourceLibrary; }
+    public GameGlobals getGlobals() { return globals; }
 }

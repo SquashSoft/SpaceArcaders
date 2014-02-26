@@ -5,7 +5,7 @@
 package net.awhipple.spacearcaders.views;
 
 import java.util.List;
-import net.awhipple.spacearcaders.utils.ResourceLibrary;
+import net.awhipple.spacearcaders.utils.GameGlobals;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
@@ -15,20 +15,14 @@ import org.newdawn.slick.SlickException;
  */
 public class GameState {
 
-    private int screenWidth, screenHeight, targetFps;
-    
-    private ResourceLibrary resourceLibrary;
+    private GameGlobals globals;
     
     private View curView;
     
     public GameState(int SCREEN_W, int SCREEN_H, int TARGET_FPS) throws SlickException {
-        this.screenWidth = SCREEN_W;
-        this.screenHeight = SCREEN_H;
-        this.targetFps = TARGET_FPS;
+        globals = new GameGlobals(SCREEN_W, SCREEN_H, TARGET_FPS);
         
-        resourceLibrary = new ResourceLibrary();
-        
-        curView = new TitleScreen(resourceLibrary, screenWidth, screenHeight, targetFps);
+        curView = new TitleScreen(globals);
     }
 
     public void update(Input input) {

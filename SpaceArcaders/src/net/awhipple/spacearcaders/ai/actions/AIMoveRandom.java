@@ -30,8 +30,8 @@ public class AIMoveRandom implements AIAction{
     public CompletionStatus execute(Enemy enemy, GameField gf) {
         double delta = gf.getDelta();
         if(firstRun) {
-            toX = (int)(Math.random()*gf.getScreenWidth());
-            toY = (int)(Math.random()*gf.getScreenHeight());
+            toX = (int)(Math.random()*gf.getGlobals().getScreenWidth());
+            toY = (int)(Math.random()*gf.getGlobals().getScreenHeight());
             rad = GameMath.pointsToRad(enemy.getX(), enemy.getY(), toX, toY);
             xVec = Math.cos(rad);
             yVec = Math.sin(rad);

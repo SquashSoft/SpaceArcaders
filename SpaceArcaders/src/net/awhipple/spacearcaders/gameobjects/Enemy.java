@@ -7,6 +7,7 @@ package net.awhipple.spacearcaders.gameobjects;
 import net.awhipple.spacearcaders.ai.*;
 import net.awhipple.spacearcaders.ai.actions.*;
 import net.awhipple.spacearcaders.graphics.Spark;
+import net.awhipple.spacearcaders.utils.GameGlobals;
 import net.awhipple.spacearcaders.views.GameField;
 import net.awhipple.spacearcaders.utils.HitBox;
 import org.newdawn.slick.Color;
@@ -96,7 +97,7 @@ public class Enemy implements Actor, Target {
         for(PlayerShip player : gf.getPlayerShipList()) {
             if(enemiesHitBox.collisionCheck(x, y, player.getX(), player.getY(), player.getHitBox())) {
                 player.dealDamage(25);
-                gf.getResLib().playSound("explode");
+                gf.getGlobals().playSound("explode");
                 enemyHealth = 0;
                 spawnChildren = false;
             }
@@ -106,9 +107,9 @@ public class Enemy implements Actor, Target {
             gf.queueRemoveActor(this);
             if(spawnChildren && getSize() > .6) {
                 for(int i = 0; i < 2; i++) {
-                    Image impImage = image == gf.getResLib().getImage("imp-red", true) ? gf.getResLib().getImage("imp-green", true) :
-                                     image == gf.getResLib().getImage("imp-green", true) ? gf.getResLib().getImage("imp-blue", true) :
-                                     gf.getResLib().getImage("imp-red", true);
+                    Image impImage = image == gf.getGlobals().getImage("imp-red", true) ? gf.getGlobals().getImage("imp-green", true) :
+                                     image == gf.getGlobals().getImage("imp-green", true) ? gf.getGlobals().getImage("imp-blue", true) :
+                                     gf.getGlobals().getImage("imp-red", true);
                     gf.queueNewActor(new Enemy((int)(x), y, getSize()*.75, impImage));
                 }
             }
@@ -116,7 +117,7 @@ public class Enemy implements Actor, Target {
     }
     
     public void fire(GameField gf) {
-        gf.queueNewActor(new Laser(x, y, -600,  "player", gf.getResLib().getImage("laser", true)));
+        gf.queueNewActor(new Laser(x, y, -600,  "player", gf.getGlobals().getImage("laser", true)));
     }
     
     @Override

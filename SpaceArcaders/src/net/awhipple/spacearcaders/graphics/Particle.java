@@ -5,6 +5,7 @@
 package net.awhipple.spacearcaders.graphics;
 
 import net.awhipple.spacearcaders.gameobjects.Actor;
+import net.awhipple.spacearcaders.utils.GameGlobals;
 import net.awhipple.spacearcaders.utils.GameMath;
 import net.awhipple.spacearcaders.views.GameField;
 import org.newdawn.slick.Color;
@@ -83,7 +84,7 @@ public class Particle implements Actor {
                    h = 20;
             Particle p = new Particle(x, y, w, h, 163, 163, 220, 255, 
                              x+Math.cos(rad)*distance, y+Math.sin(rad)*distance, w, h, 240, 0, 0, 0,
-                             .3, gf.getResLib().getImage("particle"));
+                             .3, gf.getGlobals().getImage("particle"));
             gf.queueNewActor(p);
         }
     }
