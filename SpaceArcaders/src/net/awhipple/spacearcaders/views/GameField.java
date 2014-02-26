@@ -29,7 +29,7 @@ import org.newdawn.slick.SlickException;
 public final class GameField implements View{
     private Input input;
     private int SCREEN_W, SCREEN_H;
-    private double delta, targetDelta;
+    private double delta, targetFps, targetDelta;
     
     private List<Actor> actorList;
     private List<Actor> actorsToBeAdded;
@@ -40,15 +40,20 @@ public final class GameField implements View{
     
     private Image pixel;
     private ResourceLibrary resourceLibrary;
-    
+
+    int numPlayers;
     int numEnemies = 0;
+    double gameOverTimer = 3;
     
     public GameField(int numPlayers, ResourceLibrary resourceLibrary, int SCREEN_W, int SCREEN_H, int TARGET_FPS) throws SlickException {
+        this.numPlayers = numPlayers;
+        
         this.resourceLibrary = resourceLibrary;
         
         this.SCREEN_W = SCREEN_W;
         this.SCREEN_H = SCREEN_H;
         
+        this.targetFps = TARGET_FPS;
         targetDelta = 1d / (double)TARGET_FPS;
         delta = targetDelta;
         
@@ -71,7 +76,7 @@ public final class GameField implements View{
         processActorQueues();
         if(numPlayers == 1) {
             PlayerShip player1 = new PlayerShip(SCREEN_W/2,3*SCREEN_H/4, resourceLibrary.getImage("ship") );
-            player1.setKeys(Input.KEY_W, Input.KEY_S, Input.KEY_A, Input.KEY_D, Input.KEY_G);
+            player1.setKeys(Input.KEY_W, Input.KEY_S, Input.KEY_A, Input.KEY_D, Input.KEY_RCONTROL);
             queueNewActor(player1);
             
             queueNewActor(new UIPlayerHealthBar(player1, 100, SCREEN_H-20));
@@ -100,12 +105,29 @@ public final class GameField implements View{
                 queueNewActor(enemy);
             }
         }
+        
+        if(playerShipList.isEmpty()) {
+            gameOverTimer -= delta;
+            if(gameOverTimer <= 0) {
+                try {
+                    return Collections.singletonList(new ViewInstruction(
+                        ViewInstruction.Set.SWITCH_VIEW,
+                        new GameField(numPlayers, resourceLibrary, SCREEN_W, SCREEN_H, (int)targetFps)));
+                } catch(SlickException ex) {
+                    System.out.println("Unable to create new game field after player death");
+                }
+            }
+        }
 
         setInput(input);
         
         updateActors();
         
-        if(input.isKeyDown(Input.KEY_P)) return Collections.singletonList(new ViewInstruction(ViewInstruction.Set.SWITCH_VIEW, new Pause(this, resourceLibrary.getImage("pause"), SCREEN_W, SCREEN_H)));
+        if(input.isKeyDown(Input.KEY_P)) {
+            return Collections.singletonList(new ViewInstruction(
+                    ViewInstruction.Set.SWITCH_VIEW,
+                    new Pause(this, resourceLibrary.getImage("pause"), SCREEN_W, SCREEN_H)));
+        }
         return null;
     }
     

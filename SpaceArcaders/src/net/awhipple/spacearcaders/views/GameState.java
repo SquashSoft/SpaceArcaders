@@ -19,7 +19,7 @@ public class GameState {
     
     private ResourceLibrary resourceLibrary;
     
-    private View curView, gf;
+    private View curView;
     
     public GameState(int SCREEN_W, int SCREEN_H, int TARGET_FPS) throws SlickException {
         this.screenWidth = SCREEN_W;
@@ -28,7 +28,6 @@ public class GameState {
         
         resourceLibrary = new ResourceLibrary();
         
-        //curView = new GameField(resourceLibrary, screenWidth, screenHeight, targetFps);
         curView = new TitleScreen(resourceLibrary, screenWidth, screenHeight, targetFps);
     }
 
