@@ -43,7 +43,7 @@ public final class GameField implements View{
     
     int numEnemies = 0;
     
-    public GameField(ResourceLibrary resourceLibrary, int SCREEN_W, int SCREEN_H, int TARGET_FPS) throws SlickException {
+    public GameField(int numPlayers, ResourceLibrary resourceLibrary, int SCREEN_W, int SCREEN_H, int TARGET_FPS) throws SlickException {
         this.resourceLibrary = resourceLibrary;
         
         this.SCREEN_W = SCREEN_W;
@@ -69,17 +69,24 @@ public final class GameField implements View{
         createStarMap();
         
         processActorQueues();
-        
-        PlayerShip player1 = new PlayerShip(SCREEN_W/4,3*SCREEN_H/4, resourceLibrary.getImage("ship") );
-        player1.setKeys(Input.KEY_W, Input.KEY_S, Input.KEY_A, Input.KEY_D, Input.KEY_G);
-        queueNewActor(player1);
-        
-        PlayerShip player2 = new PlayerShip(3*SCREEN_W/4,3*SCREEN_H/4, resourceLibrary.getImage("ship") );
-        player2.setKeys(Input.KEY_UP, Input.KEY_DOWN, Input.KEY_LEFT, Input.KEY_RIGHT, Input.KEY_RCONTROL);
-        queueNewActor(player2);
-        
-        queueNewActor(new UIPlayerHealthBar(player1, 100, SCREEN_H-20));
-        queueNewActor(new UIPlayerHealthBar(player2, SCREEN_W-200, SCREEN_H-20));
+        if(numPlayers == 1) {
+            PlayerShip player1 = new PlayerShip(SCREEN_W/2,3*SCREEN_H/4, resourceLibrary.getImage("ship") );
+            player1.setKeys(Input.KEY_W, Input.KEY_S, Input.KEY_A, Input.KEY_D, Input.KEY_G);
+            queueNewActor(player1);
+            
+            queueNewActor(new UIPlayerHealthBar(player1, 100, SCREEN_H-20));
+        } else {
+            PlayerShip player1 = new PlayerShip(SCREEN_W/4,3*SCREEN_H/4, resourceLibrary.getImage("ship") );
+            player1.setKeys(Input.KEY_W, Input.KEY_S, Input.KEY_A, Input.KEY_D, Input.KEY_G);
+            queueNewActor(player1);
+
+            PlayerShip player2 = new PlayerShip(3*SCREEN_W/4,3*SCREEN_H/4, resourceLibrary.getImage("ship") );
+            player2.setKeys(Input.KEY_UP, Input.KEY_DOWN, Input.KEY_LEFT, Input.KEY_RIGHT, Input.KEY_RCONTROL);
+            queueNewActor(player2);
+
+            queueNewActor(new UIPlayerHealthBar(player1, 100, SCREEN_H-20));
+            queueNewActor(new UIPlayerHealthBar(player2, SCREEN_W-200, SCREEN_H-20));
+        }
         
         processActorQueues();
     }

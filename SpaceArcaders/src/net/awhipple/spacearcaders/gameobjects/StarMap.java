@@ -37,8 +37,12 @@ public class StarMap implements Actor{
     
     @Override
     public void init(GameField gf) throws SlickException{
-        mapWidth = gf.getScreenWidth();
-        mapHeight = gf.getScreenWidth();
+        init(gf.getScreenWidth(), gf.getScreenHeight());
+    }
+    
+    public void init(int screenWidth, int screenHeight) throws SlickException {
+        mapWidth = screenWidth;
+        mapHeight = screenHeight;
         
         for(int y = 0; y < mapHeight; y++) {
             starLoc.add(new Integer((int)(Math.random() * mapWidth)));
@@ -60,9 +64,7 @@ public class StarMap implements Actor{
         starMap.draw(0,0);
     }
 
-    @Override
-    public void update(GameField gf) {
-        double delta = gf.getDelta();
+    public void update(double delta) {
         curDelta += delta;
         while (curDelta > scrollSpeed) {
             curDelta -= scrollSpeed;
@@ -73,6 +75,11 @@ public class StarMap implements Actor{
             generateStars(starColor);
             starMapGraphics.flush();
         }
+    }
+    
+    @Override
+    public void update(GameField gf) {
+        update(gf.getDelta());
     }
 
     private void generateStars(Color color) {

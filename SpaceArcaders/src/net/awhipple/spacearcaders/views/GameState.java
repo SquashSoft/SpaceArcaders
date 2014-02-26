@@ -28,8 +28,8 @@ public class GameState {
         
         resourceLibrary = new ResourceLibrary();
         
-        gf = new GameField(resourceLibrary, screenWidth, screenHeight, targetFps);
-        curView = gf;
+        //curView = new GameField(resourceLibrary, screenWidth, screenHeight, targetFps);
+        curView = new TitleScreen(resourceLibrary, screenWidth, screenHeight, targetFps);
     }
 
     public void update(Input input) {

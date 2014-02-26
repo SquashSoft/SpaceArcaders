@@ -26,6 +26,8 @@ public class ResourceLibrary {
         imageLibrary.loadImage("imp-green",     "data/images/imp-green.png");
         imageLibrary.loadImage("imp-blue",      "data/images/imp-blue.png");
         
+        imageLibrary.loadImage("title",         "data/images/title.png");
+        imageLibrary.loadImage("titleText",     "data/images/temptitletext.png");
         imageLibrary.loadImage("particle",      "data/images/particle.png");
         imageLibrary.loadImage("pause",         "data/images/pause.png");
         
