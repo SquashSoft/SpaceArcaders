@@ -7,7 +7,6 @@ package net.awhipple.spacearcaders.gameobjects;
 import java.util.List;
 import net.awhipple.spacearcaders.graphics.Particle;
 import net.awhipple.spacearcaders.graphics.Spark;
-import net.awhipple.spacearcaders.utils.GameGlobals;
 import net.awhipple.spacearcaders.views.GameField;
 import net.awhipple.spacearcaders.utils.HitBox;
 import org.newdawn.slick.Image;

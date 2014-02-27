@@ -6,7 +6,6 @@ package net.awhipple.spacearcaders.gameobjects;
 
 import java.util.LinkedList;
 import java.util.Queue;
-import net.awhipple.spacearcaders.utils.GameGlobals;
 import net.awhipple.spacearcaders.views.GameField;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
