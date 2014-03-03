@@ -28,6 +28,7 @@ public class PlayerShip implements Actor, Target {
     private int moveKeyLeft;
     private int moveKeyRight;
     private int laserShootKey;
+    private int laserLevel;
     
     private double maxUp;
     private double maxDown;
@@ -54,7 +55,8 @@ public class PlayerShip implements Actor, Target {
         shotsPerSecond = 3d;
         altFire = false;
         shipHealth = 100d;
-       
+        laserLevel = 10;
+        
         playerShipIcon = shipImage;
         hitBox = new HitBox(shipImage.getWidth()/4);
         
@@ -104,11 +106,33 @@ public class PlayerShip implements Actor, Target {
     
     private void shootLaser(GameField gf) {
         double laserSpeed = 800d;
-        if(!altFire) gf.queueNewActor(new Laser(shipLocationX-20, shipLocationY-50, laserSpeed, "enemy", gf.getGlobals().getImage("laser")));
-        else         gf.queueNewActor(new Laser(shipLocationX+20, shipLocationY-50, laserSpeed, "enemy", gf.getGlobals().getImage("laser")));
-        altFire = !altFire;
-        gf.getGlobals().playSound("laser");
-    }
+        double laserSpacing = 20;
+        int laserCount = 0;
+            if(!altFire)
+            {
+                while(laserCount != laserLevel)
+                {
+                gf.queueNewActor(new Laser(shipLocationX-laserSpacing, shipLocationY-50, laserSpeed, "enemy", gf.getGlobals().getImage("laser")));
+                laserCount +=1;
+                laserSpacing = laserSpacing + 20;
+                }
+                laserCount = 0;
+                laserSpacing = 20;
+            }
+            else      
+            {
+                while(laserCount != laserLevel)
+                {
+                gf.queueNewActor(new Laser(shipLocationX+laserSpacing, shipLocationY-50, laserSpeed, "enemy", gf.getGlobals().getImage("laser")));
+                laserCount += 1;
+                laserSpacing = laserSpacing + 20;
+                }
+                laserCount = 0;
+                laserSpacing = 20;
+            }
+            altFire = !altFire;
+            gf.getGlobals().playSound("laser");   
+        }
 
     public void setKeys(int KEY_UP, int KEY_DOWN, int KEY_LEFT, int KEY_RIGHT, int KEY_SHOOT) {
         moveKeyUp = KEY_UP;
