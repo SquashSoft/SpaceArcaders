@@ -31,9 +31,24 @@ public class GameGlobals {
         starMap.init(screenWidth, screenHeight);
     }
     
+    public GameGlobals(int screenWidth, int screenHeight, int fps, ResourceLibrary resourceLibrary, StarMap starMap) {
+        this.screenWidth = screenWidth;
+        this.screenHeight = screenHeight;
+        this.fps = fps;
+        this.delta = 1f/fps;
+        this.resourceLibrary = resourceLibrary;
+        this.starMap = starMap;
+    }
+    
+    public GameGlobals copy() {
+        return new GameGlobals(screenWidth, screenHeight, fps, resourceLibrary, starMap);
+    }
+    
     public int getScreenWidth() { return screenWidth; }
     public int getScreenHeight() { return screenHeight; }
     public double getDelta() { return delta; }
+    
+    public StarMap getStarMap() { return starMap; }
     
     public Image getImage(String key) { return resourceLibrary.getImage(key); }
     public Image getImage(String key, boolean flipped) { return resourceLibrary.getImage(key, flipped); }

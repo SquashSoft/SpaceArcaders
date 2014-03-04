@@ -17,22 +17,15 @@ import org.newdawn.slick.SlickException;
  *
  * @author Aaron
  */
-public class Pause implements View{
-
-    GameGlobals globals;
-    
+public class Pause extends View{
     View viewPausedFrom;
     Image mask;
     Image pauseImage;
     boolean pauseIsPressed = true;
     boolean returnOnKeyUp = false;
     
-    public Pause(GameGlobals globals, View viewPausedFrom) {
-        this.globals = globals;
-        
+    public Pause(View viewPausedFrom) {
         this.viewPausedFrom = viewPausedFrom;
-        this.pauseImage = globals.getImage("pause");
-        
         try {
             mask = new Image(1, 1);
             Graphics grphx = mask.getGraphics();
@@ -42,6 +35,13 @@ public class Pause implements View{
         } catch(SlickException ex) {
             System.out.println("Unable to make mask in Pause view");
         }
+    }
+    
+    @Override
+    public void setGlobals(GameGlobals globals) {
+        super.setGlobals(globals);
+        
+        this.pauseImage = globals.getImage("pause");
     }
     
     @Override

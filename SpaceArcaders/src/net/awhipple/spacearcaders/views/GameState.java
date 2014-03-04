@@ -22,7 +22,8 @@ public class GameState {
     public GameState(int SCREEN_W, int SCREEN_H, int TARGET_FPS) throws SlickException {
         globals = new GameGlobals(SCREEN_W, SCREEN_H, TARGET_FPS);
         
-        curView = new TitleScreen(globals);
+        curView = new TitleScreen();
+        curView.setGlobals(globals.copy());
     }
 
     public void update(Input input) {
@@ -32,6 +33,7 @@ public class GameState {
                 switch(instruction.getInstruction()) {
                     case SWITCH_VIEW:
                         curView = (View)instruction.getContents();
+                        curView.setGlobals(globals.copy());
                         break;
                 }
             }

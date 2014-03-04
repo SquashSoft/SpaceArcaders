@@ -16,24 +16,19 @@ import org.newdawn.slick.SlickException;
  *
  * @author Aaron
  */
-public class TitleScreen implements View{
-
-    GameGlobals globals;
-    
+public class TitleScreen extends View{
     Image title, titleText;
     StarMap starMap;
     
-    public TitleScreen(GameGlobals globals) {
-        this.globals = globals;
-        
+    public TitleScreen() {}
+    
+    @Override
+    public void setGlobals(GameGlobals globals) {
+        super.setGlobals(globals);
         title = globals.getImage("title");
         titleText = globals.getImage("titleText");
-        try {
-            starMap = new StarMap();
-            starMap.init(globals.getScreenWidth(), globals.getScreenHeight());
-        } catch(SlickException ex) {
-            System.out.println("Could not initialize starmap on title screen.");
-        }
+        
+        starMap = globals.getStarMap();
     }
     
     @Override
@@ -47,7 +42,7 @@ public class TitleScreen implements View{
             try {
             return Collections.singletonList(new ViewInstruction(
                     ViewInstruction.Set.SWITCH_VIEW,
-                    new GameField(globals, numPlayers)));
+                    new GameField(numPlayers)));
             } catch(SlickException ex) {
                 System.out.println("Could not initialize game Field");
             }

@@ -26,9 +26,7 @@ import org.newdawn.slick.SlickException;
  *
  * @author Aaron
  */
-public final class GameField implements View{
-    GameGlobals globals;
-    
+public final class GameField extends View{
     private Input input;
     private double delta;
     
@@ -45,12 +43,8 @@ public final class GameField implements View{
     int numEnemies = 0;
     double gameOverTimer = 3;
     
-    public GameField(GameGlobals globals, int numPlayers) throws SlickException {
+    public GameField(int numPlayers) throws SlickException {
         this.numPlayers = numPlayers;
-        
-        this.globals = globals;
-        
-        delta = globals.getDelta();
         
         actorList = new LinkedList<>();
         enemyList = new LinkedList<>();
@@ -65,28 +59,38 @@ public final class GameField implements View{
         gfx.setColor(Color.white);
         gfx.drawRect(0, 0, 1, 1);
         gfx.flush();
+    }
+    
+    @Override
+    public void setGlobals(GameGlobals globals) {
+        super.setGlobals(globals);
         
-        queueNewActor(new StarMap());
+        delta = globals.getDelta();
         
-        processActorQueues();
-        int SCREEN_W = globals.getScreenWidth(), SCREEN_H = globals.getScreenHeight();
-        if(numPlayers == 1) {
-            PlayerShip player1 = new PlayerShip(SCREEN_W/2,3*SCREEN_H/4, globals.getImage("ship") );
-            player1.setKeys(Input.KEY_W, Input.KEY_S, Input.KEY_A, Input.KEY_D, Input.KEY_RCONTROL);
-            queueNewActor(player1);
-            
-            queueNewActor(new UIPlayerHealthBar(player1, 100, SCREEN_H-20));
-        } else {
-            PlayerShip player1 = new PlayerShip(SCREEN_W/4,3*SCREEN_H/4, globals.getImage("ship") );
-            player1.setKeys(Input.KEY_W, Input.KEY_S, Input.KEY_A, Input.KEY_D, Input.KEY_G);
-            queueNewActor(player1);
+        queueNewActor(globals.getStarMap());
+        
+        try {
+            int SCREEN_W = globals.getScreenWidth(), SCREEN_H = globals.getScreenHeight();
+            if(numPlayers == 1) {
+                PlayerShip player1 = new PlayerShip(SCREEN_W/2,3*SCREEN_H/4, globals.getImage("ship") );
+                player1.setKeys(Input.KEY_W, Input.KEY_S, Input.KEY_A, Input.KEY_D, Input.KEY_RCONTROL);
+                queueNewActor(player1);
 
-            PlayerShip player2 = new PlayerShip(3*SCREEN_W/4,3*SCREEN_H/4, globals.getImage("ship") );
-            player2.setKeys(Input.KEY_UP, Input.KEY_DOWN, Input.KEY_LEFT, Input.KEY_RIGHT, Input.KEY_RCONTROL);
-            queueNewActor(player2);
+                queueNewActor(new UIPlayerHealthBar(player1, 100, SCREEN_H-20));
+            } else {
+                PlayerShip player1 = new PlayerShip(SCREEN_W/4,3*SCREEN_H/4, globals.getImage("ship") );
+                player1.setKeys(Input.KEY_W, Input.KEY_S, Input.KEY_A, Input.KEY_D, Input.KEY_G);
+                queueNewActor(player1);
 
-            queueNewActor(new UIPlayerHealthBar(player1, 100, SCREEN_H-20));
-            queueNewActor(new UIPlayerHealthBar(player2, SCREEN_W-200, SCREEN_H-20));
+                PlayerShip player2 = new PlayerShip(3*SCREEN_W/4,3*SCREEN_H/4, globals.getImage("ship") );
+                player2.setKeys(Input.KEY_UP, Input.KEY_DOWN, Input.KEY_LEFT, Input.KEY_RIGHT, Input.KEY_RCONTROL);
+                queueNewActor(player2);
+
+                queueNewActor(new UIPlayerHealthBar(player1, 100, SCREEN_H-20));
+                queueNewActor(new UIPlayerHealthBar(player2, SCREEN_W-200, SCREEN_H-20));
+            }
+        } catch(SlickException ex) {
+            System.out.println("Error while initializing the Game Field");
         }
         
         processActorQueues();
@@ -108,7 +112,7 @@ public final class GameField implements View{
                 try {
                     return Collections.singletonList(new ViewInstruction(
                         ViewInstruction.Set.SWITCH_VIEW,
-                        new GameField(globals, numPlayers)));
+                        new GameField(numPlayers)));
                 } catch(SlickException ex) {
                     System.out.println("Unable to create new game field after player death");
                 }
@@ -122,7 +126,7 @@ public final class GameField implements View{
         if(input.isKeyDown(Input.KEY_P)) {
             return Collections.singletonList(new ViewInstruction(
                     ViewInstruction.Set.SWITCH_VIEW,
-                    new Pause(globals, this)));
+                    new Pause(this)));
         }
         return null;
     }
