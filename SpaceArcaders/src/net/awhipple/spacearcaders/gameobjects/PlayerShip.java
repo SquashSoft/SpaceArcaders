@@ -55,7 +55,7 @@ public class PlayerShip implements Actor, Target {
         shotsPerSecond = 3d;
         altFire = false;
         shipHealth = 100d;
-        laserLevel = 10;
+        laserLevel = 3;
         
         playerShipIcon = shipImage;
         hitBox = new HitBox(shipImage.getWidth()/4);
@@ -107,14 +107,16 @@ public class PlayerShip implements Actor, Target {
     private void shootLaser(GameField gf) {
         double laserSpeed = 800d;
         double laserSpacing = 20;
+        double laserLength = 50;
         int laserCount = 0;
             if(!altFire)
             {
                 while(laserCount != laserLevel)
                 {
-                gf.queueNewActor(new Laser(shipLocationX-laserSpacing, shipLocationY-50, laserSpeed, "enemy", gf.getGlobals().getImage("laser")));
+                gf.queueNewActor(new Laser(shipLocationX-laserSpacing, shipLocationY-laserLength, laserSpeed, "enemy", gf.getGlobals().getImage("laser")));
                 laserCount +=1;
                 laserSpacing = laserSpacing + 20;
+                laserLength = laserLength - 15;
                 }
                 laserCount = 0;
                 laserSpacing = 20;
@@ -123,9 +125,10 @@ public class PlayerShip implements Actor, Target {
             {
                 while(laserCount != laserLevel)
                 {
-                gf.queueNewActor(new Laser(shipLocationX+laserSpacing, shipLocationY-50, laserSpeed, "enemy", gf.getGlobals().getImage("laser")));
+                gf.queueNewActor(new Laser(shipLocationX+laserSpacing, shipLocationY-laserLength, laserSpeed, "enemy", gf.getGlobals().getImage("laser")));
                 laserCount += 1;
                 laserSpacing = laserSpacing + 20;
+                laserLength = laserLength - 15;
                 }
                 laserCount = 0;
                 laserSpacing = 20;
