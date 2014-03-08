@@ -55,7 +55,7 @@ public class PlayerShip implements Actor, Target {
         shotsPerSecond = 3d;
         altFire = false;
         shipHealth = 100d;
-        laserLevel = 10;
+        laserLevel = 2;
         
         playerShipIcon = shipImage;
         hitBox = new HitBox(shipImage.getWidth()/4);

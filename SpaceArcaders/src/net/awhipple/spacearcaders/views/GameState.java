@@ -22,8 +22,11 @@ public class GameState {
     public GameState(int SCREEN_W, int SCREEN_H, int TARGET_FPS) throws SlickException {
         globals = new GameGlobals(SCREEN_W, SCREEN_H, TARGET_FPS);
         
+
         curView = new TitleScreen();
         curView.setGlobals(globals.copy());
+
+        globals.playMusic("theme");
     }
 
     public void update(Input input) {

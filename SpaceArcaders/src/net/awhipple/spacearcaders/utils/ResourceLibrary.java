@@ -14,10 +14,12 @@ import org.newdawn.slick.SlickException;
 public class ResourceLibrary {
     private ImageLibrary imageLibrary;
     private SoundLibrary soundLibrary;
+    private MusicLibrary musicLibrary;
         
     public ResourceLibrary() throws SlickException {
         imageLibrary = new ImageLibrary();
         soundLibrary = new SoundLibrary();
+        musicLibrary = new MusicLibrary();
         
         imageLibrary.loadImage("ship",          "data/images/proto-ship.PNG");
         imageLibrary.loadImage("laser",         "data/images/proto-laser.PNG");
@@ -34,6 +36,8 @@ public class ResourceLibrary {
         soundLibrary.loadSound("laser",         "data/sounds/laser.wav");
         soundLibrary.loadSound("explode",       "data/sounds/explode.wav");
         soundLibrary.loadSound("explodemini",   "data/sounds/explodemini.wav");
+        
+        musicLibrary.loadMusic("theme", "data/music/theme.ogg");
     }
     
     public Image getImage(String key) { return getImage(key, false); }
@@ -44,4 +48,6 @@ public class ResourceLibrary {
     }
     
     public void playSound(String key) { soundLibrary.getSound(key).play(1f, .02f); }
+    
+    public void playMusic(String key) { musicLibrary.getMusic(key).play(1f, .20f); }
 }

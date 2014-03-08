@@ -53,4 +53,5 @@ public class GameGlobals {
     public Image getImage(String key) { return resourceLibrary.getImage(key); }
     public Image getImage(String key, boolean flipped) { return resourceLibrary.getImage(key, flipped); }
     public void playSound(String key) { resourceLibrary.playSound(key); }
+    public void playMusic(String key) { resourceLibrary.playMusic(key); }
 }
