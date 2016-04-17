@@ -28,6 +28,7 @@ public class PlayerShip implements Actor, Target {
     private int moveKeyLeft;
     private int moveKeyRight;
     private int laserShootKey;
+    private int bombShootKey;
     private int laserLevel;
     
     private double maxUp;

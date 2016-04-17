@@ -15,7 +15,7 @@ import org.newdawn.slick.SlickException;
 
 public class SpaceArcaders extends BasicGame {
     
-    private static final int SCREEN_W = 1600, SCREEN_H = 900;
+    private static final int SCREEN_W = 1100, SCREEN_H = 700;
     private static final boolean FULLSCREEN_FLAG = false;
     private static final int TARGET_FPS = 60;
 
