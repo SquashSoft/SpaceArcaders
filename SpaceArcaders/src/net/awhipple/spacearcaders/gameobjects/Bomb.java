@@ -51,7 +51,7 @@ public class Bomb implements Actor {
     @Override
     public void update(GameField gf) {
         double delta = gf.getDelta();
-        bombLocationX -= (bombSpeed * delta);
+        bombLocationY -= (bombSpeed * delta);
         if(        bombLocationY<-100
                 || bombLocationY>gf.getGlobals().getScreenHeight()+100
                 || bombLocationX>gf.getGlobals().getScreenWidth()+100

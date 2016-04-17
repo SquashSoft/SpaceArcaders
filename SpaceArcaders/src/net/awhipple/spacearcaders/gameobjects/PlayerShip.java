@@ -21,7 +21,10 @@ public class PlayerShip implements Actor, Target {
     private double shipSpeed;
     private double shipHealth;
     private double shotsPerSecond;
+    private double bombsPerSecond;
     private double fireSpeed;
+    private double bombCoolDown;
+    
     
     private int moveKeyUp;
     private int moveKeyDown;
@@ -53,7 +56,9 @@ public class PlayerShip implements Actor, Target {
         shipLocationX = x;
         shipLocationY = y;
         fireSpeed = 0d;
+        bombCoolDown = 0d;
         shotsPerSecond = 3d;
+        bombsPerSecond = .5d;
         altFire = false;
         shipHealth = 100d;
         laserLevel = 3;
@@ -137,13 +142,20 @@ public class PlayerShip implements Actor, Target {
             altFire = !altFire;
             gf.getGlobals().playSound("laser");   
         }
+    
+    public void shootBomb(GameField gf){
+        double bombSpeed = 400d;
+        
+        gf.queueNewActor(new Bomb(shipLocationX, shipLocationY, bombSpeed, "enemy", gf.getGlobals().getImage("laser")));
+    }
 
-    public void setKeys(int KEY_UP, int KEY_DOWN, int KEY_LEFT, int KEY_RIGHT, int KEY_SHOOT) {
+    public void setKeys(int KEY_UP, int KEY_DOWN, int KEY_LEFT, int KEY_RIGHT, int KEY_SHOOT, int KEY_BOMB_SHOOT) {
         moveKeyUp = KEY_UP;
         moveKeyDown = KEY_DOWN;
         moveKeyLeft = KEY_LEFT;
         moveKeyRight = KEY_RIGHT;
         laserShootKey = KEY_SHOOT;   
+        bombShootKey = KEY_BOMB_SHOOT;
     }
     
     
@@ -180,6 +192,19 @@ public class PlayerShip implements Actor, Target {
                 }
             
             fireSpeed -= delta;
+        }
+        
+        if(!input.isKeyDown(bombShootKey)){
+            bombCoolDown=0;
+        }
+        
+        if(input.isKeyDown(bombShootKey)){
+            if(bombCoolDown <= 0)   {
+                shootBomb(gf);
+                bombCoolDown += (1/bombsPerSecond);
+            }
+            
+            bombCoolDown -= delta;
         }
         
         jetParticleTimer -= delta;

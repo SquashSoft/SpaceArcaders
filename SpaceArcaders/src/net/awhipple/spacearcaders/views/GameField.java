@@ -73,17 +73,17 @@ public final class GameField extends View{
             int SCREEN_W = globals.getScreenWidth(), SCREEN_H = globals.getScreenHeight();
             if(numPlayers == 1) {
                 PlayerShip player1 = new PlayerShip(SCREEN_W/2,3*SCREEN_H/4, globals.getImage("ship") );
-                player1.setKeys(Input.KEY_W, Input.KEY_S, Input.KEY_A, Input.KEY_D, Input.KEY_RCONTROL);
+                player1.setKeys(Input.KEY_W, Input.KEY_S, Input.KEY_A, Input.KEY_D, Input.KEY_RCONTROL, Input.KEY_RALT);
                 queueNewActor(player1);
 
                 queueNewActor(new UIPlayerHealthBar(player1, 100, SCREEN_H-20));
             } else {
                 PlayerShip player1 = new PlayerShip(SCREEN_W/4,3*SCREEN_H/4, globals.getImage("ship") );
-                player1.setKeys(Input.KEY_W, Input.KEY_S, Input.KEY_A, Input.KEY_D, Input.KEY_G);
+                player1.setKeys(Input.KEY_W, Input.KEY_S, Input.KEY_A, Input.KEY_D, Input.KEY_G, Input.KEY_V);
                 queueNewActor(player1);
 
                 PlayerShip player2 = new PlayerShip(3*SCREEN_W/4,3*SCREEN_H/4, globals.getImage("ship") );
-                player2.setKeys(Input.KEY_UP, Input.KEY_DOWN, Input.KEY_LEFT, Input.KEY_RIGHT, Input.KEY_RCONTROL);
+                player2.setKeys(Input.KEY_UP, Input.KEY_DOWN, Input.KEY_LEFT, Input.KEY_RIGHT, Input.KEY_RCONTROL, Input.KEY_RALT);
                 queueNewActor(player2);
 
                 queueNewActor(new UIPlayerHealthBar(player1, 100, SCREEN_H-20));
