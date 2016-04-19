@@ -251,6 +251,7 @@ public class PlayerShip implements Actor, Target {
     }
     
     public double getHealth() { return shipHealth; }
+    public int getBombAmmo() { return bombAmmo; }
     @Override
     public HitBox getHitBox() { return hitBox; }
     @Override
