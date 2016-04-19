@@ -186,6 +186,19 @@ public final class GameField extends View{
             }
         }
     }
+    
+    public void bombSuccess(){
+        removeAllEnemies();
+    }
+    
+    public void removeAllEnemies(){
+        int size = enemyList.size();
+        while(size >= 1) {
+            queueRemoveActor(enemyList.get(0));
+            enemyList.remove((0));
+            size -= 1;
+        }
+    }
 
     public void setInput(Input input) { this.input = input; }
     public Input getInput() { return input; }

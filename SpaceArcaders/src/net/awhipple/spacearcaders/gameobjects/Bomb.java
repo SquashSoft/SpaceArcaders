@@ -20,6 +20,7 @@ public class Bomb implements Actor {
 
     private double bombLocationX, bombLocationY;
     private double bombSpeed;
+    private double birthPlaceY;
     private Image bombIcon;
     private HitBox bombsHitBox;
     private List<Target> targetList;
@@ -29,6 +30,7 @@ public class Bomb implements Actor {
 
        bombLocationX = locationX;
        bombLocationY = locationY;
+       birthPlaceY = locationY;
        
        this.bombSpeed = bombSpeed;
        bombIcon = bombImage;
@@ -55,15 +57,20 @@ public class Bomb implements Actor {
         if(        bombLocationY<-100
                 || bombLocationY>gf.getGlobals().getScreenHeight()+100
                 || bombLocationX>gf.getGlobals().getScreenWidth()+100
-                || bombLocationX<-100) 
+                || bombLocationX<-100) {
                 gf.queueRemoveActor(this);
+        }
+        if( bombLocationY <= (birthPlaceY -400)){
+                detonate(gf);
+                }
         boolean bombCollided = false;
         for(Target target : targetList){
             if(bombsHitBox.collisionCheck(bombLocationX, bombLocationY, target.getX(), target.getY(), target.getHitBox())){
                 Particle.createExplosion(gf, bombLocationX, bombLocationY, 30, 100);
                 Spark.createPixelShower(gf, bombLocationX, bombLocationY, 7);
-                target.dealDamage(25);
+                //target.dealDamage(25);
                 gf.getGlobals().playSound("explode");
+                detonate(gf);
                 bombCollided = true;
                 break;
             }
@@ -71,4 +78,11 @@ public class Bomb implements Actor {
         if(bombCollided)
             gf.queueRemoveActor(this);
     }
+    public void detonate(GameField gf){
+        Particle.createExplosion(gf, bombLocationX, bombLocationY, 30, 100);  //create explosion & pixel shower
+        Spark.createPixelShower(gf, bombLocationX, bombLocationY, 10);        //run bombsuccess function
+        gf.bombSuccess();                                                     //remove bomb from live actors
+        gf.queueRemoveActor(this);
+    }
+    
 }
