@@ -38,6 +38,18 @@ public class UIBar implements Actor{
         setImage();
     }
     
+    public UIBar(double value, double sizeOfBar, int x, int y) throws SlickException{
+        this.value = value;
+        oldValue = 100d;
+        
+        setLocation(x,y);
+        
+        image = new Image(100,10);
+        imageGraphics = image.getGraphics();
+        
+        setImage();
+    }
+    
     @Override
     public void init(GameField gf) throws SlickException {}
     
