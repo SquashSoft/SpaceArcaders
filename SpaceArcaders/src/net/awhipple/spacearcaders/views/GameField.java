@@ -187,7 +187,7 @@ public final class GameField extends View{
         }
     }
     
-    public void bombSuccess(){
+    public void clearEnemies(){
         removeAllEnemies();
     }
     

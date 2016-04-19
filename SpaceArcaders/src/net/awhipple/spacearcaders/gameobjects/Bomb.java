@@ -81,7 +81,7 @@ public class Bomb implements Actor {
     public void detonate(GameField gf){
         Particle.createExplosion(gf, bombLocationX, bombLocationY, 30, 100);  //create explosion & pixel shower
         Spark.createPixelShower(gf, bombLocationX, bombLocationY, 10);        //run bombsuccess function
-        gf.bombSuccess();                                                     //remove bomb from live actors
+        gf.clearEnemies();                                                     //remove bomb from live actors
         gf.queueRemoveActor(this);
     }
     
