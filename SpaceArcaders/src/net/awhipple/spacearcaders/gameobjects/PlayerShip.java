@@ -25,7 +25,7 @@ public class PlayerShip implements Actor, Target {
     private double fireSpeed;
     private double bombCoolDown;
     
-    
+    private int bombAmmo;
     private int moveKeyUp;
     private int moveKeyDown;
     private int moveKeyLeft;
@@ -53,6 +53,7 @@ public class PlayerShip implements Actor, Target {
         
         jetParticleTimer = .03;
 
+        bombAmmo = 3;
         shipLocationX = x;
         shipLocationY = y;
         fireSpeed = 0d;
@@ -146,7 +147,10 @@ public class PlayerShip implements Actor, Target {
     public void shootBomb(GameField gf){
         double bombSpeed = 400d;
         
-        gf.queueNewActor(new Bomb(shipLocationX, shipLocationY, bombSpeed, "enemy", gf.getGlobals().getImage("laser")));
+        if(bombAmmo > 0){
+           gf.queueNewActor(new Bomb(shipLocationX, shipLocationY, bombSpeed, "enemy", gf.getGlobals().getImage("laser")));
+           bombAmmo -= 1;
+        }
     }
 
     public void setKeys(int KEY_UP, int KEY_DOWN, int KEY_LEFT, int KEY_RIGHT, int KEY_SHOOT, int KEY_BOMB_SHOOT) {
