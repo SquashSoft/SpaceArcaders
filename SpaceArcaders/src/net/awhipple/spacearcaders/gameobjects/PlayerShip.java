@@ -25,6 +25,7 @@ public class PlayerShip implements Actor, Target {
     private double fireSpeed;
     private double bombCoolDown;
     
+    private int myPoints;
     private int bombAmmo;
     private int moveKeyUp;
     private int moveKeyDown;
@@ -53,6 +54,7 @@ public class PlayerShip implements Actor, Target {
         
         jetParticleTimer = .03;
 
+        myPoints = 0;
         bombAmmo = 3;
         shipLocationX = x;
         shipLocationY = y;
@@ -248,6 +250,11 @@ public class PlayerShip implements Actor, Target {
             explodeTime = 1;
             nextExplosion = .1d;
         }
+    }
+    
+    //function for other classes to give pts to player
+    public void addPoints(int pts){
+        myPoints += pts;
     }
     
     public double getHealth() { return shipHealth; }

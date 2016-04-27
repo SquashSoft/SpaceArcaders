@@ -176,12 +176,19 @@ public final class GameField extends View{
                 addToTargetList((Target)actor, "player");
             }
         }
+        
+        //IMPORTANT DECISION MADE BELOW, CURRENTLY WE'RE ADDING
+        //WERE NOT DOING POINTS FOR TWO PLAYERS AND JUST ADDING
+        //POINTS TO THE FIRST PLAYER IN THE PLAYERSHIPLIST
         while(actorsToBeRemoved.size() > 0) {
             Actor actor = actorsToBeRemoved.remove(0);
             actorList.remove(actor);
             if(actor instanceof Enemy) {
                 removeFromTargetMap((Target) actor);
                 enemyList.remove((Enemy) actor);
+                if(!playerShipList.isEmpty()){
+                    playerShipList.get(0).addPoints(50);
+                }
             }
             
             if(actor instanceof PlayerShip) {
