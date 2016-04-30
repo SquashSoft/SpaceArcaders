@@ -5,7 +5,6 @@
 package net.awhipple.spacearcaders.ui;
 
 import net.awhipple.spacearcaders.gameobjects.Actor;
-import net.awhipple.spacearcaders.utils.GameGlobals;
 import net.awhipple.spacearcaders.views.GameField;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;

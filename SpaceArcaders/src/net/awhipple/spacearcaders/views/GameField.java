@@ -16,6 +16,7 @@ import net.awhipple.spacearcaders.gameobjects.PlayerShip;
 import net.awhipple.spacearcaders.gameobjects.Target;
 import net.awhipple.spacearcaders.ui.UIPlayerBombAmmo;
 import net.awhipple.spacearcaders.ui.UIPlayerHealthBar;
+import net.awhipple.spacearcaders.ui.UIText;
 import net.awhipple.spacearcaders.utils.GameGlobals;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -79,6 +80,7 @@ public final class GameField extends View{
 
                 queueNewActor(new UIPlayerHealthBar(player1, 100, SCREEN_H-20));
                 queueNewActor(new UIPlayerBombAmmo(player1, 100, SCREEN_H-30));
+                queueNewActor(new UIText(100, 100, "Points: "));
             } else {
                 PlayerShip player1 = new PlayerShip(SCREEN_W/4,3*SCREEN_H/4, globals.getImage("ship") );
                 player1.setKeys(Input.KEY_W, Input.KEY_S, Input.KEY_A, Input.KEY_D, Input.KEY_G, Input.KEY_V);

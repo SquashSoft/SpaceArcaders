@@ -4,7 +4,9 @@
  * and open the template in the editor.
  */
 package net.awhipple.spacearcaders.ui;
+import java.util.List;
 import net.awhipple.spacearcaders.gameobjects.Actor;
+import net.awhipple.spacearcaders.gameobjects.PlayerShip;
 import net.awhipple.spacearcaders.utils.GameGlobals;
 import net.awhipple.spacearcaders.views.GameField;
 import org.newdawn.slick.Color;
@@ -16,7 +18,7 @@ import org.newdawn.slick.SlickException;
  *
  * @author Nathan
  */
-public class UIPoints {
+public class UIPoints extends UIText{
     private int x, y;
     private double value;
     private double oldValue;
@@ -24,7 +26,8 @@ public class UIPoints {
     private Image image;
     private Graphics imageGraphic;
     
-    private UIPoints(int value, int x, int y) throws SlickException{
+    private UIPoints(int x, int y, List<PlayerShip> myPlayerList) throws SlickException{
+        super(x, y, "");
         this.value = value;
         oldValue = 0;
         
